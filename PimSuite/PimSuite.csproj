@@ -1008,6 +1008,7 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -1029,9 +1030,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>PimSuiteDatacenter.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\RoleModel.cs" />
     <Compile Include="Models\Roles.cs">
       <DependentUpon>PimSuiteDatacenter.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\UserModel.cs" />
     <Compile Include="Models\Users.cs">
       <DependentUpon>PimSuiteDatacenter.tt</DependentUpon>
     </Compile>
@@ -1096,6 +1099,10 @@
     <Content Include="scripts\libraries\datatables\extensions\TableTools\Readme.md" />
     <Content Include="scripts\libraries\input-mask\phone-codes\phone-be.json" />
     <Content Include="scripts\libraries\input-mask\phone-codes\phone-codes.json" />
+    <Content Include="Views\Dashboard\_Dashboard_InfoBox.cshtml" />
+    <Content Include="Views\Dashboard\_Dashboard_EmployeeList.cshtml" />
+    <Content Include="Views\User\Login.cshtml" />
+    <Content Include="Views\User\Register.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
