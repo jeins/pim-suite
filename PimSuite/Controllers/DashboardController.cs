@@ -10,16 +10,20 @@ namespace PimSuite.Controllers
     public class DashboardController : Controller
     {
         private PimSuiteDatabaseEntities _db;
+
         public DashboardController()
         {
             _db = new PimSuiteDatabaseEntities();
         }
-        // GET: Dashboard
+
+        // GET: Dashboard/Index
         public ActionResult Index()
         {
-            var allUsers = _db.Users.ToList();
-            var b = "";
-            return View();
+            ViewBag.TotalUser = _db.Users.Count();
+            ViewBag.TotalRole = _db.Roles.Count();
+            var users = _db.Users.Include("Roles");
+
+            return View(users.ToList());
         }
     }
 }
