@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Http;
 
-namespace PimSuite.App_Start
+namespace PimSuite
 {
     public static class WebApiConfig
     {
@@ -16,7 +17,7 @@ namespace PimSuite.App_Start
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
-                routeTemplate: "api/{controller}/{id}",
+                routeTemplate: "API/{controller}/{action}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
         }
