@@ -204,6 +204,8 @@
     <Content Include="Scripts\jquery-3.1.1.min.js" />
     <Content Include="Scripts\jquery-3.1.1.slim.js" />
     <Content Include="Scripts\jquery-3.1.1.slim.min.js" />
+    <Content Include="Scripts\knockout-3.4.0.debug.js" />
+    <Content Include="Scripts\knockout-3.4.0.js" />
     <Content Include="Scripts\libraries\adminlte\app.js" />
     <Content Include="Scripts\libraries\adminlte\app.min.js" />
     <Content Include="Scripts\libraries\bootstrap-slider\bootstrap-slider.js" />
