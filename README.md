@@ -7,13 +7,17 @@ PIM-Suite+ Projekt mit dem Framework ASP.NET
 
 ----------
 ## Entwicklergruppe
-Muhammad, Karsten, Dustin, Nicolas, Anna, Daniel und Anna, 
+Muhammad, Karsten, Nicolas, Anna, Daniel und Anna, 
 
 Product Owner:
 Tobias
 
 Scrum Master:
 Moritz
+
+----------
+Dokumentation:
+https://wiki-sdf.f4.htw-berlin.de/wiki/Team_A_-_ASP.NET
 
 ----------
 ## Anforderungen
