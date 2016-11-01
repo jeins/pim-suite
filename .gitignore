@@ -201,5 +201,3 @@ deploy/*
 *.orig
 *.coveragexml
 Packages.dgml
-*.css.map
-*.min.css
