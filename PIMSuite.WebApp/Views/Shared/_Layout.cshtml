@@ -1,0 +1,20 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - PIMSuite</title>
+    <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon">
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/Site.css" rel="stylesheet" />
+    <meta name="format-detection" content="telephone=no">
+</head>
+<body>
+    @RenderBody()
+
+    <script src="~/Scripts/jquery-3.1.1.js"></script>
+    <script src="~/Scripts/knockout-3.4.0.debug.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>
