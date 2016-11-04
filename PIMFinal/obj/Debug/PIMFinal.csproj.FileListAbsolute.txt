@@ -116,3 +116,4 @@ C:\Users\AnnaToshiba2\Source\Repos\pim-suite5\PIMFinal\bin\System.Web.WebPages.D
 C:\Users\AnnaToshiba2\Source\Repos\pim-suite5\PIMFinal\bin\System.Web.WebPages.Razor.xml
 C:\Users\AnnaToshiba2\Source\Repos\pim-suite5\PIMFinal\bin\Antlr3.Runtime.pdb
 C:\Users\AnnaToshiba2\Source\Repos\pim-suite5\PIMFinal\bin\Newtonsoft.Json.xml
+C:\Users\AnnaToshiba2\Desktop\NicoPim\PIMFinal\obj\Debug\PIMFinal.csprojResolveAssemblyReference.cache

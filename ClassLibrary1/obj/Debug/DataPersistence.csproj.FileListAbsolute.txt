@@ -18,3 +18,4 @@ C:\Users\AnnaToshiba2\Source\Repos\pim-suite5\ClassLibrary1\bin\Debug\EntityFram
 C:\Users\AnnaToshiba2\Source\Repos\pim-suite5\ClassLibrary1\obj\Debug\DataPersistence.csprojResolveAssemblyReference.cache
 C:\Users\AnnaToshiba2\Source\Repos\pim-suite5\ClassLibrary1\obj\Debug\ClassLibrary1.dll
 C:\Users\AnnaToshiba2\Source\Repos\pim-suite5\ClassLibrary1\obj\Debug\ClassLibrary1.pdb
+C:\Users\AnnaToshiba2\Desktop\NicoPim\ClassLibrary1\obj\Debug\DataPersistence.csprojResolveAssemblyReference.cache
