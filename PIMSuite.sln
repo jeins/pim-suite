@@ -5,8 +5,6 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PIMSuite.WebApp", "PIMSuite.WebApp\PIMSuite.WebApp.csproj", "{37FE3D83-C889-4998-828B-9FAA9B0B948B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PIMSuite.Persistence", "PIMSuite.Persistence\PIMSuite.Persistence.csproj", "{5389CB79-CDE3-4843-8370-CB81D2ACAED0}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,10 +15,6 @@ Global
 		{37FE3D83-C889-4998-828B-9FAA9B0B948B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{37FE3D83-C889-4998-828B-9FAA9B0B948B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{37FE3D83-C889-4998-828B-9FAA9B0B948B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5389CB79-CDE3-4843-8370-CB81D2ACAED0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5389CB79-CDE3-4843-8370-CB81D2ACAED0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5389CB79-CDE3-4843-8370-CB81D2ACAED0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5389CB79-CDE3-4843-8370-CB81D2ACAED0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
