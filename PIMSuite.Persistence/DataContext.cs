@@ -10,6 +10,8 @@ namespace PIMSuite.Persistence
 {
     public class DataContext : DbContext
     {
+        public DataContext() : base("PIMDB")
+        { }
         public DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

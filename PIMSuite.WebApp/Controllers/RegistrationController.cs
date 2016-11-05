@@ -13,11 +13,16 @@ namespace PIMSuite.WebApp.Controllers
         // GET: Registration
         public ActionResult Index()
         {
-            return View();
+
+            //Überblick zu den Benutzer-Kontos
+            //Später kann gelöscht werden oder für die Adminkonsole genutzt
+            DataContext context = new DataContext();
+            return View(context.Users.ToList()); 
         }
 
         public ActionResult Registration()
         {
+           
             return View();
         }
 
@@ -32,6 +37,7 @@ namespace PIMSuite.WebApp.Controllers
                     context.SaveChanges();
                 }
                 ModelState.Clear();
+                ViewBag.Message = user.Vorname + " " + user.Nachname + " " + "wurde erfolgreich registriert!";
             }
             return View();
         }

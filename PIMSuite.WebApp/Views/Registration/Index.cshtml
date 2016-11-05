@@ -1,10 +1,11 @@
-﻿@model IEnumerable<PIMSuite.WebApp.Models.User>
+﻿@model IEnumerable<PIMSuite.Persistence.Entities.User>
 
 @{
     ViewBag.Title = "Index";
 }
 
-<h2>Registrierte Nutzer:</h2>
+<h2>Index</h2>
+
 
 <table class="table">
     <tr>
@@ -49,7 +50,7 @@
         <td>
             @Html.DisplayFor(modelItem => item.Passwort)
         </td>
-        
+       
     </tr>
 }
 
