@@ -24,6 +24,8 @@ https://wiki-sdf.f4.htw-berlin.de/wiki/Team_A_-_ASP.NET
 - VisualStudio 2015
 - ASP .Net V4.6.2
 - AdminLTE Template [Documentation](https://almsaeedstudio.com/themes/AdminLTE/documentation/index.html)
+- Englischsprachiger Source Code
+- Deutschsprachige UI
 
 ----------
 ## PimSuiteDB Migration
