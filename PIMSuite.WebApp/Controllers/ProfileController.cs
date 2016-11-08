@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using PIMSuite.Persistence;
 using PIMSuite.Persistence.Entities;
+using PagedList;
 
 namespace PIMSuite.WebApp.Controllers
 {
@@ -18,12 +19,15 @@ namespace PIMSuite.WebApp.Controllers
         }
 
         // GET: Profile
-        public ActionResult Index(string sort)
+        public ViewResult Index(string sort, int? page)
         {
             //TODO:: entities should be in english
             var users = from u in _dataContext.Users
                         select u;
+            int pageSize = 6;
+            int pageNumber = (page ?? 1);
 
+            ViewBag.CurrentSortType = sort;
             switch (sort)
             {
                 case "desc":
@@ -36,7 +40,7 @@ namespace PIMSuite.WebApp.Controllers
                     break;
             }
             
-            return View(users.ToList());
+            return View(users.ToPagedList(pageNumber, pageSize));
         }
     }
 }
