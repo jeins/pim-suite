@@ -1,0 +1,108 @@
+﻿@model IEnumerable<PIMSuite.Persistence.Entities.User>
+@{
+    ViewBag.Title = "Profiles";
+    ViewBag.LabelDivision = "Abteilung";
+    ViewBag.LabelEMail = "Email";
+    ViewBag.ViewProfile = "Profile Anzeigen";
+    ViewBag.Search = "Suche...";
+    ViewBag.Status = "Offline"; //TODO:: change if signlar already implement
+}
+
+<div class="profile">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>@ViewBag.Title</h3>
+        </div>
+
+        <div class="title_right">
+
+            <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="@ViewBag.Search">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button"><i class="fa fa-search"></i></button>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="clearfix"></div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="x_panel">
+                <div class="x_content">
+                    <div class="row pull-right">
+                        @if (ViewBag.AvailableSortType == "desc")
+                        {
+                            <a href="@Url.Action("Index", "Profile", new {sort = ViewBag.AvailableSortType})" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Sort DESC" role="button">
+                                Sort <i class="fa fa-sort-alpha-desc"></i>
+                            </a>
+                        }
+                        else
+                        {
+                            <a href="@Url.Action("Index", "Profile", new {sort = ViewBag.AvailableSortType})" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Sort ASC" role="button">
+                                Sort <i class="fa fa-sort-alpha-asc"></i>
+                            </a>
+                        }
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 col-xs-12 text-center">
+                            <ul class="pagination pagination-split">
+                                <li><a href="#">1</a></li>
+                                <li><a href="#">2</a></li>
+                                <li><a href="#">3</a></li>
+                                <li><a href="#">4</a></li>
+                                <li><a href="#">5</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="clearfix"></div>
+
+                        @foreach(var user in Model) { 
+                            <div class="col-md-4 col-sm-4 col-xs-12 profile_details">
+                                <div class="well profile_view">
+                                    <div class="col-sm-12">
+                                        <h4 class="brief"><i>Digital Strategist</i></h4>
+                                        <div class="left col-xs-7">
+                                            <h2>@Html.DisplayFor(m => user.Nachname), @Html.DisplayFor(m => user.Vorname)</h2>
+                                            <ul class="list-unstyled">
+                                                <li><i class="fa fa-university"></i> @ViewBag.LabelDivision: @Html.DisplayFor(m => user.Abteilung)</li>
+                                                <li><i class="fa fa-envelope"></i> @ViewBag.LabelEmail: @Html.DisplayFor(m => user.Email)</li>
+                                            </ul>
+                                        </div>
+                                        <div class="right col-xs-5 text-center">
+                                            <img src="~/Content/images/no_propic.png" alt="" class="img-circle img-responsive">
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 bottom text-center">
+                                        <div class="col-xs-12 col-sm-6 emphasis">
+                                        </div>
+                                        <div class="col-xs-12 col-sm-6 emphasis">
+
+                                            <a href="#" class="btn btn-danger btn-xs disabled" role="button">
+                                                <i class="fa fa-power-off"> </i> @ViewBag.Status
+                                            </a>
+                                            <a href="#" class="btn btn-primary btn-xs" role="button">
+                                                <i class="fa fa-user"> </i> @ViewBag.ViewProfile
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
+}
