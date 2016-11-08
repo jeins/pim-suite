@@ -19,14 +19,35 @@ namespace PIMSuite.WebApp.Controllers
         }
 
         // GET: Profile
-        public ViewResult Index(string sort, int? page)
+        public ViewResult Index(string sort, int? page, string searchString)
         {
             //TODO:: entities should be in english
-            var users = from u in _dataContext.Users
-                        select u;
-            int pageSize = 6;
-            int pageNumber = (page ?? 1);
+            var users = from u in _dataContext.Users select u;
+            var pageSize = 6;
+            var pageNumber = (page ?? 1);
 
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                users = SearchProcessor(users, searchString);
+            }
+
+            users = SortProcessor(users, sort);
+            
+            return View(users.ToPagedList(pageNumber, pageSize));
+        }
+
+        private IQueryable<User> SearchProcessor(IQueryable<User> user, string searchString)
+        {
+            return user.Where(u => 
+                u.Nachname.Contains(searchString) ||
+                u.Vorname.Contains(searchString) ||
+                u.Abteilung.Contains(searchString) ||
+                u.Email.Contains(searchString)
+            );
+        }
+
+        private IQueryable<User> SortProcessor(IQueryable<User> users, string sort)
+        {
             ViewBag.CurrentSortType = sort;
             switch (sort)
             {
@@ -39,8 +60,8 @@ namespace PIMSuite.WebApp.Controllers
                     ViewBag.AvailableSortType = "desc";
                     break;
             }
-            
-            return View(users.ToPagedList(pageNumber, pageSize));
+
+            return users;
         }
     }
 }
