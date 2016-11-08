@@ -52,7 +52,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12 col-sm-12 col-xs-12 text-center">
-                            @Html.PagedListPager(Model, page => Url.Action("Index", new { page, sort = ViewBag.CurrentSortType}))
+                            @Html.PagedListPager(Model, page => Url.Action("Index", new { page, sort = ViewBag.CurrentSortType, searchString = ViewBag.SearchString }))
                         </div>
 
                         <div class="clearfix"></div>

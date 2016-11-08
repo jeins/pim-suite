@@ -38,6 +38,7 @@ namespace PIMSuite.WebApp.Controllers
 
         private IQueryable<User> SearchProcessor(IQueryable<User> user, string searchString)
         {
+            ViewBag.SearchString = searchString;
             return user.Where(u => 
                 u.Nachname.Contains(searchString) ||
                 u.Vorname.Contains(searchString) ||
