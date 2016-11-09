@@ -36,6 +36,29 @@ namespace PIMSuite.WebApp.Controllers
             return View(users.ToPagedList(pageNumber, pageSize));
         }
 
+        // GET: Profile/Show
+        public ActionResult Show(string userId)
+        {
+            Guid guid;
+
+            if (String.IsNullOrEmpty(userId) || !Guid.TryParse(userId, out guid))
+            {
+                return RedirectToAction("Index", "Profile");
+            }
+            
+            var user = _dataContext.Users.Find(guid);
+
+            if (user == null)
+            {
+                return RedirectToAction("Index", "Profile");
+            }
+
+            //TODO:: check if userId equals userId in the cookie, then enable edit profile button
+            ViewBag.EnableEditProfile = CheckCurrentUser(userId);
+
+            return View(user);
+        }
+
         private IQueryable<User> SearchProcessor(IQueryable<User> user, string searchString)
         {
             ViewBag.SearchString = searchString;
@@ -63,6 +86,11 @@ namespace PIMSuite.WebApp.Controllers
             }
 
             return users;
+        }
+
+        private bool CheckCurrentUser(string userId)
+        {
+            return false;
         }
     }
 }

@@ -81,7 +81,7 @@
                                             <a href="#" class="btn btn-danger btn-xs disabled" role="button">
                                                 <i class="fa fa-power-off"> </i> @ViewBag.Status
                                             </a>
-                                            <a href="#" class="btn btn-primary btn-xs" role="button">
+                                            <a href="@Url.Action("Show", "Profile", new {userId = user.UserId.ToString()})" class="btn btn-primary btn-xs" role="button">
                                                 <i class="fa fa-user"> </i> @ViewBag.ViewProfile
                                             </a>
                                         </div>

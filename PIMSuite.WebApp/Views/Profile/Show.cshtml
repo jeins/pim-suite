@@ -1,0 +1,71 @@
+﻿@model PIMSuite.Persistence.Entities.User
+@{
+    ViewBag.Title = "View Profile";
+    ViewBag.UserDetail = "Benutzerdaten";
+}
+<div class="profile">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>@ViewBag.Title</h3>
+        </div>
+    </div>
+
+    <div class="clearfix"></div>
+
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    @if (ViewBag.EnableEditProfile)
+                    {
+                        <button class="btn btn-success"><i class="fa fa-edit m-right-xs"></i> Edit Profile</button>
+                    }
+                </div>
+                <div class="clearfix"></div>
+                <div class="x_content">
+                    <div class="col-md-3 col-sm-3 col-xs-12">
+                        <img class="img-responsive avatar-view" src="~/Content/images/no_propic.png">
+                        <h2>@Html.DisplayFor(m => m.Nachname), @Html.DisplayFor(m => m.Vorname)</h2>
+                    </div>
+                    <div class="col-md-9 col-sm-9 col-xs-12">
+                        <div class="profile_title">
+                            <div class="col-md-6">
+                                <h2>@ViewBag.UserDetail</h2>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="form-group flex">
+                                <label for="firstname" class="col-sm-2 control-label">@Html.DisplayNameFor(m => m.Vorname)</label>
+                                <div id="firstname" class="col-sm-10">
+                                    <span>: @Html.DisplayFor(m => m.Vorname)</span>
+                                </div>
+                            </div>
+
+                            <div class="form-group flex">
+                                <label for="lastname" class="col-sm-2 control-label">@Html.DisplayNameFor(m => m.Nachname)</label>
+                                <div id="lastname" class="col-sm-10">
+                                    <span>: @Html.DisplayFor(m => m.Nachname)</span>
+                                </div>
+                            </div>
+
+                            <div class="form-group flex">
+                                <label for="division" class="col-sm-2 control-label">@Html.DisplayNameFor(m => m.Abteilung)</label>
+                                <div id="division" class="col-sm-10">
+                                    <span>: @Html.DisplayFor(m => m.Abteilung)</span>
+                                </div>
+                            </div>
+
+                            <div class="form-group flex">
+                                <label for="email" class="col-sm-2 control-label">@Html.DisplayNameFor(m => m.Email)</label>
+                                <div id="email" class="col-sm-10">
+                                    <span>: @Html.DisplayFor(m => m.Email)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
