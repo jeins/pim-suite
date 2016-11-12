@@ -63,9 +63,9 @@ namespace PIMSuite.WebApp.Controllers
         {
             ViewBag.SearchString = searchString;
             return user.Where(u => 
-                u.Nachname.Contains(searchString) ||
-                u.Vorname.Contains(searchString) ||
-                u.Abteilung.Contains(searchString) ||
+                u.Lastname.Contains(searchString) ||
+                u.FirstName.Contains(searchString) ||
+                u.DepartamentName.Contains(searchString) ||
                 u.Email.Contains(searchString)
             );
         }
@@ -76,11 +76,11 @@ namespace PIMSuite.WebApp.Controllers
             switch (sort)
             {
                 case "desc":
-                    users = users.OrderByDescending(u => u.Nachname);
+                    users = users.OrderByDescending(u => u.Lastname);
                     ViewBag.AvailableSortType = "asc";
                     break;
                 default:
-                    users = users.OrderBy(u => u.Nachname);
+                    users = users.OrderBy(u => u.Lastname);
                     ViewBag.AvailableSortType = "desc";
                     break;
             }

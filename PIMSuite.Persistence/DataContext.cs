@@ -13,6 +13,9 @@ namespace PIMSuite.Persistence
         public DataContext() : base("PIMDB")
         { }
         public DbSet<User> Users { get; set; }
+        public DbSet<Leadership> Leaderships { get; set; }
+        public DbSet<Department> Departments { get; set; }
+        public DbSet<Location> Locations { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

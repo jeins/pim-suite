@@ -25,7 +25,7 @@
                 <div class="x_content">
                     <div class="col-md-3 col-sm-3 col-xs-12">
                         <img class="img-responsive avatar-view" src="~/Content/images/no_propic.png">
-                        <h2>@Html.DisplayFor(m => m.Nachname), @Html.DisplayFor(m => m.Vorname)</h2>
+                        <h2>@Html.DisplayFor(m => m.Lastname), @Html.DisplayFor(m => m.FirstName)</h2>
                     </div>
                     <div class="col-md-9 col-sm-9 col-xs-12">
                         <div class="profile_title">
@@ -35,23 +35,23 @@
                         </div>
                         <div>
                             <div class="form-group flex">
-                                <label for="firstname" class="col-sm-2 control-label">@Html.DisplayNameFor(m => m.Vorname)</label>
+                                <label for="firstname" class="col-sm-2 control-label">@Html.DisplayNameFor(m => m.FirstName)</label>
                                 <div id="firstname" class="col-sm-10">
-                                    <span>: @Html.DisplayFor(m => m.Vorname)</span>
+                                    <span>: @Html.DisplayFor(m => m.FirstName)</span>
                                 </div>
                             </div>
 
                             <div class="form-group flex">
-                                <label for="lastname" class="col-sm-2 control-label">@Html.DisplayNameFor(m => m.Nachname)</label>
+                                <label for="lastname" class="col-sm-2 control-label">@Html.DisplayNameFor(m => m.Lastname)</label>
                                 <div id="lastname" class="col-sm-10">
-                                    <span>: @Html.DisplayFor(m => m.Nachname)</span>
+                                    <span>: @Html.DisplayFor(m => m.Lastname)</span>
                                 </div>
                             </div>
 
                             <div class="form-group flex">
-                                <label for="division" class="col-sm-2 control-label">@Html.DisplayNameFor(m => m.Abteilung)</label>
+                                <label for="division" class="col-sm-2 control-label">@Html.DisplayNameFor(m => m.DepartamentName)</label>
                                 <div id="division" class="col-sm-10">
-                                    <span>: @Html.DisplayFor(m => m.Abteilung)</span>
+                                    <span>: @Html.DisplayFor(m => m.DepartamentName)</span>
                                 </div>
                             </div>
 

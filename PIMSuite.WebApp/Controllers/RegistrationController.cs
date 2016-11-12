@@ -1,5 +1,6 @@
 ﻿using PIMSuite.Persistence;
 using PIMSuite.Persistence.Entities;
+using PIMSuite.Persistence.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,14 +11,27 @@ namespace PIMSuite.WebApp.Controllers
 {
     public class RegistrationController : Controller
     {
+        public IUserRepository userRepository;
+        public ILocationRepository locationRepository;
+        public IDepartmentRepository departmentRepository;
+
+        public RegistrationController()
+        {
+            this.userRepository = new UserRepository(new DataContext());
+            //this.locationRepository = new LocationRepository(new DataContext());
+            //this.departmentRepository = new DepartmentRepository(new DataContext());
+        }
+
+
+
         // GET: Registration
         public ActionResult Index()
         {
 
             //Überblick zu den Benutzer-Kontos
             //Später kann gelöscht werden oder für die Adminkonsole genutzt
-            DataContext context = new DataContext();
-            return View(context.Users.ToList()); 
+            
+            return View(userRepository.GetUsers()); 
         }
 
         public ActionResult Registration()
@@ -31,13 +45,13 @@ namespace PIMSuite.WebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                using (DataContext context = new DataContext())
+                if (ModelState.IsValid)
                 {
-                    context.Users.Add(user);
-                    context.SaveChanges();
+                    userRepository.InsertUser(user);
+                    userRepository.Save();
+                    ModelState.Clear();
+                    ViewBag.Message = user.FirstName + " " + user.Lastname + " " + "wurde erfolgreich registriert!";
                 }
-                ModelState.Clear();
-                ViewBag.Message = user.Vorname + " " + user.Nachname + " " + "wurde erfolgreich registriert!";
             }
             return View();
         }

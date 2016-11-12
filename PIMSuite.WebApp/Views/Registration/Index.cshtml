@@ -10,10 +10,10 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Vorname)
+            @Html.DisplayNameFor(model => model.FirstName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Nachname)
+            @Html.DisplayNameFor(model => model.Lastname)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Username)
@@ -22,10 +22,19 @@
             @Html.DisplayNameFor(model => model.Email)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Abteilung)
+            @Html.DisplayNameFor(model => model.DepartamentName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Passwort)
+            @Html.DisplayNameFor(model => model.PhoneNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LocationName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Password)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Creation)
         </th>
         <th></th>
     </tr>
@@ -33,10 +42,10 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Vorname)
+            @Html.DisplayFor(modelItem => item.FirstName)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Nachname)
+            @Html.DisplayFor(modelItem => item.Lastname)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Username)
@@ -45,12 +54,21 @@
             @Html.DisplayFor(modelItem => item.Email)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Abteilung)
+            @Html.DisplayFor(modelItem => item.DepartamentName)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Passwort)
+            @Html.DisplayFor(modelItem => item.PhoneNumber)
         </td>
-       
+        <td>
+            @Html.DisplayFor(modelItem => item.LocationName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Password)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Creation)
+        </td>
+      
     </tr>
 }
 
