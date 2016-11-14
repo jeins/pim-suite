@@ -12,11 +12,11 @@ namespace PIMSuite.WebApp
             // Web API configuration and services
 
             // Web API routes
-            config.MapHttpAttributeRoutes();
+            //config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
-                routeTemplate: "api/{controller}/{id}",
+                routeTemplate: "API/{controller}/{action}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
         }

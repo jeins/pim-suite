@@ -1,0 +1,41 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - PIMSuite</title>
+    <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon">
+    <link href="~/Content/bootstrap.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link href="~/Content/Site.css" rel="stylesheet" />
+    <link href="~/Content/custom.css" rel="stylesheet" />
+    <meta name="format-detection" content="telephone=no">
+</head>
+<body>
+    @RenderBody()
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li>@Html.ActionLink("Registration", "Registration", "Registration")</li>
+                    <li>@Html.ActionLink("Profiles", "Index", "Profile")</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <script src="~/Scripts/jquery-3.1.1.js"></script>
+    <script src="~/Scripts/knockout-3.4.0.debug.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+    <script src="~/Scripts/Site.js"></script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

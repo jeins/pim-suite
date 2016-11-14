@@ -1,4 +1,22 @@
 ﻿@{
     ViewBag.Title = "Landing Page";
+    Layout = "~/Views/Shared/_LandingPageLayout.cshtml";
 }
 
+
+<p>
+    <input type="text" data-bind="textInput: emailAddress"/>
+</p>
+
+<p>
+    <input type="password" data-bind="textInput: password"/>
+</p>
+
+<p>
+    <button data-bind="click: login">Login</button>
+</p>
+
+@section scripts
+{
+    <script src="~/Scripts/LandingPage.js"></script>
+}

@@ -72,6 +72,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -172,6 +173,7 @@
     <Content Include="Scripts\jquery-3.1.1.slim.min.js" />
     <Content Include="Scripts\knockout-3.4.0.debug.js" />
     <Content Include="Scripts\knockout-3.4.0.js" />
+    <Content Include="Scripts\LandingPage.js" />
     <Content Include="Scripts\Site.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config" />
@@ -191,6 +193,7 @@
     <Content Include="Views\Profile\Show.cshtml" />
     <Content Include="Views\Registration\Index.cshtml" />
     <Content Include="Views\Registration\Registration.cshtml" />
+    <Content Include="Views\Shared\_LandingPageLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
