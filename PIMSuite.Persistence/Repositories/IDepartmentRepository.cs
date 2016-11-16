@@ -11,7 +11,7 @@ namespace PIMSuite.Persistence.Repositories
     {
         IEnumerable<Department> GetDepartments();
         Department GetDepartamentByName(string DepartmentName);
-        void InsertDepartament(Department Departament);
+        void InsertDepartment(Department Departament);
         void DeleteDepartament(string DepartmentName);
         void UpdateDepartament(Department Departament);
         void Save();

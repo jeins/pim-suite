@@ -20,8 +20,8 @@ namespace PIMSuite.WebApp.Controllers
 
             if (departmentRepository.GetDepartments().Count() == 0)
             {
-                departmentRepository.InsertDepartament(new Department { Name = "IT-Support" });
-                departmentRepository.InsertDepartament(new Department { Name = "Sekretariat" });
+                departmentRepository.InsertDepartment(new Department { Name = "IT-Support" });
+                departmentRepository.InsertDepartment(new Department { Name = "Sekretariat" });
             }
             departmentRepository.Save();
             if (locationRepository.GetLocations().Count() == 0)

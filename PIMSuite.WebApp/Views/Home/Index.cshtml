@@ -1,22 +1,31 @@
 ﻿@{
-    ViewBag.Title = "Landing Page";
+    ViewBag.Title = "Login";
     Layout = "~/Views/Shared/_LandingPageLayout.cshtml";
 }
+<link href="~/Content/login.css" rel="stylesheet" />
 
-
-<p>
-    <input type="text" data-bind="textInput: emailAddress"/>
-</p>
-
-<p>
-    <input type="password" data-bind="textInput: password"/>
-</p>
-
-<p>
-    <button data-bind="click: login">Login</button>
-</p>
+<div class="container">
+    <div class="card card-container">
+        <img id="profile-img" class="profile-img-card" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" />
+        <p id="profile-name" class="profile-name-card"></p>
+        <form class="form-signin">
+            <span id="reauth-email" class="reauth-email"></span>
+            <input type="email" id="inputEmail" data-bind="textInput: emailAddress" class="form-control" placeholder="E-Mail-Adresse" required autofocus>
+            <input type="password" id="inputPassword" data-bind="textInput: password" class="form-control" placeholder="Passwort" required>
+            <div id="remember" class="checkbox">
+                <label>
+                    <input type="checkbox" value="remember-me"> Login speichern
+                </label>
+            </div>
+            <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">Anmelden</button>
+        </form><!-- /form -->
+        <a href="#" class="forgot-password">
+            Passwort vergessen?
+        </a>
+    </div>
+</div>
 
 @section scripts
 {
-    <script src="~/Scripts/LandingPage.js"></script>
+        <script src="~/Scripts/LandingPage.js"></script>
 }

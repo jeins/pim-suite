@@ -34,7 +34,7 @@ namespace PIMSuite.Persistence.Repositories
             return context.Departments.ToList();
         }
 
-        public void InsertDepartament(Department Departament)
+        public void InsertDepartment(Department Departament)
         {
             context.Departments.Add(Departament);
         }
