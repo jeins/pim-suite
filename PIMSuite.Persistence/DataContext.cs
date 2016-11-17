@@ -19,7 +19,8 @@ namespace PIMSuite.Persistence
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            Database.SetInitializer(new CreateDatabaseIfNotExists<DbContext>());
+            //Database.SetInitializer(new CreateDatabaseIfNotExists<DbContext>());
+            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<DbContext>());
 
             base.OnModelCreating(modelBuilder);
         }

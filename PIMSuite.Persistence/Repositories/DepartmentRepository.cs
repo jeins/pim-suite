@@ -19,12 +19,12 @@ namespace PIMSuite.Persistence.Repositories
             this.context = context;
         }
 
-        public void DeleteDepartament(string DepartmentName)
+        public void DeleteDepartment(string DepartmentName)
         {
             context.Departments.Remove(context.Departments.Find(DepartmentName));
         }
 
-        public Department GetDepartamentByName(string DepartmentName)
+        public Department GetDepartmentByName(string DepartmentName)
         {
             return context.Departments.Find(DepartmentName);
         }
@@ -34,9 +34,9 @@ namespace PIMSuite.Persistence.Repositories
             return context.Departments.ToList();
         }
 
-        public void InsertDepartment(Department Departament)
+        public void InsertDepartment(Department Department)
         {
-            context.Departments.Add(Departament);
+            context.Departments.Add(Department);
         }
 
         public void Save()
@@ -44,9 +44,9 @@ namespace PIMSuite.Persistence.Repositories
             context.SaveChanges();
         }
 
-        public void UpdateDepartament(Department Departament)
+        public void UpdateDepartment(Department Department)
         {
-            context.Entry(Departament).State = EntityState.Modified;
+            context.Entry(Department).State = EntityState.Modified;
         }
 
 

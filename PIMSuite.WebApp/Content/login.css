@@ -88,6 +88,7 @@ body, html {
 .form-signin input[type=email],
 .form-signin input[type=password],
 .form-signin input[type=text],
+.form-signin input[type=tel],
 .form-signin button {
     width: 100%;
     display: block;
@@ -138,4 +139,8 @@ body, html {
 .forgot-password:active,
 .forgot-password:focus{
     color: rgb(12, 97, 33);
+}
+
+.registertext {
+    color: darkgray;
 }

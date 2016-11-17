@@ -64,8 +64,8 @@ namespace PIMSuite.WebApp.Controllers
             ViewBag.SearchString = searchString;
             return user.Where(u => 
                 u.Lastname.Contains(searchString) ||
-                u.FirstName.Contains(searchString) ||
-                u.DepartamentName.Contains(searchString) ||
+                u.Firstname.Contains(searchString) ||
+                u.DepartmentName.Contains(searchString) ||
                 u.Email.Contains(searchString)
             );
         }

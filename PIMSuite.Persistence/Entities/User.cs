@@ -24,7 +24,7 @@ namespace PIMSuite.Persistence.Entities
 
         [Required(ErrorMessage = "Vorname ist erforderlich!")]
         [Display(Name = "Vorname")]
-        public string FirstName { get; set; }
+        public string Firstname { get; set; }
 
         [Required(ErrorMessage = "Nachname ist erforderlich!")]
         [Display(Name = "Nachname")]
@@ -44,9 +44,9 @@ namespace PIMSuite.Persistence.Entities
 
         [Required(ErrorMessage = "Abteilung ist erforderlich!")]
         [Display(Name = "Abteilung")]
-        public string DepartamentName { get; set; }
+        public string DepartmentName { get; set; }
 
-        [ForeignKey("DepartamentName")]
+        [ForeignKey("DepartmentName")]
         public Department Department { get; set; }
 
         [Required(ErrorMessage = "Telefonnumer ist erforderlich!")]

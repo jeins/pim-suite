@@ -35,12 +35,12 @@ namespace PIMSuite.WebApp.Controllers
             {
                 User user = new Persistence.Entities.User
                 {
-                    FirstName = "Max",
+                    Firstname = "Max",
                     Lastname = "Mustermann",
                     Username = "maxm",
                     Email = "max@mail.org",
                     PhoneNumber = "12345678",
-                    DepartamentName = "IT-Support",
+                    DepartmentName = "IT-Support",
                     LocationName = "Berlin",
                     Password = "mustermann"
 

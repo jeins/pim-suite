@@ -10,10 +10,10 @@ namespace PIMSuite.Persistence.Repositories
     public interface IDepartmentRepository : IDisposable
     {
         IEnumerable<Department> GetDepartments();
-        Department GetDepartamentByName(string DepartmentName);
-        void InsertDepartment(Department Departament);
-        void DeleteDepartament(string DepartmentName);
-        void UpdateDepartament(Department Departament);
+        Department GetDepartmentByName(string DepartmentName);
+        void InsertDepartment(Department Department);
+        void DeleteDepartment(string DepartmentName);
+        void UpdateDepartment(Department Department);
         void Save();
     }
 }

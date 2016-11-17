@@ -50,7 +50,7 @@ namespace PIMSuite.WebApp.Controllers
                     userRepository.InsertUser(user);
                     userRepository.Save();
                     ModelState.Clear();
-                    ViewBag.Message = user.FirstName + " " + user.Lastname + " " + "wurde erfolgreich registriert!";
+                    ViewBag.Message = user.Firstname + " " + user.Lastname + " " + "wurde erfolgreich registriert!";
                 }
             }
             return View();
