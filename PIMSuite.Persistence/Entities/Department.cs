@@ -18,6 +18,7 @@ namespace PIMSuite.Persistence.Entities
         
         [Key]
         public string Name {get; set;}
+
         public DateTime Creation {get; set;}
 
         public ICollection<User> Users { get; set; }

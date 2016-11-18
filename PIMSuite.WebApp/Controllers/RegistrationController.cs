@@ -18,6 +18,8 @@ namespace PIMSuite.WebApp.Controllers
         public RegistrationController()
         {
             this.userRepository = new UserRepository(new DataContext());
+            ViewBag.Departments = new SelectList(new DataContext().Departments, "Name", "Name");
+            ViewBag.Locations = new SelectList(new DataContext().Locations, "Name", "Name");
             //this.locationRepository = new LocationRepository(new DataContext());
             //this.departmentRepository = new DepartmentRepository(new DataContext());
         }
@@ -27,7 +29,6 @@ namespace PIMSuite.WebApp.Controllers
         // GET: Registration
         public ActionResult Index()
         {
-
             //Überblick zu den Benutzer-Kontos
             //Später kann gelöscht werden oder für die Adminkonsole genutzt
             
@@ -36,7 +37,6 @@ namespace PIMSuite.WebApp.Controllers
 
         public ActionResult Registration()
         {
-           
             return View();
         }
 
