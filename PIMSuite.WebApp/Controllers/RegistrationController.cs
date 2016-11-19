@@ -71,6 +71,8 @@ namespace PIMSuite.WebApp.Controllers
                         IsPersistent = true,
                         ExpiresUtc = DateTime.UtcNow.AddDays(7)
                     }, identity);
+
+                    Response.Redirect("/Dashboard/");
                 }
             }
             return View();

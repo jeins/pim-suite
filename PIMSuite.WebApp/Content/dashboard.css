@@ -1,0 +1,7 @@
+﻿html, #wrapper, #page-wrapper {
+    height: 100%;
+}
+
+body {
+    height: calc(100% - 50px);
+}

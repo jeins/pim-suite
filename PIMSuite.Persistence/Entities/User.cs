@@ -33,7 +33,7 @@ namespace PIMSuite.Persistence.Entities
         [Required(ErrorMessage = "Benutzername ist erforderlich!")]
         [Display(Name = "Benutzername")]
         [StringLength(20)]
-        //[Index("Username", 1, IsUnique = true)]
+        [Index("Username", 1, IsUnique = true)]
         public string Username { get; set; }
 
         [Required(ErrorMessage = "Email ist erforderlich!")]

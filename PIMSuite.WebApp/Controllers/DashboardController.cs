@@ -12,6 +12,7 @@ namespace PIMSuite.WebApp.Controllers
         [AuthorizationFilter]
         public ActionResult Index()
         {
+            var test = HttpContext.GetOwinContext().Authentication;
             return View();
         }
 
