@@ -172,6 +172,7 @@
     <Compile Include="AuthorizationFilter.cs" />
     <Compile Include="Controllers\API\LoginController.cs" />
     <Compile Include="Controllers\API\LogoutController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\DepartmentController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -296,6 +297,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Base\" />
     <Folder Include="Views\Logout\" />
   </ItemGroup>
   <ItemGroup>

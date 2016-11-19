@@ -9,7 +9,7 @@ using System.Web.Mvc;
 
 namespace PIMSuite.WebApp.Controllers
 {
-    public class DepartmentController : Controller
+    public class DepartmentController : BaseController
     {
         private IDepartmentRepository departmentRepository;
 

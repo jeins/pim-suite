@@ -12,7 +12,7 @@ using System.Security.Claims;
 
 namespace PIMSuite.WebApp.Controllers
 {
-    public class RegistrationController : Controller
+    public class RegistrationController : BaseController
     {
         public IUserRepository userRepository;
         public ILocationRepository locationRepository;

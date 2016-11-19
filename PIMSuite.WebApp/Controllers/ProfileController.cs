@@ -9,7 +9,7 @@ using PagedList;
 
 namespace PIMSuite.WebApp.Controllers
 {
-    public class ProfileController : Controller
+    public class ProfileController : BaseController
     {
         private DataContext _dataContext;
 

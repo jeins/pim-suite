@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace PIMSuite.WebApp.Controllers
 {
-    public class LocationController : Controller
+    public class LocationController : BaseController
     {
         private LocationRepository locationRepository;
 
