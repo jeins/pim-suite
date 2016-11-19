@@ -19,7 +19,7 @@ namespace PIMSuite.WebApp.Controllers.API
         {
             [DataMember(IsRequired = true)]
             [Required]
-            public string EmailAddress { get; set; }
+            public string EmailOrUser { get; set; }
             [DataMember(IsRequired = true)]
             [Required]
             public string Password { get; set; }
@@ -34,8 +34,13 @@ namespace PIMSuite.WebApp.Controllers.API
             {
                 using (DataContext context = new DataContext())
                 {
-                    user = context.Users.SingleOrDefault(p => p.Email == model.EmailAddress); // @dustin SingleOrDefault because Single throws exception if no user exisits .. SingleOrDefault returns null
-                
+                    user = context.Users.SingleOrDefault(p => p.Email == model.EmailOrUser); // @dustin SingleOrDefault because Single throws exception if no user exisits .. SingleOrDefault returns null
+                    
+                    if (user == null)
+                    {
+                        user = context.Users.SingleOrDefault(p => p.Username == model.EmailOrUser);
+                    }
+
                     if (user != null && string.Equals(user.Password, model.Password))
                     {
                         ModelState.Clear();

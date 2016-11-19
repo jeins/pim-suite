@@ -1,5 +1,5 @@
 ﻿var landingPageViewModel = {
-    emailAddress: ko.observable(),
+    emailOrUser: ko.observable(),
     password: ko.observable(),
 
     login: function() {
@@ -8,12 +8,12 @@
             url: '/API/Login/Login',
             type: 'POST',
             data: {
-                EmailAddress: this.emailAddress(),
+                EmailOrUser: this.emailOrUser(),
                 Password: this.password()
             },
             dataType: 'json'
         }).done(function() {
-            window.location.href = '/Portal/';
+            window.location.href = '/Dashboard/Dashboard';
         });
     }
 };
