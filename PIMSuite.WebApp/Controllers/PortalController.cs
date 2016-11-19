@@ -22,7 +22,7 @@ namespace PIMSuite.WebApp.Controllers
         private readonly DataContext _dataContext;
 
         // Methods
-
+        [AuthorizationFilter]
         public ActionResult Index()
         {
             ViewBag.UserCount = _dataContext.Users.Count();

@@ -9,6 +9,7 @@ namespace PIMSuite.WebApp.Controllers
     public class DashboardController : Controller
     {
         // GET: Dashboard
+        [AuthorizationFilter]
         public ActionResult Index()
         {
             return View();

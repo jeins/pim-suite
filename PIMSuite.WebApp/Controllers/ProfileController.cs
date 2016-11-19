@@ -19,6 +19,7 @@ namespace PIMSuite.WebApp.Controllers
         }
 
         // GET: Profile
+        [AuthorizationFilter]
         public ViewResult Index(string sort, int? page, string searchString)
         {
             //TODO:: entities should be in english
@@ -37,6 +38,7 @@ namespace PIMSuite.WebApp.Controllers
         }
 
         // GET: Profile/Show
+        [AuthorizationFilter]
         public ActionResult Show(string userId)
         {
             Guid guid;

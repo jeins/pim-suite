@@ -8,7 +8,10 @@ using System.Net;
 using System.Net.Http;
 using System.Runtime.Serialization;
 using System.Web.Http;
-
+using Microsoft.AspNet.Identity;
+using Microsoft.Owin.Security;
+using System.Security.Claims;
+using System.Web;
 
 namespace PIMSuite.WebApp.Controllers.API
 {
@@ -44,6 +47,21 @@ namespace PIMSuite.WebApp.Controllers.API
                     if (user != null && string.Equals(user.Password, model.Password))
                     {
                         ModelState.Clear();
+                        var AuthenticationManager = HttpContext.Current.GetOwinContext().Authentication;
+                        var claims = new List<Claim>();
+                        claims.Add(new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()));
+                        claims.Add(new Claim(ClaimTypes.Name, user.Username));
+
+                        claims.Add(new Claim("userState", user.ToString()));
+
+                        var identity = new ClaimsIdentity(claims, DefaultAuthenticationTypes.ApplicationCookie);
+
+                        AuthenticationManager.SignIn(new AuthenticationProperties()
+                        {
+                            AllowRefresh = true,
+                            IsPersistent = true,
+                            ExpiresUtc = DateTime.UtcNow.AddDays(7)
+                        }, identity);
                         return Request.CreateResponse(HttpStatusCode.Accepted, true);
                         //TODO: 
                     }

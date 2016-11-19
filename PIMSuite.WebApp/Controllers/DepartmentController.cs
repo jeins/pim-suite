@@ -20,6 +20,7 @@ namespace PIMSuite.WebApp.Controllers
 
 
         // GET: Department
+        [AuthorizationFilter]
         public ActionResult Index()
         {
             

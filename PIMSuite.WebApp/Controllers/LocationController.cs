@@ -18,6 +18,7 @@ namespace PIMSuite.WebApp.Controllers
         }
 
         // GET: Location
+        [AuthorizationFilter]
         public ActionResult Index()
         {
             return View(locationRepository.GetLocations());

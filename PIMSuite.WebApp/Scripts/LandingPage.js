@@ -13,7 +13,7 @@
             },
             dataType: 'json'
         }).done(function() {
-            window.location.href = '/Dashboard/Dashboard';
+            window.location.href = '/Dashboard/';
         });
     }
 };
