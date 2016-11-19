@@ -7,7 +7,7 @@ PIM-Suite+ Projekt mit dem Framework ASP.NET
 
 ----------
 ## Entwicklergruppe
-Muhammad, Nicolas, Anna, Daniel, Dustin und Rolf, 
+Muhammad, Nicolas, Anna, Daniel, Dustin und Rolf
 
 Product Owner:
 Tobias
