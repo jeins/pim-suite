@@ -158,6 +158,8 @@
     <Content Include="Content\images\loginbg.jpg" />
     <Content Include="Content\images\no_propic.png" />
     <Content Include="Content\login.css" />
+    <Content Include="Content\material-icons.css" />
+    <Content Include="Content\MaterialIcons-Regular.svg" />
     <Content Include="Content\PagedList.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
@@ -168,6 +170,11 @@
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Content\MaterialIcons-Regular.eot" />
+    <Content Include="Content\MaterialIcons-Regular.ijmap" />
+    <Content Include="Content\MaterialIcons-Regular.ttf" />
+    <Content Include="Content\MaterialIcons-Regular.woff" />
+    <Content Include="Content\MaterialIcons-Regular.woff2" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.1.1.js" />
     <Content Include="Scripts\jquery-3.1.1.min.js" />

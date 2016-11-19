@@ -165,3 +165,7 @@ body:before {
 .registertext {
     color: darkgray;
 }
+
+.reg_back {
+    position: absolute;
+}
