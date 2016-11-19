@@ -10,6 +10,9 @@
         <img id="profile-img" class="profile-img-card" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" />
         <p id="profile-name" class="profile-name-card"></p>
         <form class="form-signin">
+            <div class="alert alert-danger login-fail">
+                Benutzername / E-Mail oder Passwort falsch
+            </div>
             <span id="reauth-email" class="reauth-email"></span>
             <input type="email" id="inputEmail" data-bind="textInput: emailOrUser" class="form-control" placeholder="Benutzername / E-Mail-Adresse" required autofocus>
             <input type="password" id="inputPassword" data-bind="textInput: password" class="form-control" placeholder="Passwort" required>

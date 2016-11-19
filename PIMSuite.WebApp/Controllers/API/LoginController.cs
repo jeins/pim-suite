@@ -67,24 +67,13 @@ namespace PIMSuite.WebApp.Controllers.API
                     }
                     else
                     {
-                        return Request.CreateErrorResponse(HttpStatusCode.Unauthorized, "False password!");
+                        return Request.CreateResponse(HttpStatusCode.Forbidden, "False Password!");
                     }
                 }
 
             }
-            return Request.CreateErrorResponse(HttpStatusCode.Unauthorized, "Missing or wrong user credentials!");
+            return Request.CreateResponse(HttpStatusCode.Forbidden, "Missing or wrong user credentials!");
         }
 
-        public sealed class RegisterModel
-        {
-            //TODO
-        }
-
-        [HttpPost]
-        public HttpResponseMessage Register(RegisterModel model)
-        {
-            //TODO
-            throw new NotImplementedException();
-        }
     }
 }

@@ -171,3 +171,7 @@ body:before {
 .reg_back {
     position: absolute;
 }
+
+.login-fail {
+    display: none;
+}

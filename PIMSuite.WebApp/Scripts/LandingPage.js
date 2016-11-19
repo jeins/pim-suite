@@ -11,9 +11,18 @@
                 EmailOrUser: this.emailOrUser(),
                 Password: this.password()
             },
-            dataType: 'json'
-        }).done(function() {
-            window.location.href = '/Dashboard/';
+            dataType: 'json',
+            statusCode: {
+                200: function () {
+                    window.location.href = '/Dashboard/';
+                },
+                202: function () {
+                    window.location.href = '/Dashboard/';
+                },
+                403: function () {
+                    $(".login-fail").show();
+                }
+            }
         });
     }
 };

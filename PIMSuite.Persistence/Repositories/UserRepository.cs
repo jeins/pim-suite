@@ -28,6 +28,12 @@ namespace PIMSuite.Persistence.Repositories
             return context.Users.Find(GuidId);
         }
 
+        public User GetUserByUsername(String Username)
+        {
+            User myUser = context.Users.SingleOrDefault(user => user.Username == Username);
+            return myUser;
+        }
+
         public IEnumerable<User> GetUsers()
         {
             return context.Users.ToList();
