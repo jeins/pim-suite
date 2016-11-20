@@ -49,7 +49,6 @@ namespace PIMSuite.WebApp.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Registration(User user)
         {
             if (ModelState.IsValid)
