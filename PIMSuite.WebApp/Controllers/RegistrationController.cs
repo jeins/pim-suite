@@ -41,6 +41,10 @@ namespace PIMSuite.WebApp.Controllers
 
         public ActionResult Registration()
         {
+            if (HttpContext.GetOwinContext().Authentication.User.Identity.IsAuthenticated)
+            {
+                Response.Redirect("/Dashboard/");
+            }
             return View();
         }
 
@@ -71,8 +75,8 @@ namespace PIMSuite.WebApp.Controllers
                         IsPersistent = true,
                         ExpiresUtc = DateTime.UtcNow.AddDays(7)
                     }, identity);
-
-                    Response.Redirect("/Dashboard/");
+                    HttpContext.Response.AddHeader("Location", "/Dashboard/");
+                    return new HttpStatusCodeResult(307);
                 }
             }
             return View();
