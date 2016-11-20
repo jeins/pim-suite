@@ -15,7 +15,7 @@ namespace PIMSuite.WebApp.Controllers
 
         public ProfileController()
         {
-            _dataContext = new DataContext();;
+            _dataContext = new DataContext();
         }
 
         // GET: Profile

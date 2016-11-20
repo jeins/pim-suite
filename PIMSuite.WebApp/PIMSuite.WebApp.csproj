@@ -184,6 +184,7 @@
     <Compile Include="Controllers\PortalController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\RegistrationController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -204,6 +205,7 @@
     <Content Include="Content\images\loginbg.jpg" />
     <Content Include="Content\images\no_propic.png" />
     <Content Include="Content\login.css" />
+    <Content Include="Content\management.css" />
     <Content Include="Content\material-icons.css" />
     <Content Include="Content\MaterialIcons-Regular.svg" />
     <Content Include="Content\morris.css" />
@@ -298,6 +300,11 @@
     <Content Include="Views\Registration\Registration.cshtml" />
     <Content Include="Views\Shared\_LandingPageLayout.cshtml" />
     <Content Include="Views\Shared\_DashboardLayout.cshtml" />
+    <Content Include="Views\Department\Manage.cshtml" />
+    <Content Include="Views\User\Manage.cshtml" />
+    <Content Include="Views\Location\Manage.cshtml" />
+    <Content Include="Views\Department\Index.cshtml" />
+    <Content Include="Views\Location\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

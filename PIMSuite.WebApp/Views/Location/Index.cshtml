@@ -1,15 +1,11 @@
-﻿@model PagedList.IPagedList<PIMSuite.Persistence.Entities.User>
+﻿@model PagedList.IPagedList<PIMSuite.Persistence.Entities.Location>
 @using PagedList.Mvc;
 
 @{
-    ViewBag.Title = "Profiles";
-    ViewBag.LabelDivision = "Abteilung";
-    ViewBag.LabelEMail = "Email";
-    ViewBag.ViewProfile = "Profile Anzeigen";
-    ViewBag.Search = "Suche...";
-    ViewBag.Status = "Offline"; //TODO:: change if signlar already implement
+    ViewBag.Title = "Standorte";
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
 }
+
 <link href="~/Content/custom.css" rel="stylesheet" />
 <div class="profile">
     <div class="page-title">
@@ -19,7 +15,7 @@
         <div class="title_right">
 
             <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
-                @using (Html.BeginForm("Index", "Profile", FormMethod.Get, new { @class = "input-group" }))
+                @using (Html.BeginForm("Index", "Location", FormMethod.Get, new { @class = "input-group" }))
                 {
                     @Html.TextBox("SearchString", null, new { @class = "form-control" })
                     <span class="input-group-btn">
@@ -39,13 +35,13 @@
                     <div class="row pull-right">
                         @if (ViewBag.AvailableSortType == "desc")
                         {
-                            <a href="@Url.Action("Index", "Profile", new {sort = ViewBag.AvailableSortType})" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Sort DESC" role="button">
+                            <a href="@Url.Action("Index", "Location", new {sort = ViewBag.AvailableSortType})" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Sort DESC" role="button">
                                 Sort <i class="fa fa-sort-alpha-desc"></i>
                             </a>
                         }
                         else
                         {
-                            <a href="@Url.Action("Index", "Profile", new {sort = ViewBag.AvailableSortType})" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Sort ASC" role="button">
+                            <a href="@Url.Action("Index", "Location", new {sort = ViewBag.AvailableSortType})" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Sort ASC" role="button">
                                 Sort <i class="fa fa-sort-alpha-asc"></i>
                             </a>
                         }
@@ -57,33 +53,23 @@
 
                         <div class="clearfix"></div>
 
-                        @foreach(var user in Model) { 
+                        @foreach (var location in Model)
+                        {
                             <div class="col-md-4 col-sm-4 col-xs-12 profile_details">
                                 <div class="well profile_view">
                                     <div class="col-sm-12">
-                                        <h4 class="brief"><i>Digital Strategist</i></h4>
-                                        <div class="left col-xs-7">
-                                            <h2>@Html.DisplayFor(m => user.Lastname), @Html.DisplayFor(m => user.Firstname)</h2>
-                                            <ul class="list-unstyled">
-                                                <li><i class="fa fa-university"></i> @ViewBag.LabelDivision: @Html.DisplayFor(m => user.DepartmentName)</li>
-                                                <li><i class="fa fa-envelope"></i> @ViewBag.LabelEmail: @Html.DisplayFor(m => user.Email)</li>
-                                            </ul>
+                                        <h4 class="brief"></h4>
+                                        <div class="left">
+                                            <h2><i class="fa fa-building"></i> @Html.DisplayFor(m => location.Name)</h2>
+                                            <ul class="list-unstyled"></ul>
                                         </div>
                                         <div class="right col-xs-5 text-center">
-                                            <img src="~/Content/images/no_propic.png" alt="" class="img-circle img-responsive">
                                         </div>
                                     </div>
                                     <div class="col-xs-12 bottom text-center">
                                         <div class="col-xs-12 col-sm-6 emphasis">
                                         </div>
                                         <div class="col-xs-12 col-sm-6 emphasis">
-
-                                            <a href="#" class="btn btn-danger btn-xs disabled" role="button">
-                                                <i class="fa fa-power-off"> </i> @ViewBag.Status
-                                            </a>
-                                            <a href="@Url.Action("Show", "Profile", new {userId = user.UserId.ToString()})" class="btn btn-primary btn-xs" role="button">
-                                                <i class="fa fa-user"> </i> @ViewBag.ViewProfile
-                                            </a>
                                         </div>
                                     </div>
                                 </div>
