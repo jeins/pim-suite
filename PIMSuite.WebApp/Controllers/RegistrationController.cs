@@ -1,6 +1,7 @@
 ﻿using PIMSuite.Persistence;
 using PIMSuite.Persistence.Entities;
 using PIMSuite.Persistence.Repositories;
+using PIMSuite.Persistence.Validators;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -51,10 +52,9 @@ namespace PIMSuite.WebApp.Controllers
         [HttpPost]
         public ActionResult Registration(User user)
         {
-            if (ModelState.IsValid)
+            var userval = new UserValidator();
+            if (ModelState.IsValid && userval.Validate(user).IsValid)
             {
-                if (ModelState.IsValid)
-                {
                     userRepository.InsertUser(user);
                     userRepository.Save();
                     ModelState.Clear();
@@ -74,9 +74,12 @@ namespace PIMSuite.WebApp.Controllers
                         IsPersistent = true,
                         ExpiresUtc = DateTime.UtcNow.AddDays(7)
                     }, identity);
-                    HttpContext.Response.AddHeader("Location", "/Dashboard/");
-                    return new HttpStatusCodeResult(307);
-                }
+                    Response.Redirect("/Dashboard/");
+            }
+            else
+            {
+                string errors = string.Join("\n", userval.Validate(user).Errors);
+                ViewBag.Message = errors;
             }
             return View();
         }

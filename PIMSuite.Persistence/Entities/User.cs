@@ -1,4 +1,6 @@
-﻿using System;
+﻿using FluentValidation.Attributes;
+using PIMSuite.Persistence.Validators;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -8,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace PIMSuite.Persistence.Entities
 {
+    [Validator(typeof(UserValidator))]
     public class User
     {
         // Constructors
