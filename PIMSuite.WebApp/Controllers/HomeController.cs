@@ -42,8 +42,8 @@ namespace PIMSuite.WebApp.Controllers
                     PhoneNumber = "12345678",
                     DepartmentName = "IT-Support",
                     LocationName = "Berlin",
-                    Password = "mustermann"
-
+                    Password = "mustermann",
+                    isAdmin = true
 
                 };
                 userRepository.InsertUser(user);

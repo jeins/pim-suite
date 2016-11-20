@@ -137,7 +137,7 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> @ViewBag.FullName <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li>
-                            <a href="@Url.Action("Show", "Profile", new {userId = ViewBag.User.UserId})"><i class="fa fa-fw fa-user"></i> Profile</a>
+                            <a href="@Url.Action("Show", "Profile", new { userId = ViewBag.User.UserId })"><i class="fa fa-fw fa-user"></i> Profile</a>
                         </li>
                         <li>
                             <a href="#"><i class="fa fa-fw fa-envelope"></i> Inbox</a>
@@ -170,6 +170,22 @@
                     <li>
                         <a href="@Url.Action("", "Registration")"><i class="fa fa-fw fa-users"></i> Benutzer</a>
                     </li>
+                    @{
+                        if (ViewBag.User.isAdmin)
+                        {
+                    <li>
+                        <a href="javascript:;" data-toggle="collapse" data-target="#administrativetasks"><i class="fa fa-fw fa-wrench"></i> Systemverwaltung <i class="fa fa-fw fa-caret-down"></i></a>
+                        <ul id="administrativetasks" class="collapse">
+                            <li>
+                                <a href="@Url.Action("", "Department")"><i class="fa fa-fw fa-university"></i> Abteilungen verwalten</a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("", "Location")"><i class="fa fa-fw fa-building"></i> Standorte verwalten</a>
+                            </li>
+                        </ul>
+                    </li>
+                        }
+                    }
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
@@ -178,6 +194,30 @@
         <div id="page-wrapper">
 
             <div class="container-fluid">
+
+                <!-- Page Heading -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">
+                            @ViewBag.Title
+                        </h1>
+                        <ol class="breadcrumb">
+                            <li class="active">
+                                <i class="fa fa-dashboard"></i> <a href="@Url.Action("", "Dashboard")">Dashboard</a>
+                            </li>
+                            @{
+                                if (!ViewBag.Title.Equals("Dashboard"))
+                                {
+                                    <li class="active">
+                                         @ViewBag.Title
+                                    </li>
+                                }
+                            }
+                        </ol>
+                    </div>
+                </div>
+                <!-- /.row -->
+
 
                 @RenderBody()    
 
