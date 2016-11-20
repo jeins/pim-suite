@@ -55,26 +55,29 @@ namespace PIMSuite.WebApp.Controllers
             var userval = new UserValidator();
             if (ModelState.IsValid && userval.Validate(user).IsValid)
             {
-                    userRepository.InsertUser(user);
-                    userRepository.Save();
-                    ModelState.Clear();
-                    ViewBag.Message = user.Firstname + " " + user.Lastname + " " + "wurde erfolgreich registriert!";
-                    var AuthenticationManager = HttpContext.GetOwinContext().Authentication;
-                    var claims = new List<Claim>();
-                    claims.Add(new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()));
-                    claims.Add(new Claim(ClaimTypes.Name, user.Username));
+                //TODO: Bis auf Weiteres zum besseren Testen immer aktiv
+                user.isAdmin = true;
 
-                    claims.Add(new Claim("userState", user.ToString()));
 
-                    var identity = new ClaimsIdentity(claims, DefaultAuthenticationTypes.ApplicationCookie);
+                userRepository.InsertUser(user);
+                userRepository.Save();
+                ModelState.Clear();
+                ViewBag.Message = user.Firstname + " " + user.Lastname + " " + "wurde erfolgreich registriert!";
+                var AuthenticationManager = HttpContext.GetOwinContext().Authentication;
+                var claims = new List<Claim>();
+                claims.Add(new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()));
+                claims.Add(new Claim(ClaimTypes.Name, user.Username));
+                claims.Add(new Claim("userState", user.ToString()));
 
-                    AuthenticationManager.SignIn(new AuthenticationProperties()
-                    {
-                        AllowRefresh = true,
-                        IsPersistent = true,
-                        ExpiresUtc = DateTime.UtcNow.AddDays(7)
-                    }, identity);
-                    Response.Redirect("/Dashboard/");
+                var identity = new ClaimsIdentity(claims, DefaultAuthenticationTypes.ApplicationCookie);
+
+                AuthenticationManager.SignIn(new AuthenticationProperties()
+                {
+                    AllowRefresh = true,
+                    IsPersistent = true,
+                    ExpiresUtc = DateTime.UtcNow.AddDays(7)
+                }, identity);
+                Response.Redirect("/Dashboard/");
             }
             else
             {

@@ -69,6 +69,9 @@ namespace PIMSuite.Persistence.Entities
         [Display(Name = "Passwort")]
         public string Password { get; set; }
 
+        [Display(Name = "Administrator")]
+        public Boolean isAdmin { get; set; }
+
         public DateTime Creation { get; set; }
 
 
