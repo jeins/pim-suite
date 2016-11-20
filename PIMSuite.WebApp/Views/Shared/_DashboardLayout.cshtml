@@ -46,7 +46,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="./">PIMSuite</a>
+                <a class="navbar-brand" href="@Url.Action("", "Dashboard")">PIMSuite</a>
             </div>
             <!-- Top Menu Items -->
             <ul class="nav navbar-right top-nav">
@@ -137,7 +137,7 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> @ViewBag.FullName <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li>
-                            <a href="/Profile/Show?userId=@ViewBag.User.UserId"><i class="fa fa-fw fa-user"></i> Profile</a>
+                            <a href="@Url.Action("Show", "Profile", new {userId = ViewBag.User.UserId})"><i class="fa fa-fw fa-user"></i> Profile</a>
                         </li>
                         <li>
                             <a href="#"><i class="fa fa-fw fa-envelope"></i> Inbox</a>
@@ -156,39 +156,19 @@
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
                     <li class="active">
-                        <a href="./"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
+                        <a href="@Url.Action("", "Dashboard")"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
                     </li>
                     <li>
-                        <a href="charts.html"><i class="fa fa-fw fa-bar-chart-o"></i> Charts</a>
+                        <a href="@Url.Action("", "Profile")"><i class="fa fa-fw fa-address-book"></i> Profile</a>
                     </li>
                     <li>
-                        <a href="tables.html"><i class="fa fa-fw fa-table"></i> Tables</a>
+                        <a href="@Url.Action("", "Department")"><i class="fa fa-fw fa-industry"></i> Abteilungen (ToDo)</a>
                     </li>
                     <li>
-                        <a href="forms.html"><i class="fa fa-fw fa-edit"></i> Forms</a>
+                        <a href="@Url.Action("", "Location")"><i class="fa fa-fw fa-building"></i> Standorte (ToDo)</a>
                     </li>
                     <li>
-                        <a href="bootstrap-elements.html"><i class="fa fa-fw fa-desktop"></i> Bootstrap Elements</a>
-                    </li>
-                    <li>
-                        <a href="bootstrap-grid.html"><i class="fa fa-fw fa-wrench"></i> Bootstrap Grid</a>
-                    </li>
-                    <li>
-                        <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-arrows-v"></i> Dropdown <i class="fa fa-fw fa-caret-down"></i></a>
-                        <ul id="demo" class="collapse">
-                            <li>
-                                <a href="#">Dropdown Item</a>
-                            </li>
-                            <li>
-                                <a href="#">Dropdown Item</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="blank-page.html"><i class="fa fa-fw fa-file"></i> Blank Page</a>
-                    </li>
-                    <li>
-                        <a href="index-rtl.html"><i class="fa fa-fw fa-dashboard"></i> RTL Dashboard</a>
+                        <a href="@Url.Action("", "Registration")"><i class="fa fa-fw fa-users"></i> Benutzer</a>
                     </li>
                 </ul>
             </div>
@@ -222,6 +202,7 @@
 
     <script src="~/Scripts/knockout-3.4.0.js"></script>
     <script src="~/Scripts/Dashboard.js"></script>
+    @RenderSection("scripts", required: false)
 
 </body>
 </html>
