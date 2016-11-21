@@ -10,7 +10,6 @@ namespace PIMSuite.Persistence.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
-            ContextKey = "PIMSuite.Persistence.DataContext";
         }
 
         protected override void Seed(PIMSuite.Persistence.DataContext context)
