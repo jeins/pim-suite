@@ -45,11 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Auth\IHashHelper.cs" />
-    <Compile Include="Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="LICENSE.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
