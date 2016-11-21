@@ -58,10 +58,6 @@
     <Compile Include="Entities\Leadership.cs" />
     <Compile Include="Entities\Location.cs" />
     <Compile Include="Entities\User.cs" />
-    <Compile Include="Migrations\201611161740100_InitialCreate.cs" />
-    <Compile Include="Migrations\201611161740100_InitialCreate.Designer.cs">
-      <DependentUpon>201611161740100_InitialCreate.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\DepartmentRepository.cs" />
@@ -77,11 +73,6 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201611161740100_InitialCreate.resx">
-      <DependentUpon>201611161740100_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
