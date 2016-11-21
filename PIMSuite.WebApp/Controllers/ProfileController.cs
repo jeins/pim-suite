@@ -22,7 +22,6 @@ namespace PIMSuite.WebApp.Controllers
         [AuthorizationFilter]
         public ViewResult Index(string sort, int? page, string searchString)
         {
-            //TODO:: entities should be in english
             var users = from u in _dataContext.Users select u;
             var pageSize = 6;
             var pageNumber = (page ?? 1);
@@ -54,9 +53,8 @@ namespace PIMSuite.WebApp.Controllers
             {
                 return RedirectToAction("Index", "Profile");
             }
-
-            //TODO:: check if userId equals userId in the cookie, then enable edit profile button
-            ViewBag.EnableEditProfile = CheckCurrentUser(userId);
+            
+            ViewBag.EnableEditProfile = CheckCurrentUser(guid);
 
             return View(user);
         }
@@ -90,8 +88,13 @@ namespace PIMSuite.WebApp.Controllers
             return users;
         }
 
-        private bool CheckCurrentUser(string userId)
+        private bool CheckCurrentUser(Guid userId)
         {
+            User user = ViewBag.User;
+            if (user.UserId.Equals(userId))
+            {
+                return true;
+            }
             return false;
         }
     }
