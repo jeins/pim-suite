@@ -7,7 +7,7 @@
     ViewBag.LabelEMail = "Email";
     ViewBag.ViewProfile = "Profile Anzeigen";
     ViewBag.Search = "Suche...";
-    ViewBag.Status = "Offline"; //TODO:: change if signlar already implement
+    ViewBag.isOnline = false; //TODO:: change if signlar already implement
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
 }
 <link href="~/Content/custom.css" rel="stylesheet" />
@@ -21,7 +21,7 @@
             <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
                 @using (Html.BeginForm("Index", "Profile", FormMethod.Get, new { @class = "input-group" }))
                 {
-                    @Html.TextBox("SearchString", null, new { @class = "form-control" })
+                    @Html.TextBox("SearchString", null, new { @class = "form-control", placeholder = ViewBag.Search })
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
                     </span>
@@ -37,18 +37,10 @@
             <div class="x_panel">
                 <div class="x_content">
                     <div class="row pull-right">
-                        @if (ViewBag.AvailableSortType == "desc")
-                        {
-                            <a href="@Url.Action("Index", "Profile", new {sort = ViewBag.AvailableSortType})" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Sort DESC" role="button">
-                                Sort <i class="fa fa-sort-alpha-desc"></i>
-                            </a>
-                        }
-                        else
-                        {
-                            <a href="@Url.Action("Index", "Profile", new {sort = ViewBag.AvailableSortType})" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Sort ASC" role="button">
-                                Sort <i class="fa fa-sort-alpha-asc"></i>
-                            </a>
-                        }
+                        <a href="@Url.Action("Index", "Profile", new {sort = ViewBag.AvailableSortType, searchString = ViewBag.SearchString})"
+                           class="btn btn-default" data-toggle="tooltip" data-placement="top" role="button" title="sort @ViewBag.AvailableSortType">
+                            Sort <i class="fa fa-sort-alpha-@ViewBag.AvailableSortType"></i>
+                        </a>
                     </div>
                     <div class="row">
                         <div class="col-md-12 col-sm-12 col-xs-12 text-center">
@@ -61,7 +53,6 @@
                             <div class="col-md-4 col-sm-4 col-xs-12 profile_details">
                                 <div class="well profile_view">
                                     <div class="col-sm-12">
-                                        <h4 class="brief"><i>Digital Strategist</i></h4>
                                         <div class="left col-xs-7">
                                             <h2>@Html.DisplayFor(m => user.Lastname), @Html.DisplayFor(m => user.Firstname)</h2>
                                             <ul class="list-unstyled">
@@ -74,17 +65,21 @@
                                         </div>
                                     </div>
                                     <div class="col-xs-12 bottom text-center">
-                                        <div class="col-xs-12 col-sm-6 emphasis">
-                                        </div>
-                                        <div class="col-xs-12 col-sm-6 emphasis">
-
+                                        @if (ViewBag.isOnline)
+                                        {
+                                            <a href="#" class="btn btn-success btn-xs disabled" role="button">
+                                                <i class="fa fa-power-off"> </i> Online
+                                            </a>
+                                        }
+                                        else
+                                        {
                                             <a href="#" class="btn btn-danger btn-xs disabled" role="button">
-                                                <i class="fa fa-power-off"> </i> @ViewBag.Status
+                                                <i class="fa fa-power-off"> </i> Offline
                                             </a>
-                                            <a href="@Url.Action("Show", "Profile", new {userId = user.UserId.ToString()})" class="btn btn-primary btn-xs" role="button">
-                                                <i class="fa fa-user"> </i> @ViewBag.ViewProfile
-                                            </a>
-                                        </div>
+                                        }
+                                        <a href="@Url.Action("Show", "Profile", new {userId = user.UserId.ToString()})" class="btn btn-primary btn-xs" role="button">
+                                            <i class="fa fa-user"> </i> @ViewBag.ViewProfile
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -99,7 +94,7 @@
 @section scripts {
     <script>
         $(function () {
-            $('[data-toggle="tooltip"]').tooltip()
+            $('[data-toggle="tooltip"]').tooltip();
         })
     </script>
 }
