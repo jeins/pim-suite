@@ -63,21 +63,7 @@ namespace PIMSuite.WebApp.Controllers
                 userRepository.Save();
                 ModelState.Clear();
                 ViewBag.Message = user.Firstname + " " + user.Lastname + " " + "wurde erfolgreich registriert!";
-                var AuthenticationManager = HttpContext.GetOwinContext().Authentication;
-                var claims = new List<Claim>();
-                claims.Add(new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()));
-                claims.Add(new Claim(ClaimTypes.Name, user.Username));
-                claims.Add(new Claim("userState", user.ToString()));
-
-                var identity = new ClaimsIdentity(claims, DefaultAuthenticationTypes.ApplicationCookie);
-
-                AuthenticationManager.SignIn(new AuthenticationProperties()
-                {
-                    AllowRefresh = true,
-                    IsPersistent = true,
-                    ExpiresUtc = DateTime.UtcNow.AddDays(7)
-                }, identity);
-                Response.Redirect("/Dashboard/");
+                Response.Redirect("/");
             }
             else
             {
