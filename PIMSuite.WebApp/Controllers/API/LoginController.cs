@@ -12,6 +12,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
 using System.Security.Claims;
 using System.Web;
+using PIMSuite.Utilities.Auth;
 
 namespace PIMSuite.WebApp.Controllers.API
 {
@@ -43,8 +44,8 @@ namespace PIMSuite.WebApp.Controllers.API
                     {
                         user = context.Users.SingleOrDefault(p => p.Username == model.EmailOrUser);
                     }
-
-                    if (user != null && string.Equals(user.Password, model.Password))
+                    var hh = new HashHelper();
+                    if (user != null && hh.Verify(model.Password, user.Password))
                     {
                         ModelState.Clear();
                         var AuthenticationManager = HttpContext.Current.GetOwinContext().Authentication;

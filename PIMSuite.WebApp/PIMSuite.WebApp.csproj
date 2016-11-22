@@ -319,6 +319,10 @@
       <Project>{5389CB79-CDE3-4843-8370-CB81D2ACAED0}</Project>
       <Name>PIMSuite.Persistence</Name>
     </ProjectReference>
+    <ProjectReference Include="..\PIMSuite.Utilities\PIMSuite.Utilities.csproj">
+      <Project>{efdc4c5e-253a-40c0-97be-7e3e6ff46dd3}</Project>
+      <Name>PIMSuite.Utilities</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
