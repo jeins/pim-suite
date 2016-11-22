@@ -6,10 +6,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
 using System.Security.Claims;
+using System.Net;
+using System.Web.Mvc;
 
 namespace PIMSuite.WebApp.Controllers
 {
@@ -83,6 +84,23 @@ namespace PIMSuite.WebApp.Controllers
             {
                 string errors = string.Join("\n", userval.Validate(user).Errors);
                 ViewBag.Message = errors;
+            }
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Validation(String token)
+        {
+            User user;
+            using (DataContext context = new DataContext())
+            {
+                user = context.Users.SingleOrDefault(p => p.ValidationToken == token); 
+
+                if (user == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.Forbidden, "Wrong validation token!");
+                }
+
             }
             return View();
         }
