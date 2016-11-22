@@ -2,6 +2,7 @@
 using PIMSuite.Persistence.Entities;
 using PIMSuite.Persistence.Repositories;
 using PIMSuite.Persistence.Validators;
+using PIMSuite.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,12 +11,12 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
 using System.Security.Claims;
+using PIMSuite.Utilities.Auth;
 
 namespace PIMSuite.WebApp.Controllers
 {
     public class RegistrationController : BaseController
     {
-        public IUserRepository userRepository;
         public ILocationRepository locationRepository;
         public IDepartmentRepository departmentRepository;
 
@@ -24,8 +25,6 @@ namespace PIMSuite.WebApp.Controllers
             this.userRepository = new UserRepository(new DataContext());
             ViewBag.Departments = new SelectList(new DataContext().Departments, "Name", "Name");
             ViewBag.Locations = new SelectList(new DataContext().Locations, "Name", "Name");
-            //this.locationRepository = new LocationRepository(new DataContext());
-            //this.departmentRepository = new DepartmentRepository(new DataContext());
         }
 
 
@@ -55,9 +54,10 @@ namespace PIMSuite.WebApp.Controllers
             var userval = new UserValidator();
             if (ModelState.IsValid && userval.Validate(user).IsValid)
             {
+                var hh = new HashHelper();
                 //TODO: Bis auf Weiteres zum besseren Testen immer aktiv
                 user.isAdmin = true;
-
+                user.Password = hh.Hash(user.Password);
 
                 userRepository.InsertUser(user);
                 userRepository.Save();
