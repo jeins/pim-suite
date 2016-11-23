@@ -13,6 +13,8 @@ using System.Security.Claims;
 using PIMSuite.Utilities.Auth;
 using System.Net;
 using System.Web.Mvc;
+using System.Text;
+using System.Security.Cryptography;
 
 namespace PIMSuite.WebApp.Controllers
 {
@@ -20,6 +22,7 @@ namespace PIMSuite.WebApp.Controllers
     {
         public ILocationRepository locationRepository;
         public IDepartmentRepository departmentRepository;
+        public const int validationTokenSize = 24;
 
         public RegistrationController()
         {
@@ -59,7 +62,7 @@ namespace PIMSuite.WebApp.Controllers
                 //TODO: Bis auf Weiteres zum besseren Testen immer aktiv
                 user.isAdmin = true;
                 user.Password = hh.Hash(user.Password);
-
+                user.ValidationToken = GenerateValidationToken(validationTokenSize);
                 userRepository.InsertUser(user);
                 userRepository.Save();
                 ModelState.Clear();
@@ -81,14 +84,46 @@ namespace PIMSuite.WebApp.Controllers
             using (DataContext context = new DataContext())
             {
                 user = context.Users.SingleOrDefault(p => p.ValidationToken == token); 
-
                 if (user == null)
                 {
                     return new HttpStatusCodeResult(HttpStatusCode.Forbidden, "Wrong validation token!");
+                }
+                else
+                {
+                    user.ValidationToken = null;
+                    user.isValidated = true;
+                    userRepository.UpdateUser(user);
+                    userRepository.Save();
+                    ModelState.Clear();
+                    ViewBag.Message = user.Firstname + " " + user.Lastname + " " + "wurde erfolgreich validiert!";
+                    Response.Redirect("/");
                 }
 
             }
             return View();
         }
+
+        private String GenerateValidationToken(int size) //TODO: Methode auslagern
+        {
+            {
+                char[] chars = new char[62];
+                chars =
+                "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890".ToCharArray();
+                byte[] data = new byte[1];
+                using (RNGCryptoServiceProvider crypto = new RNGCryptoServiceProvider())
+                {
+                    crypto.GetNonZeroBytes(data);
+                    data = new byte[size];
+                    crypto.GetNonZeroBytes(data);
+                }
+                StringBuilder result = new StringBuilder(size);
+                foreach (byte b in data)
+                {
+                    result.Append(chars[b % (chars.Length)]);
+                }
+                return result.ToString();
+            }
+        }
+
     }
 }

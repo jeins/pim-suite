@@ -80,6 +80,10 @@ namespace PIMSuite.Persistence.Entities
         [JsonIgnore]
         public string ValidationToken { get; set; }
 
+        [Display(Name = "Validated")]
+        [JsonIgnore]
+        public Boolean isValidated { get; set; }
+
 
         // TODO: remaining properties
     }
