@@ -27,8 +27,11 @@ namespace PIMSuite.WebApp.Controllers
                     HttpContext.GetOwinContext().Authentication.SignOut();
                     Response.Redirect("/");
                 }
-                ViewBag.FullName = user.Firstname + " " + user.Lastname;
-                ViewBag.User = user;
+                else
+                {
+                    ViewBag.FullName = user.Firstname + " " + user.Lastname;
+                    ViewBag.User = user;
+                }
             }
         }
 
