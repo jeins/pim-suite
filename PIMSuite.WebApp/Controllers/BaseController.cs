@@ -17,15 +17,19 @@ namespace PIMSuite.WebApp.Controllers
         {
             base.Initialize(requestContext);
 
-            try
+            if (HttpContext.GetOwinContext().Authentication.User.Identity.IsAuthenticated)
             {
                 this.userRepository = new UserRepository(new DataContext());
                 var username = HttpContext.GetOwinContext().Authentication.User.Identity.Name;
                 var user = userRepository.GetUserByUsername(username);
+                if (user == null)
+                {
+                    HttpContext.GetOwinContext().Authentication.SignOut();
+                    Response.Redirect("/");
+                }
                 ViewBag.FullName = user.Firstname + " " + user.Lastname;
                 ViewBag.User = user;
             }
-            catch (Exception e) { }
         }
 
     }
