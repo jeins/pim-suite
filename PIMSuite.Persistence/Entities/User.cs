@@ -1,4 +1,5 @@
 ﻿using FluentValidation.Attributes;
+using Newtonsoft.Json;
 using PIMSuite.Persistence.Validators;
 using System;
 using System.Collections.Generic;
@@ -67,12 +68,21 @@ namespace PIMSuite.Persistence.Entities
         [Required(ErrorMessage = "Passwort ist erforderlich!")]
         [DataType(DataType.Password)]
         [Display(Name = "Passwort")]
+        [JsonIgnore]
         public string Password { get; set; }
 
         [Display(Name = "Administrator")]
         public Boolean isAdmin { get; set; }
 
         public DateTime Creation { get; set; }
+               
+        [Display(Name = "Validation Token")]
+        [JsonIgnore]
+        public string ValidationToken { get; set; }
+
+        [Display(Name = "Validated")]
+        [JsonIgnore]
+        public Boolean isValidated { get; set; }
 
 
         // TODO: remaining properties
