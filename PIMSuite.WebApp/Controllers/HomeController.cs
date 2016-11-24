@@ -12,8 +12,10 @@ namespace PIMSuite.WebApp.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Index()
+        public ActionResult Index(String infoMessage, String successMessage)
         {
+            ViewBag.infoMessage = infoMessage;
+            ViewBag.successMessage = successMessage;
             //Testdaten
             IDepartmentRepository departmentRepository = new DepartmentRepository(new DataContext());
             ILocationRepository locationRepository = new LocationRepository(new DataContext());

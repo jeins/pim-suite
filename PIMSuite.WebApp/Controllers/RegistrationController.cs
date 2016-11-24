@@ -69,7 +69,7 @@ namespace PIMSuite.WebApp.Controllers
                 ModelState.Clear();
                 ViewBag.Message = user.Firstname + " " + user.Lastname + " " + "wurde erfolgreich registriert!";                
                 EmailHelper.SendMail("smtp.gmail.com", "PIMSuiteASP@gmail.com", "noreplyASP", user.Email, "Your Validation Code for the PIM Suite", "Validation Link: " + Request.Url.GetLeftPart(UriPartial.Authority) + "/Registration/Validation?token=" + user.ValidationToken);
-                Response.Redirect("/");
+                Response.Redirect("/?infoMessage=A validation link has been sent to your mail-address, please check your mails and click the link to validate!");
             }
             else
             {
@@ -98,7 +98,7 @@ namespace PIMSuite.WebApp.Controllers
                     userRepository.Save();
                     ModelState.Clear();
                     ViewBag.Message = user.Firstname + " " + user.Lastname + " " + "wurde erfolgreich validiert!";
-                    Response.Redirect("/");
+                    Response.Redirect("/?successMessage=" + user.Email + " has been successfully validated! You can now login, congratulations!");
                 }
 
             }

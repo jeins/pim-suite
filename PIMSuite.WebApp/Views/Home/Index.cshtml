@@ -11,6 +11,20 @@
         <img id="profile-img" class="profile-img-card" src="~/Content/images/logo_square.png" />
         <p id="profile-name" class="profile-name-card"></p>
         <form class="form-signin">
+            @{
+                if (ViewBag.successMessage != null)
+                {
+                    <div class="alert alert-success">
+                        @ViewBag.successMessage
+                    </div>
+                }
+                if (ViewBag.infoMessage != null)
+                {
+                    <div class="alert alert-info">
+                        @ViewBag.infoMessage
+                    </div>
+                }
+            }
             <div class="alert alert-danger login-fail">
             </div>
             <span id="reauth-email" class="reauth-email"></span>
