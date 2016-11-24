@@ -15,6 +15,7 @@ using System.Net;
 using System.Web.Mvc;
 using System.Text;
 using System.Security.Cryptography;
+using PIMSuite.Utilities.Mail;
 
 namespace PIMSuite.WebApp.Controllers
 {
@@ -58,15 +59,16 @@ namespace PIMSuite.WebApp.Controllers
             var userval = new UserValidator();
             if (ModelState.IsValid && userval.Validate(user).IsValid)
             {
-                var hh = new HashHelper();
+                var hh = new HashHelper();                
                 //TODO: Bis auf Weiteres zum besseren Testen immer aktiv
                 user.isAdmin = true;
                 user.Password = hh.Hash(user.Password);
-                user.ValidationToken = GenerateValidationToken(validationTokenSize);
+                user.ValidationToken = TokenGenerator.GenerateValidationToken(validationTokenSize);
                 userRepository.InsertUser(user);
                 userRepository.Save();
                 ModelState.Clear();
                 ViewBag.Message = user.Firstname + " " + user.Lastname + " " + "wurde erfolgreich registriert!";
+                EmailHelper.SendMail("smtp.gmail.com", "PIMSuiteASP@gmail.com", "noreplyASP", user.Email, "Your Validation Code for the PIM Suite", "Validation Code: " + user.ValidationToken);
                 Response.Redirect("/");
             }
             else
@@ -103,27 +105,7 @@ namespace PIMSuite.WebApp.Controllers
             return View();
         }
 
-        private String GenerateValidationToken(int size) //TODO: Methode auslagern
-        {
-            {
-                char[] chars = new char[62];
-                chars =
-                "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890".ToCharArray();
-                byte[] data = new byte[1];
-                using (RNGCryptoServiceProvider crypto = new RNGCryptoServiceProvider())
-                {
-                    crypto.GetNonZeroBytes(data);
-                    data = new byte[size];
-                    crypto.GetNonZeroBytes(data);
-                }
-                StringBuilder result = new StringBuilder(size);
-                foreach (byte b in data)
-                {
-                    result.Append(chars[b % (chars.Length)]);
-                }
-                return result.ToString();
-            }
-        }
+
 
     }
 }
