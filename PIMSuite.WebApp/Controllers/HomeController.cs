@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using PIMSuite.Persistence;
 using PIMSuite.Persistence.Entities;
 using PIMSuite.Persistence.Repositories;
+using PIMSuite.Utilities.Auth;
 
 namespace PIMSuite.WebApp.Controllers
 {
@@ -42,7 +43,7 @@ namespace PIMSuite.WebApp.Controllers
                     PhoneNumber = "12345678",
                     DepartmentName = "IT-Support",
                     LocationName = "Berlin",
-                    Password = "mustermann",
+                    Password = new HashHelper().Hash("mustermann"),
                     isAdmin = true
 
                 };
@@ -50,7 +51,7 @@ namespace PIMSuite.WebApp.Controllers
                 userRepository.Save();
             }
 
-            if (HttpContext.GetOwinContext().Authentication.User.Identity.IsAuthenticated && userRepository.GetUserByUsername(HttpContext.GetOwinContext().Authentication.User.Identity.Name).isValidated)
+            if (HttpContext.GetOwinContext().Authentication.User.Identity.IsAuthenticated)
             {
                 Response.Redirect("/Dashboard/");
             }

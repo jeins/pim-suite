@@ -11,7 +11,8 @@
 <div class="container">
     <div class="card card-container">
         <a href="@Url.Content("~")"><i class="material-icons reg_back">arrow_back</i></a>
-        <img id="profile-img" class="profile-img-card" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" />
+        @*<img id="profile-img" class="profile-img-card" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" />*@
+        <img id="profile-img" class="profile-img-card" src="~/Content/images/logo_square.png" />
         <p id="profile-name" class="profile-name-card"></p>
         @using (Html.BeginForm("Registration", "Registration", FormMethod.Post, new { @class = "form-signin" }))
         {

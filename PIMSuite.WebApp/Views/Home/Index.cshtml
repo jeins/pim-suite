@@ -7,11 +7,11 @@
 
 <div class="container">
     <div class="card card-container">
-        <img id="profile-img" class="profile-img-card" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" />
+        @*<img id="profile-img" class="profile-img-card" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" />*@
+        <img id="profile-img" class="profile-img-card" src="~/Content/images/logo_square.png" />
         <p id="profile-name" class="profile-name-card"></p>
         <form class="form-signin">
             <div class="alert alert-danger login-fail">
-                Benutzername / E-Mail oder Passwort falsch
             </div>
             <span id="reauth-email" class="reauth-email"></span>
             <input type="email" id="inputEmail" data-bind="textInput: emailOrUser" class="form-control" placeholder="Benutzername / E-Mail-Adresse" required autofocus>

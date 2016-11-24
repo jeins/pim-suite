@@ -19,7 +19,8 @@
                 202: function () {
                     window.location.href = '/Dashboard/';
                 },
-                403: function () {
+                403: function (jqXHR, textStatus, errorThrown) {
+                    $(".login-fail").text(JSON.parse(jqXHR.responseText));
                     $(".login-fail").show();
                 }
             }
