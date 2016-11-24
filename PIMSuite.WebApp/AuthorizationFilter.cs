@@ -24,6 +24,11 @@ namespace PIMSuite.WebApp
                 this.userRepository = new UserRepository(new DataContext());
                 var username = HttpContext.Current.GetOwinContext().Authentication.User.Identity.Name;
                 var user = userRepository.GetUserByUsername(username);
+                if (user == null)
+                {
+                    HttpContext.Current.GetOwinContext().Authentication.SignOut();
+                    return;
+                }
                 if (user.isValidated)
                 {
                     return;
