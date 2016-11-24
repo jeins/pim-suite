@@ -203,6 +203,8 @@
     <Content Include="Content\font-awesome\fonts\fontawesome-webfont.svg" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\images\loginbg.jpg" />
+    <Content Include="Content\images\logo_big.png" />
+    <Content Include="Content\images\logo_square.png" />
     <Content Include="Content\images\no_propic.png" />
     <Content Include="Content\login.css" />
     <Content Include="Content\management.css" />
