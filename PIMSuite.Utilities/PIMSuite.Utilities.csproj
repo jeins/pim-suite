@@ -45,6 +45,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Auth\IHashHelper.cs" />
+    <Compile Include="Auth\TokenGenerator.cs" />
+    <Compile Include="Mail\EmailHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
