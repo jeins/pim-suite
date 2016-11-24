@@ -1,4 +1,7 @@
-﻿using System;
+﻿using PIMSuite.Persistence;
+using PIMSuite.Persistence.Repositories;
+using System;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
@@ -6,6 +9,7 @@ namespace PIMSuite.WebApp
 {
     public class AuthorizationFilter : AuthorizeAttribute, IAuthorizationFilter
     {
+        public IUserRepository userRepository;
         public void OnAuthorization(AuthorizationContext filterContext)
         {
             if (filterContext.ActionDescriptor.IsDefined(typeof(AllowAnonymousAttribute), true)
@@ -17,13 +21,30 @@ namespace PIMSuite.WebApp
 
             if (HttpContext.Current.GetOwinContext().Authentication.User.Identity.IsAuthenticated)
             {
-                return;
+                this.userRepository = new UserRepository(new DataContext());
+                var username = HttpContext.Current.GetOwinContext().Authentication.User.Identity.Name;
+                var user = userRepository.GetUserByUsername(username);
+                if (user.isValidated)
+                {
+                    return;
+                }
+                else
+                {
+                    filterContext.Result = new HttpStatusCodeResult(403, "User is not validated!");
+                                        
+
+                }
             }
-            // Check for authorization
             else
             {
                 filterContext.Result = filterContext.Result = new HttpUnauthorizedResult();
             }
+            }  
+
+
+            // Check for authorization
+
         }
-    }
 }
+
+

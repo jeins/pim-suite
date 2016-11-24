@@ -67,8 +67,8 @@ namespace PIMSuite.WebApp.Controllers
                 userRepository.InsertUser(user);
                 userRepository.Save();
                 ModelState.Clear();
-                ViewBag.Message = user.Firstname + " " + user.Lastname + " " + "wurde erfolgreich registriert!";
-                EmailHelper.SendMail("smtp.gmail.com", "PIMSuiteASP@gmail.com", "noreplyASP", user.Email, "Your Validation Code for the PIM Suite", "Validation Code: " + user.ValidationToken);
+                ViewBag.Message = user.Firstname + " " + user.Lastname + " " + "wurde erfolgreich registriert!";                
+                EmailHelper.SendMail("smtp.gmail.com", "PIMSuiteASP@gmail.com", "noreplyASP", user.Email, "Your Validation Code for the PIM Suite", "Validation Link: " + Request.Url.GetLeftPart(UriPartial.Authority) + "/Registration/Validation?token=" + user.ValidationToken);
                 Response.Redirect("/");
             }
             else
@@ -79,7 +79,7 @@ namespace PIMSuite.WebApp.Controllers
             return View();
         }
 
-        [HttpPost]
+        [HttpGet]
         public ActionResult Validation(String token)
         {
             User user;

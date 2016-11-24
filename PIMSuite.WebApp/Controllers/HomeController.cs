@@ -50,7 +50,7 @@ namespace PIMSuite.WebApp.Controllers
                 userRepository.Save();
             }
 
-            if (HttpContext.GetOwinContext().Authentication.User.Identity.IsAuthenticated)
+            if (HttpContext.GetOwinContext().Authentication.User.Identity.IsAuthenticated && userRepository.GetUserByUsername(HttpContext.GetOwinContext().Authentication.User.Identity.Name).isValidated)
             {
                 Response.Redirect("/Dashboard/");
             }
