@@ -66,13 +66,17 @@
     <Compile Include="Entities\User.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\ConnectionRepository.cs" />
     <Compile Include="Repositories\DepartmentRepository.cs" />
+    <Compile Include="Repositories\IConnectionRepository.cs" />
     <Compile Include="Repositories\IDepartmentRepository.cs" />
     <Compile Include="Repositories\ILeadershipRepository.cs" />
     <Compile Include="Repositories\ILocationRepository.cs" />
+    <Compile Include="Repositories\IMessageRepository.cs" />
     <Compile Include="Repositories\IUserRepository.cs" />
     <Compile Include="Repositories\LeadershipRepository.cs" />
     <Compile Include="Repositories\LocationRepository.cs" />
+    <Compile Include="Repositories\MessageRepository.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="Validators\UserValidator.cs" />
   </ItemGroup>
