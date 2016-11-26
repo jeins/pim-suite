@@ -16,6 +16,8 @@ namespace PIMSuite.Persistence
         public DbSet<Leadership> Leaderships { get; set; }
         public DbSet<Department> Departments { get; set; }
         public DbSet<Location> Locations { get; set; }
+        public DbSet<Message> Messages { get; set; }
+        public DbSet<Connection> Connections { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
