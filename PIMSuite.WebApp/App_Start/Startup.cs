@@ -23,6 +23,9 @@ namespace PIMSuite.WebApp.App_Start
             });
 
             AntiForgeryConfig.UniqueClaimTypeIdentifier = ClaimTypes.NameIdentifier;
+
+            // SignalR hub configuration
+            app.MapSignalR();
         }
     }
 }
