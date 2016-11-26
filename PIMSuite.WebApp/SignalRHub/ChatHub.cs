@@ -4,32 +4,29 @@ using System.Collections.Generic;
 using System.Linq;
 using PIMSuite.Persistence;
 using PIMSuite.Persistence.Entities;
+using PIMSuite.Persistence.Repositories;
 
 namespace PIMSuite.WebApp.SignalRHub
 {
     public class ChatHub : Microsoft.AspNet.SignalR.Hub
     {
         private DataContext _dataContext;
+        private IConnectionRepository _connectionRepository;
+        private IMessageRepository _messageRepository;
 
         public ChatHub()
         {
             _dataContext = new DataContext();
+            _connectionRepository = new ConnectionRepository(_dataContext);
+            _messageRepository = new MessageRepository(_dataContext);
         }
 
         public void SendMessage(string toUserId, string message)
         {
             var receiver = _dataContext.Connections.FirstOrDefault(c => c.UserId.ToString().Equals(toUserId));
             var sender = _dataContext.Connections.FirstOrDefault(c => c.ConnectionId == Context.ConnectionId);
-            var dbMessage = new Message
-            {
-                ReceiverUserId = new Guid(toUserId),
-                SenderUserId = sender.UserId,
-                MessageBody = message,
-                IsRead = false
-            };
 
-            _dataContext.Messages.Add(dbMessage);
-            _dataContext.SaveChanges();
+            _messageRepository.InsertMessage(sender.UserId, new Guid(toUserId), message);
 
             Clients.Client(Context.ConnectionId).onSendMessage(sender.User.Lastname, message);
 
@@ -40,42 +37,20 @@ namespace PIMSuite.WebApp.SignalRHub
         {
             var connectionId = Context.ConnectionId;
             var userGuid = new Guid(userId);
-            var connectedUsers = _dataContext.Connections.Where(c => c.UserId != userGuid);
+            var connectedUsers = _connectionRepository.GetConnectedUsers(userGuid);
             var currentUser = _dataContext.Users.FirstOrDefault(u => u.UserId.Equals(userGuid));
 
             if (!IsUserIdExistOnConnection(userGuid))
             {
-                var connection = new Connection
-                {
-                    ConnectionId = connectionId,
-                    UserId = userGuid
-                };
-                _dataContext.Connections.Add(connection);
-                _dataContext.SaveChanges();
+                _connectionRepository.InsertConnection(userGuid, connectionId);
             }
             else
             {
-                var connection = _dataContext.Connections.SingleOrDefault(c => c.UserId.Equals(userGuid));
-                if (connection != null)
-                {
-                    connection.ConnectionId = connectionId;
-                    _dataContext.SaveChanges();
-                }
+                _connectionRepository.UpdateConnection(userGuid, connectionId);
             }
 
             Clients.Caller.onConnected(connectedUsers.ToArray());
             Clients.AllExcept(connectionId).onNewUserConnected(userId, currentUser);
-        }
-
-        //TODO: needed to move MessageRepository
-        private List<string[]> GetChatHistory(Guid senderUserId, Guid receiverUserId)
-        {
-            var chatHistory = new List<string[]>();
-            var messages =
-                _dataContext.Messages
-                            .Where(m => m.ReceiverUserId.Equals(receiverUserId) && m.SenderUserId.Equals(senderUserId))
-                            .ToList();
-            return null;
         }
 
         private bool IsUserIdExistOnConnection(Guid userId)
