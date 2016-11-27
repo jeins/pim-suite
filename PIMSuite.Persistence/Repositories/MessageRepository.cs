@@ -26,6 +26,7 @@ namespace PIMSuite.Persistence.Repositories
                         m.ReceiverUserId.Equals(receiverUserGuid) && m.SenderUserId.Equals(senderUserGuid) ||
                         m.SenderUserId.Equals(receiverUserGuid) && m.ReceiverUserId.Equals(senderUserGuid)
                 )
+                .OrderBy(m=>m.CreatedAt)
                 .ToList();
 
             foreach (var message in messages)
@@ -71,12 +72,26 @@ namespace PIMSuite.Persistence.Repositories
             }
         }
 
-        public IEnumerable<string[]> GetUnReadMessages(Guid receiverUserGuid)
+        public void SetMessageStatusToRead(Guid receiverUserGuid, Guid senderUserGuid)
+        {
+            var messages =
+                _dataContext.Messages.Where(m => m.ReceiverUserId.Equals(receiverUserGuid) && m.SenderUserId.Equals(senderUserGuid) && m.IsRead == false);
+
+            foreach (var message in messages)
+            {
+                message.IsRead = true;
+            }
+
+            _dataContext.SaveChanges();
+        }
+
+        public IEnumerable<string[]> GetUnReadMessages(Guid receiverUserGuid, Guid senderUserGuid)
         {
             var unReadMessages = new List<string[]>();
             var messages =
                 _dataContext.Messages
-                    .Where(m => m.ReceiverUserId.Equals(receiverUserGuid) && m.IsRead == false)
+                    .Where(m => m.ReceiverUserId.Equals(receiverUserGuid) && m.SenderUserId.Equals(senderUserGuid) && m.IsRead == false)
+                    .OrderBy(m => m.CreatedAt)
                     .ToList();
 
             foreach (var message in messages)

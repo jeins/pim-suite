@@ -13,6 +13,7 @@ namespace PIMSuite.Persistence.Repositories
         IEnumerable<string[]> GetMessageHistories(Guid senderUserGuid, Guid receiverUserGuid);
         Guid InsertMessage(Guid senderUserGuid, Guid receiverUserGuid, string messageBody);
         void UpdateMessageStatus(Guid messageGuid, bool isRead);
-        IEnumerable<string[]> GetUnReadMessages(Guid receiverUserGuid);
+        void SetMessageStatusToRead(Guid receiverUserGuid, Guid senderUserGuid);
+        IEnumerable<string[]> GetUnReadMessages(Guid receiverUserGuid, Guid senderUserGuid);
     }
 }
