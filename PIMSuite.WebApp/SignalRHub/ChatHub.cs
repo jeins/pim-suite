@@ -55,8 +55,8 @@ namespace PIMSuite.WebApp.SignalRHub
                 _connectionRepository.UpdateConnection(userGuid, connectionId);
             }
 
-            Clients.Caller.onConnected(connectedUsers.ToArray());
-            Clients.AllExcept(connectionId).onNewUserConnected(userId, currentUser);
+            Clients.Caller.loadConnectedUser(connectedUsers.ToArray());
+            Clients.AllExcept(connectionId).onNewUserConnected(userId);
         }
 
         public void LoadChatHistories(string senderUserId, string receiverUserId)

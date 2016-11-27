@@ -24,6 +24,15 @@ $('#users').on('click', 'li#userList', function () {
     chat.server.readMessage(sender, receiver);
 });
 
+chat.client.onNewUserConnected = function (userId) {
+    updateUserStatus(userId, 'Online');
+}
+
+chat.client.loadConnectedUser = function(users) {
+    $.each(users, function(i, user) {
+        updateUserStatus(user.UserId, 'Online');
+    });
+}
 
 chat.client.onSendMessageToSender = function (lastName, messageBody, dateTime, senderOrReceiver) {
     var html = getChatTemplate(senderOrReceiver, messageBody, dateTime);
@@ -87,4 +96,21 @@ function getChatTemplate(senderOrReceiver, messageBody, dateTime) {
     html += '<div class="chat_time pull-left">' + dateTime + '</div>';
     html += '</div></li>';
     return html;
+}
+
+function updateUserStatus(userId, onlineOrOffline) {
+    $('#statusUserId').each(function (i, statusUserId) {
+        if ($(statusUserId).val() === userId) {
+            var userStatus = $(statusUserId).parent();
+
+            if (onlineOrOffline === 'Online') {
+                $(userStatus).removeClass('btn-danger');
+                $(userStatus).addClass('btn-success');
+            } else {
+                $(userStatus).removeClass('btn-success');
+                $(userStatus).addClass('btn-danger');
+            }
+            $(userStatus).attr('onlineOffline').text(onlineOrOffline);
+        }
+    });
 }
