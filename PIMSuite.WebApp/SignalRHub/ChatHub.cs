@@ -53,6 +53,13 @@ namespace PIMSuite.WebApp.SignalRHub
             Clients.AllExcept(connectionId).onNewUserConnected(userId, currentUser);
         }
 
+        public void LoadChatHistories(string senderUserId, string receiverUserId)
+        {
+            var chatHistories = _messageRepository.GetMessageHistories(new Guid(senderUserId), new Guid(receiverUserId));
+
+            Clients.Caller.loadChatHistories(chatHistories);
+        }
+
         private bool IsUserIdExistOnConnection(Guid userId)
         {
             var count = _dataContext.Connections.Count(u => u.UserId == userId);

@@ -87,10 +87,22 @@
             $('#userId').val(receiver);
             $('#chatWith').text('chat with: ' + $(this).attr('user-lastname'));
             $(this).toggleClass('selectedUser');
+
+            chat.server.loadChatHistories(sender, receiver);
         });
 
         chat.client.onSendMessage = function (lastName, messageBody, senderOrReceiver) {
             var html = getChatTemplate(senderOrReceiver, messageBody);
+            $('#messageColumn').append(html);
+        }
+
+        chat.client.loadChatHistories = function (chatHistories) {
+            var html = '';
+
+            $.each(chatHistories, function(key, chatHistory) {
+                html += getChatTemplate(chatHistory[0], chatHistory[1]);
+            });
+
             $('#messageColumn').append(html);
         }
 
