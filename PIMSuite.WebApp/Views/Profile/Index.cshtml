@@ -77,6 +77,9 @@
                                                 <i class="fa fa-power-off"> </i> Offline
                                             </a>
                                         }
+                                        <a href="@Url.Action("Index", "Chat", new {toUserId = user.UserId.ToString()})" class="btn btn-primary btn-xs" role="button">
+                                            <i class="fa fa-comments-o"></i> Chat
+                                        </a>
                                         <a href="@Url.Action("Show", "Profile", new {userId = user.UserId.ToString()})" class="btn btn-primary btn-xs" role="button">
                                             <i class="fa fa-user"> </i> @ViewBag.ViewProfile
                                         </a>

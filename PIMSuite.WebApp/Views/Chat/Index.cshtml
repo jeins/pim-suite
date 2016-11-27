@@ -22,7 +22,7 @@
                         <ul class="list-unstyled" id="users">
                             @foreach (var user in Model)
                             {
-                                <li class="left clearfix" id="userList" user-id="@Html.DisplayFor(m => user.UserId)" user-lastname="@Html.DisplayFor(m => user.Lastname)">
+                                <li class="left clearfix @(ViewBag.ChatToUserId == user.UserId.ToString() ? "selectedUser" : null)" id="userList" user-id="@Html.DisplayFor(m => user.UserId)" user-lastname="@Html.DisplayFor(m => user.Lastname)">
                                     <div class="chat-body clearfix">
                                         <div class="header_sec">
                                             <strong class="primary-font">@Html.DisplayFor(m => user.Lastname)</strong>
@@ -46,7 +46,19 @@
                     </div><!--new_message_head-->
 
                     <div class="chat_area">
-                        <ul class="list-unstyled" id="messageColumn"></ul>
+                        <ul class="list-unstyled" id="messageColumn">
+                            @foreach (var chatHistory in ViewBag.ChatHistories)
+                            {
+                                <li class="left clearfix @(chatHistory[0] == "sender" ? "admin_chat" : "")">
+                                    <span class="chat-img1 @(chatHistory[0] == "sender" ? "pull-right" : "pull-left")">
+                                        <img src="/Content/images/no_propic.png" alt="User Avatar" class="img-circle"> 
+                                    </span>
+                                    <div class="chat-body1 clearfix @chatHistory[0]">
+                                        <p>@chatHistory[1]</p>
+                                    </div>
+                                </li>
+                            }
+                        </ul>
                     </div><!--chat_area-->
                     <div class="message_write">
                         <textarea class="form-control" id="messageBody" placeholder="type a message"></textarea>
@@ -55,7 +67,7 @@
                             <a href="#" id="sendMessage" class="pull-right btn btn-success">
                                 Send
                             </a>
-                            <input type="hidden" id="userId" value=""/>
+                            <input type="hidden" id="userId" value="@ViewBag.ChatToUserId"/>
                         </div>
                     </div>
                 </div>
@@ -68,6 +80,13 @@
 @section scripts {
     <script>
         var chat = $.connection.chatHub;
+
+        @if (ViewBag.ChatToUserId == null)
+        {
+            <text>
+                $('.message_section').hide();
+            </text>
+        }
 
         $.connection.hub.start().done(function () {
             chat.server.userConnect($('#currUserId').val());
@@ -82,6 +101,7 @@
             var sender = $('#currUserId').val();
             var receiver = $(this).attr('user-id');
 
+            $('.message_section').show();
             $('#users li').removeClass('selectedUser');
             $('#messageColumn li').remove();
             $('#userId').val(receiver);
@@ -99,7 +119,7 @@
         chat.client.loadChatHistories = function (chatHistories) {
             var html = '';
 
-            $.each(chatHistories, function(key, chatHistory) {
+            $.each(chatHistories, function (key, chatHistory) {
                 html += getChatTemplate(chatHistory[0], chatHistory[1]);
             });
 
@@ -118,8 +138,8 @@
 
             html += '<p>' + messageBody + '</p>';
             //            html += '<div class="chat_time pull-left">09:40PM</div>';
-
+            html += '</div></li>';
             return html;
         }
-    </script>
+        </script>
 }
