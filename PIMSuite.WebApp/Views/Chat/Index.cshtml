@@ -26,6 +26,7 @@
                                     <div class="chat-body clearfix">
                                         <div class="header_sec">
                                             <strong class="primary-font">@Html.DisplayFor(m => user.Lastname)</strong>
+                                            <span class="badge pull-right"></span>
                                         </div>
                                     </div>
                                 </li>
@@ -111,9 +112,35 @@
             chat.server.loadChatHistories(sender, receiver);
         });
 
-        chat.client.onSendMessage = function (lastName, messageBody, senderOrReceiver) {
+
+        chat.client.onSendMessageToSender = function(lastName, message, senderOrReceiver) {
             var html = getChatTemplate(senderOrReceiver, messageBody);
             $('#messageColumn').append(html);
+        }
+
+        chat.client.onSendMessageToReceiver = function (messageId, messageBody, senderUserId, receiverUserId, senderOrReceiver) {
+            var html = getChatTemplate(senderOrReceiver, messageBody);
+            $('#messageColumn').append(html);
+
+            if (senderOrReceiver === 'receiver') {
+                var currentChatWithUser = $('#userId').val();
+                if (currentChatWithUser !== senderUserId) {
+                    chat.server.sendNotification(receiverUserId, senderUserId, messageId);
+                }
+            }
+        }
+
+        chat.client.sendNotification = function(unReadMessages, senderUserId) {
+            var count = unReadMessages.length;
+            console.log("target:" + senderUserId);
+            $('#users li').each(function (i, value) {
+                var userId = $(value).attr('user-id');
+                console.log(userId);
+                if (userId === senderUserId) {
+                    $(value).find('.badge').text(count);
+                }
+            });
+            
         }
 
         chat.client.loadChatHistories = function (chatHistories) {
@@ -137,7 +164,7 @@
             }
 
             html += '<p>' + messageBody + '</p>';
-            //            html += '<div class="chat_time pull-left">09:40PM</div>';
+            //html += '<div class="chat_time pull-left">09:40PM</div>';
             html += '</div></li>';
             return html;
         }

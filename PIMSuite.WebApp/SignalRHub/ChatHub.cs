@@ -26,11 +26,11 @@ namespace PIMSuite.WebApp.SignalRHub
             var receiver = _dataContext.Connections.FirstOrDefault(c => c.UserId.ToString().Equals(toUserId));
             var sender = _dataContext.Connections.FirstOrDefault(c => c.ConnectionId == Context.ConnectionId);
 
-            _messageRepository.InsertMessage(sender.UserId, new Guid(toUserId), message);
+            var messageId = _messageRepository.InsertMessage(sender.UserId, new Guid(toUserId), message);
 
-            Clients.Client(Context.ConnectionId).onSendMessage(sender.User.Lastname, message, "sender");
+            Clients.Client(Context.ConnectionId).onSendMessageToSender(sender.User.Lastname, message, "sender");
 
-            if (receiver != null) Clients.Client(receiver.ConnectionId).onSendMessage(receiver.User.Lastname, message, "receiver");
+            if (receiver != null) Clients.Client(receiver.ConnectionId).onSendMessageToReceiver(messageId, message, sender.UserId, receiver.UserId, "receiver");
         }
 
         public void UserConnect(string userId)
@@ -58,6 +58,19 @@ namespace PIMSuite.WebApp.SignalRHub
             var chatHistories = _messageRepository.GetMessageHistories(new Guid(senderUserId), new Guid(receiverUserId));
 
             Clients.Caller.loadChatHistories(chatHistories);
+        }
+
+        public void SendNotification(string receiverUserId, string senderUserId, string messageId)
+        {
+            _messageRepository.UpdateMessageStatus(new Guid(messageId), false);
+            var receiverConnection = _dataContext.Connections.FirstOrDefault(c => c.UserId == new Guid(receiverUserId));
+
+            if (receiverConnection != null)
+            {
+                var unReadMessages = _messageRepository.GetUnReadMessages(new Guid(receiverUserId));
+
+                Clients.Client(receiverConnection.ConnectionId).sendNotification(unReadMessages, senderUserId);
+            }
         }
 
         private bool IsUserIdExistOnConnection(Guid userId)
