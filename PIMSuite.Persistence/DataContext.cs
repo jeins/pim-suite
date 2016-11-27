@@ -16,12 +16,26 @@ namespace PIMSuite.Persistence
         public DbSet<Leadership> Leaderships { get; set; }
         public DbSet<Department> Departments { get; set; }
         public DbSet<Location> Locations { get; set; }
+        public DbSet<Message> Messages { get; set; }
+
+
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             //Database.SetInitializer(new CreateDatabaseIfNotExists<DbContext>());
             Database.SetInitializer(new DropCreateDatabaseIfModelChanges<DbContext>());
+            modelBuilder.Entity<Message>()
+                       .HasRequired(m => m.Sender)
+                       .WithMany(u => u.SentMessages)
+                       .HasForeignKey(m => m.SenderId)
+                       .WillCascadeOnDelete(false);
 
+            modelBuilder.Entity<Message>()
+                       .HasRequired(m => m.Receiver)
+                       .WithMany(u => u.ReceivedMessages)
+                       .HasForeignKey(m => m.ReceiverId)
+                       .WillCascadeOnDelete(false);
+                       
             base.OnModelCreating(modelBuilder);
         }
     }

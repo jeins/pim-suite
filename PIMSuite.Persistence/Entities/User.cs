@@ -84,7 +84,8 @@ namespace PIMSuite.Persistence.Entities
         [JsonIgnore]
         public Boolean isValidated { get; set; }
 
-
+        public ICollection<Message> SentMessages { get; set; }
+        public ICollection<Message> ReceivedMessages { get; set; }
         // TODO: remaining properties
     }
 }
