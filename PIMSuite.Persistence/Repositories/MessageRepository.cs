@@ -44,18 +44,53 @@ namespace PIMSuite.Persistence.Repositories
             return chatHistory;
         }
 
-        public void InsertMessage(Guid senderUserGuid, Guid receiverUserGuid, string messageBody)
+        public Guid InsertMessage(Guid senderUserGuid, Guid receiverUserGuid, string messageBody)
         {
             var message = new Message
             {
                 ReceiverUserId = receiverUserGuid,
                 SenderUserId = senderUserGuid,
                 MessageBody = messageBody,
-                IsRead = false
+                IsRead = true
             };
 
             _dataContext.Messages.Add(message);
             _dataContext.SaveChanges();
+
+            return message.MessageId;
+        }
+
+        public void UpdateMessageStatus(Guid messageGuid, bool isRead)
+        {
+            var message = _dataContext.Messages.FirstOrDefault(m => m.MessageId == messageGuid);
+
+            if (message != null)
+            {
+                message.IsRead = isRead;
+                _dataContext.SaveChanges();
+            }
+        }
+
+        public IEnumerable<string[]> GetUnReadMessages(Guid receiverUserGuid)
+        {
+            var unReadMessages = new List<string[]>();
+            var messages =
+                _dataContext.Messages
+                    .Where(m => m.ReceiverUserId.Equals(receiverUserGuid) && m.IsRead == false)
+                    .ToList();
+
+            foreach (var message in messages)
+            {
+                var tmpArr = new[]
+                {
+                    message.MessageBody,
+                    message.CreatedAt.ToString("g")
+                };
+
+                unReadMessages.Add(tmpArr);
+            }
+
+            return unReadMessages;
         }
     }
 }
