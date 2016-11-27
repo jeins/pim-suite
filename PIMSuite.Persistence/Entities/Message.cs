@@ -12,12 +12,11 @@ namespace PIMSuite.Persistence.Entities
     {
         public Message()
         {
-            MessageId = Guid.NewGuid();
             CreatedAt = DateTime.Now;
         }
-
+        
         [Key]
-        public Guid MessageId { get; set; }
+        public int MessageId { get; set; }
         
         public Guid SenderUserId { get; set; }
         
