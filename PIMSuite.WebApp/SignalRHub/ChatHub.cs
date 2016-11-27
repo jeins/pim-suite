@@ -67,10 +67,17 @@ namespace PIMSuite.WebApp.SignalRHub
 
             if (receiverConnection != null)
             {
-                var unReadMessages = _messageRepository.GetUnReadMessages(new Guid(receiverUserId));
+                var unReadMessages = _messageRepository.GetUnReadMessages(new Guid(receiverUserId), new Guid(senderUserId));
 
                 Clients.Client(receiverConnection.ConnectionId).sendNotification(unReadMessages, senderUserId);
             }
+        }
+
+        public void ReadMessage(string receiverUserId, string senderUserId)
+        {
+            _messageRepository.SetMessageStatusToRead(new Guid(receiverUserId), new Guid(senderUserId));
+
+            Clients.Client(Context.ConnectionId).readMessage(senderUserId);
         }
 
         private bool IsUserIdExistOnConnection(Guid userId)

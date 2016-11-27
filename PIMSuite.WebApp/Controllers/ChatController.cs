@@ -25,8 +25,7 @@ namespace PIMSuite.WebApp.Controllers
         public ActionResult Index(string toUserId)
         {
             User currentUser = ViewBag.User; 
-            var users = _dataContext.Users.Where(u => u.UserId != currentUser.UserId);
-
+           
             ViewBag.ChatToUserId = null;
             ViewBag.ChatHistories = new string[] {};
 
@@ -34,10 +33,32 @@ namespace PIMSuite.WebApp.Controllers
             {
                 ViewBag.ChatToUserId = toUserId;
                 ViewBag.ChatHistories = _messageRepository.GetMessageHistories(currentUser.UserId, new Guid(toUserId));
-
             }
 
-            return View(users);
+            ViewBag.UserList = GetUserWithUnReadMessage();
+
+            return View();
+        }
+
+        private IEnumerable<string[]> GetUserWithUnReadMessage()
+        {
+            User currentUser = ViewBag.User;
+            var users = _dataContext.Users.Where(u => u.UserId != currentUser.UserId);
+            var usersWithUnReadMessages = new List<string[]>();
+
+            foreach (var user in users)
+            {
+                var totalUnReadMessage = _dataContext.Messages.Count(m => m.SenderUserId.Equals(user.UserId) && m.ReceiverUserId.Equals(currentUser.UserId) && m.IsRead == false);
+
+                usersWithUnReadMessages.Add(new[]
+                {
+                    user.UserId.ToString(),
+                    user.Lastname,
+                    totalUnReadMessage.ToString()
+                });
+            }
+
+            return usersWithUnReadMessages;
         }
     }
 }
