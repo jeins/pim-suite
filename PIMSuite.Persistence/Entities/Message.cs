@@ -19,10 +19,8 @@ namespace PIMSuite.Persistence.Entities
         [Key]
         public Guid MessageId { get; set; }
         
-        [ForeignKey("User")]
         public Guid SenderUserId { get; set; }
-
-        [ForeignKey("User")]
+        
         public Guid ReceiverUserId { get; set; }
 
         public string MessageBody { get; set; }

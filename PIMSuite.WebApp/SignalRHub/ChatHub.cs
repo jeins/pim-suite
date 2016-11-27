@@ -28,9 +28,9 @@ namespace PIMSuite.WebApp.SignalRHub
 
             _messageRepository.InsertMessage(sender.UserId, new Guid(toUserId), message);
 
-            Clients.Client(Context.ConnectionId).onSendMessage(sender.User.Lastname, message);
+            Clients.Client(Context.ConnectionId).onSendMessage(sender.User.Lastname, message, "sender");
 
-            if (receiver != null) Clients.Client(receiver.ConnectionId).onSendMessage(receiver.User.Lastname, message);
+            if (receiver != null) Clients.Client(receiver.ConnectionId).onSendMessage(receiver.User.Lastname, message, "receiver");
         }
 
         public void UserConnect(string userId)

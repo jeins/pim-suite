@@ -22,7 +22,10 @@ namespace PIMSuite.Persistence.Repositories
             var chatHistory = new List<string[]>();
             var messages =
                 _dataContext.Messages
-                .Where(m => m.ReceiverUserId.Equals(receiverUserGuid) && m.SenderUserId.Equals(senderUserGuid))
+                .Where(m => 
+                        m.ReceiverUserId.Equals(receiverUserGuid) && m.SenderUserId.Equals(senderUserGuid) ||
+                        m.SenderUserId.Equals(receiverUserGuid) && m.ReceiverUserId.Equals(senderUserGuid)
+                )
                 .ToList();
 
             foreach (var message in messages)
@@ -30,11 +33,9 @@ namespace PIMSuite.Persistence.Repositories
                 var senderOrReceiverLabel = message.SenderUserId.Equals(senderUserGuid) ? "sender" : "receiver";
                 var tmpArr = new[]
                 {
-                    message.SenderUserId.ToString(),
-                    message.ReceiverUserId.ToString(),
+                    senderOrReceiverLabel,
                     message.MessageBody,
-                    message.CreatedAt.ToString("g"),
-                    senderOrReceiverLabel
+                    message.CreatedAt.ToString("g")
                 };
 
                 chatHistory.Add(tmpArr);
