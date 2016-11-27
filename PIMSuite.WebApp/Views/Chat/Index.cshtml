@@ -79,7 +79,6 @@
 
 @section scripts {
     <script>
-        var chat = $.connection.chatHub;
 
         @if (ViewBag.ChatToUserId == null)
         {
@@ -88,96 +87,5 @@
             </text>
         }
 
-        $.connection.hub.start().done(function () {
-            chat.server.userConnect($('#currUserId').val());
-        });
-
-        $('#sendMessage').click(function () {
-            chat.server.sendMessage($('#userId').val(), $('#messageBody').val());
-            $('#messageBody').val('').focus();
-        });
-
-        $('#users').on('click', 'li#userList', function () {
-            var sender = $('#currUserId').val();
-            var receiver = $(this).attr('user-id');
-
-            $('.message_section').show();
-            $('#users li').removeClass('selectedUser');
-            $('#messageColumn li').remove();
-            $('#userId').val(receiver);
-            $('#chatWith').text('chat with: ' + $(this).attr('user-lastname'));
-            $(this).toggleClass('selectedUser');
-
-            chat.server.loadChatHistories(sender, receiver);
-            chat.server.readMessage(sender, receiver);
-        });
-
-
-        chat.client.onSendMessageToSender = function (lastName, messageBody, senderOrReceiver) {
-            var html = getChatTemplate(senderOrReceiver, messageBody);
-            $('#messageColumn').append(html);
-        }
-
-        chat.client.onSendMessageToReceiver = function (messageId, messageBody, senderUserId, receiverUserId, senderOrReceiver) {
-
-            if (senderOrReceiver === 'receiver') {
-                var currentChatWithUser = $('#userId').val();
-                if (currentChatWithUser !== senderUserId) {
-                    chat.server.sendNotification(receiverUserId, senderUserId, messageId);
-                } else {
-                    var html = getChatTemplate(senderOrReceiver, messageBody);
-                    $('#messageColumn').append(html);
-                }
-            }
-
-            chat.server.readMessage(senderUserId, receiverUserId);
-        }
-
-        chat.client.sendNotification = function(unReadMessages, senderUserId) {
-            var count = unReadMessages.length;
-
-            $('#users li').each(function (i, value) {
-                var userId = $(value).attr('user-id');
-                if (userId === senderUserId) {
-                    $(value).find('.badge').text(count);
-                }
-            });
-        }
-
-        chat.client.readMessage = function (senderUserId) {
-            $('#users li').each(function (i, value) {
-                var userId = $(value).attr('user-id');
-                console.log(userId);
-                if (userId === senderUserId) {console.log( "targetr: " + userId + " " + senderUserId)
-                    $(value).find('.badge').text('');
-                }
-            });
-        }
-
-        chat.client.loadChatHistories = function (chatHistories) {
-            var html = '';
-
-            $.each(chatHistories, function (key, chatHistory) {
-                html += getChatTemplate(chatHistory[0], chatHistory[1]);
-            });
-
-            $('#messageColumn').append(html);
-        }
-
-        function getChatTemplate(senderOrReceiver, messageBody) {
-            var html = '<li class="left clearfix';
-            if (senderOrReceiver === 'sender') {
-                html += ' admin_chat"><span class="chat-img1 pull-right"><img src="/Content/images/no_propic.png" alt="User Avatar" class="img-circle"> </span>';
-                html += '<div class="chat-body1 clearfix sender">';
-            } else {
-                html += '"><span class="chat-img1 pull-left"><img src="/Content/images/no_propic.png" alt="User Avatar" class="img-circle"> </span>';
-                html += '<div class="chat-body1 clearfix receiver">';
-            }
-
-            html += '<p>' + messageBody + '</p>';
-            //html += '<div class="chat_time pull-left">09:40PM</div>';
-            html += '</div></li>';
-            return html;
-        }
         </script>
 }

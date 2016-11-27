@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using PIMSuite.Persistence;
 using PIMSuite.Persistence.Entities;
@@ -9,9 +8,9 @@ using PIMSuite.Persistence.Repositories;
 
 namespace PIMSuite.WebApp.Controllers
 {
+    [Authorize]
     public class ChatController : BaseController
     {
-
         private DataContext _dataContext;
         private IMessageRepository _messageRepository;
 

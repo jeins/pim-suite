@@ -25,12 +25,18 @@ namespace PIMSuite.WebApp.SignalRHub
         {
             var receiver = _dataContext.Connections.FirstOrDefault(c => c.UserId.ToString().Equals(toUserId));
             var sender = _dataContext.Connections.FirstOrDefault(c => c.ConnectionId == Context.ConnectionId);
-
             var messageId = _messageRepository.InsertMessage(sender.UserId, new Guid(toUserId), message);
+            var dateTime = new DateTime().ToString("g");
 
-            Clients.Client(Context.ConnectionId).onSendMessageToSender(sender.User.Lastname, message, "sender");
+            Clients.Client(Context.ConnectionId).onSendMessageToSender(sender.User.Lastname, message, dateTime, "sender");
 
-            if (receiver != null) Clients.Client(receiver.ConnectionId).onSendMessageToReceiver(messageId, message, sender.UserId, receiver.UserId, "receiver");
+            if (receiver != null)
+                Clients.Client(receiver.ConnectionId)
+                    .onSendMessageToReceiver(messageId, message, sender.UserId, receiver.UserId, dateTime, "receiver");
+            else
+            {
+                _messageRepository.UpdateMessageStatus(messageId, false);
+            }
         }
 
         public void UserConnect(string userId)
@@ -60,14 +66,14 @@ namespace PIMSuite.WebApp.SignalRHub
             Clients.Caller.loadChatHistories(chatHistories);
         }
 
-        public void SendNotification(string receiverUserId, string senderUserId, string messageId)
+        public void SendNotification(string receiverUserId, string senderUserId, int messageId)
         {
-            _messageRepository.UpdateMessageStatus(new Guid(messageId), false);
+            _messageRepository.UpdateMessageStatus(messageId, false);
             var receiverConnection = _dataContext.Connections.FirstOrDefault(c => c.UserId == new Guid(receiverUserId));
 
             if (receiverConnection != null)
             {
-                var unReadMessages = _messageRepository.GetUnReadMessages(new Guid(receiverUserId), new Guid(senderUserId));
+                var unReadMessages = _messageRepository.GetTotalUnReadMessages(new Guid(receiverUserId), new Guid(senderUserId));
 
                 Clients.Client(receiverConnection.ConnectionId).sendNotification(unReadMessages, senderUserId);
             }
