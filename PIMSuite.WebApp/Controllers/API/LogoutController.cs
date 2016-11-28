@@ -12,6 +12,9 @@ using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
 using System.Security.Claims;
 using System.Web;
+using Microsoft.AspNet.SignalR;
+using PIMSuite.Persistence.Repositories;
+using PIMSuite.WebApp.SignalRHub;
 
 namespace PIMSuite.WebApp.Controllers.API
 {
@@ -20,7 +23,15 @@ namespace PIMSuite.WebApp.Controllers.API
         [HttpPost]
         public HttpResponseMessage Logout()
         {
+            // Change user status to Offline
+            var userId = HttpContext.Current.GetOwinContext().Authentication.User.Identity.GetUserId();
+            var hub = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
+            IConnectionRepository connectionRepository = new ConnectionRepository(new DataContext());
+            connectionRepository.RemoveUser(new Guid(userId), null);
+            hub.Clients.All.onUserDisconnected(userId);
+
             HttpContext.Current.GetOwinContext().Authentication.SignOut();
+
             return Request.CreateResponse(HttpStatusCode.Accepted, true);
         }
     }

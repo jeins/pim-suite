@@ -1,9 +1,8 @@
 ﻿
 using System;
-using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using PIMSuite.Persistence;
-using PIMSuite.Persistence.Entities;
 using PIMSuite.Persistence.Repositories;
 
 namespace PIMSuite.WebApp.SignalRHub
@@ -84,6 +83,18 @@ namespace PIMSuite.WebApp.SignalRHub
             _messageRepository.SetMessageStatusToRead(new Guid(receiverUserId), new Guid(senderUserId));
 
             Clients.Client(Context.ConnectionId).readMessage(senderUserId);
+        }
+
+        public override Task OnDisconnected(bool stopCalled)
+        {
+            var userId = _connectionRepository.RemoveUser(Guid.Empty, Context.ConnectionId);
+
+            if (userId != Guid.Empty)
+            {
+                Clients.All.onUserDisconnected(userId.ToString());
+            }
+
+            return base.OnDisconnected(stopCalled);
         }
 
         private bool IsUserIdExistOnConnection(Guid userId)

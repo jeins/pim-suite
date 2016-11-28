@@ -28,8 +28,12 @@ chat.client.onNewUserConnected = function (userId) {
     updateUserStatus(userId, 'Online');
 }
 
+chat.client.onUserDisconnected = function(userId) {
+    updateUserStatus(userId, 'Offline');
+}
+
 chat.client.loadConnectedUser = function(users) {
-    $.each(users, function(i, user) {
+    $.each(users, function (i, user) {
         updateUserStatus(user.UserId, 'Online');
     });
 }
@@ -40,7 +44,6 @@ chat.client.onSendMessageToSender = function (lastName, messageBody, dateTime, s
 }
 
 chat.client.onSendMessageToReceiver = function (messageId, messageBody, senderUserId, receiverUserId, dateTime, senderOrReceiver) {
-
     if (senderOrReceiver === 'receiver') {
         var currentChatWithUser = $('#userId').val();
         if (currentChatWithUser !== senderUserId) {
@@ -99,7 +102,7 @@ function getChatTemplate(senderOrReceiver, messageBody, dateTime) {
 }
 
 function updateUserStatus(userId, onlineOrOffline) {
-    $('#statusUserId').each(function (i, statusUserId) {
+    $('div').find('#statusUserId').each(function (i, statusUserId) {
         if ($(statusUserId).val() === userId) {
             var userStatus = $(statusUserId).parent();
 
@@ -110,7 +113,7 @@ function updateUserStatus(userId, onlineOrOffline) {
                 $(userStatus).removeClass('btn-success');
                 $(userStatus).addClass('btn-danger');
             }
-            $(userStatus).attr('onlineOffline').text(onlineOrOffline);
+            $(userStatus).find('#onlineOffline').text(onlineOrOffline);
         }
     });
 }
