@@ -44,6 +44,27 @@ namespace PIMSuite.Persistence.Repositories
             }
         }
 
+        public Guid RemoveUser(Guid userGuid, string connectionId)
+        {
+            if (userGuid.Equals(Guid.Empty))
+            {
+                var tmp = _dataContext.Connections.FirstOrDefault(c => c.ConnectionId == connectionId);
+                userGuid = tmp.UserId;
+            }
+
+            var connection = _dataContext.Connections.FirstOrDefault(c => c.ConnectionId == connectionId || c.UserId.Equals(userGuid));
+
+            if (connection != null)
+            {
+                _dataContext.Connections.Remove(connection);
+                _dataContext.SaveChanges();
+
+                return userGuid;
+            }
+
+            return Guid.Empty;
+        }
+
         public void CleanUpConnection()
         {
             throw new NotImplementedException();

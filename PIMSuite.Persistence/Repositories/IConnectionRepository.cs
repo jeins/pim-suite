@@ -12,6 +12,7 @@ namespace PIMSuite.Persistence.Repositories
         IEnumerable<Connection> GetConnectedUsers(Guid currentUserGuid);
         void InsertConnection(Guid userGuid, string connectionId);
         void UpdateConnection(Guid userGuid, string connectionId);
+        Guid RemoveUser(Guid userGuid, string connectionId);
         void CleanUpConnection();
     }
 }
