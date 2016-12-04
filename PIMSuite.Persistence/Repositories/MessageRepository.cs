@@ -9,37 +9,119 @@ namespace PIMSuite.Persistence.Repositories
 {
     public class MessageRepository : IMessageRepository
     {
-        private DataContext context;
+        private DataContext _dataContext;
 
         public MessageRepository(DataContext dataContext)
         {
-            this.context = dataContext;
+            _dataContext = dataContext;
         }
 
-        public void DeleteMessage(Guid MessageId)
+        public IEnumerable<string[]> GetMessageHistories(Guid senderUserGuid, Guid receiverUserGuid)
         {
-            context.Messages.Remove(context.Messages.Find(MessageId));
+            var chatHistory = new List<string[]>();
+            var messages =
+                _dataContext.Messages
+                .Where(m => 
+                        m.ReceiverUserId.Equals(receiverUserGuid) && m.SenderUserId.Equals(senderUserGuid) ||
+                        m.SenderUserId.Equals(receiverUserGuid) && m.ReceiverUserId.Equals(senderUserGuid)
+                )
+                .OrderBy(m=>m.CreatedAt)
+                .ToList();
+
+            foreach (var message in messages)
+            {
+                var senderOrReceiverLabel = message.SenderUserId.Equals(senderUserGuid) ? "sender" : "receiver";
+                var tmpArr = new[]
+                {
+                    senderOrReceiverLabel,
+                    message.MessageBody,
+                    message.CreatedAt.ToString("g")
+                };
+
+                chatHistory.Add(tmpArr);
+            }
+
+            return chatHistory;
         }
 
-
-        public IEnumerable<Message> GetConversationOfTwoUsers(Guid FirstUser, Guid SecondUser)
+        public int InsertMessage(Guid senderUserGuid, Guid receiverUserGuid, string messageBody)
         {
-            var conversation = from m in context.Messages
-                               where (m.SenderId == FirstUser && m.ReceiverId == SecondUser) || (m.SenderId == SecondUser && m.ReceiverId == FirstUser)
-                               orderby m.Creation descending
-                               select m;
+            var message = new Message
+            {
+                ReceiverUserId = receiverUserGuid,
+                SenderUserId = senderUserGuid,
+                MessageBody = messageBody,
+                IsRead = true
+            };
 
-            return conversation.ToList();
+            _dataContext.Messages.Add(message);
+            _dataContext.SaveChanges();
+
+            return message.MessageId;
         }
 
-        public void InsertMessage(Message m)
+        public void UpdateMessageStatus(int messageGuid, bool isRead)
         {
-            context.Messages.Add(m);
+            var message = _dataContext.Messages.FirstOrDefault(m => m.MessageId == messageGuid);
+
+            if (message != null)
+            {
+                message.IsRead = isRead;
+                _dataContext.SaveChanges();
+            }
         }
 
-        public void Save()
+        public void SetMessageStatusToRead(Guid receiverUserGuid, Guid senderUserGuid)
         {
-            context.SaveChanges();
+            var messages =
+                _dataContext.Messages.Where(m => m.ReceiverUserId.Equals(receiverUserGuid) && m.SenderUserId.Equals(senderUserGuid) && m.IsRead == false);
+
+            foreach (var message in messages)
+            {
+                message.IsRead = true;
+            }
+
+            _dataContext.SaveChanges();
+        }
+
+        public int GetTotalUnReadMessages(Guid receiverUserGuid, Guid senderUserGuid)
+        {
+            var totalUnReadMessages =
+                _dataContext.Messages
+                    .Count(m => m.ReceiverUserId.Equals(receiverUserGuid) && m.SenderUserId.Equals(senderUserGuid) && m.IsRead == false);
+
+
+            return totalUnReadMessages;
+        }
+
+        public IEnumerable<Dictionary<string, string>> GetNotificationOfUnReadMessage(Guid currentUserGuid)
+        {
+            var unReadMessages = new List<Dictionary<string, string>>();
+            var messages =
+                _dataContext.Messages
+                    .Where(m => m.ReceiverUserId.Equals(currentUserGuid) && m.IsRead == false)
+                    .OrderBy(m => m.CreatedAt)
+                    .ToList();
+
+            if (messages.Count > 0)
+            {
+                foreach(var message in messages)
+                {
+                    var senderId = message.SenderUserId;
+                    var user = _dataContext.Users.FirstOrDefault(u => u.UserId.Equals(senderId));
+                    var tmpArr = new Dictionary<string, string>
+                {
+                    {"senderId",  senderId.ToString()},
+                    {"senderLastName", user.Lastname },
+                    {"messageBody",  message.MessageBody},
+                    {"createdAt",  message.CreatedAt.ToString("D")}
+                };
+
+                    unReadMessages.Add(tmpArr);
+                }
+            }
+
+            return unReadMessages;
         }
     }
 }

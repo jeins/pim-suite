@@ -51,60 +51,49 @@
             <!-- Top Menu Items -->
             <ul class="nav navbar-right top-nav">
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-envelope"></i> <b class="caret"></b></a>
-                    <ul class="dropdown-menu message-dropdown">
-                        <li class="message-preview">
-                            <a href="#">
-                                <div class="media">
-                                    <span class="pull-left">
-                                        <img class="media-object" src="http://placehold.it/50x50" alt="">
-                                    </span>
-                                    <div class="media-body">
-                                        <h5 class="media-heading">
-                                            <strong>John Smith</strong>
-                                        </h5>
-                                        <p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
-                                        <p>Lorem ipsum dolor sit amet, consectetur...</p>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="message-preview">
-                            <a href="#">
-                                <div class="media">
-                                    <span class="pull-left">
-                                        <img class="media-object" src="http://placehold.it/50x50" alt="">
-                                    </span>
-                                    <div class="media-body">
-                                        <h5 class="media-heading">
-                                            <strong>John Smith</strong>
-                                        </h5>
-                                        <p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
-                                        <p>Lorem ipsum dolor sit amet, consectetur...</p>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="message-preview">
-                            <a href="#">
-                                <div class="media">
-                                    <span class="pull-left">
-                                        <img class="media-object" src="http://placehold.it/50x50" alt="">
-                                    </span>
-                                    <div class="media-body">
-                                        <h5 class="media-heading">
-                                            <strong>John Smith</strong>
-                                        </h5>
-                                        <p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
-                                        <p>Lorem ipsum dolor sit amet, consectetur...</p>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="message-footer">
-                            <a href="#">Read All New Messages</a>
-                        </li>
-                    </ul>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-envelope"></i>
+                        @if (ViewBag.TotalUnReadMessage > 0)
+                        {
+                            <b class="caret"></b>
+                        }
+                    </a>
+                    @if (ViewBag.TotalUnReadMessage > 0)
+                    {
+                        <ul class="dropdown-menu message-dropdown">
+                            @foreach (var unReadMessage in ViewBag.UnReadMessage)
+                            {
+                                <li class="message-preview">
+                                    <a href="@Url.Action("Index", "Chat", new {toUserId = unReadMessage["senderId"]})">
+                                        <div class="media">
+                                            <span class="pull-left">
+                                                <img class="media-object" src="http://placehold.it/50x50" alt="">
+                                            </span>
+                                            <div class="media-body">
+                                                <h5 class="media-heading">
+                                                    <strong>@unReadMessage["senderLastName"]</strong>
+                                                </h5>
+                                                <p class="small text-muted">
+                                                    <i class="fa fa-clock-o"></i> @unReadMessage["createdAt"]
+                                                </p>
+                                                <p>@unReadMessage["messageBody"]</p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+
+                                int index = ViewBag.UnReadMessage.IndexOf(unReadMessage);
+                                if (index > 2) { break;}
+                            }
+
+                            @if (ViewBag.TotalUnReadMessage > 5)
+                            {
+                                <li class="message-footer">
+                                    <a href="@Url.Action("Index", "Chat")">Read All New Messages</a>
+                                </li>
+                            }
+                        </ul>
+                    }
                 </li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bell"></i> <b class="caret"></b></a>
@@ -135,6 +124,7 @@
                 </li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> @ViewBag.FullName <b class="caret"></b></a>
+                    <input type="hidden" id="currUserId" value="@ViewBag.User.UserId"/>
                     <ul class="dropdown-menu">
                         <li>
                             <a href="@Url.Action("Show", "Profile", new { userId = ViewBag.User.UserId })"><i class="fa fa-fw fa-user"></i> Profile</a>
@@ -169,6 +159,9 @@
                     </li>
                     <li>
                         <a href="@Url.Action("", "Registration")"><i class="fa fa-fw fa-users"></i> Benutzer</a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Index", "Chat")"><i class="fa fa-comments-o"></i>  Chat</a>
                     </li>
                     @{
                         if (ViewBag.User.isAdmin)
@@ -245,7 +238,11 @@
 
     <script src="~/Scripts/knockout-3.4.0.js"></script>
     <script src="~/Scripts/Dashboard.js"></script>
-    @RenderSection("scripts", required: false)
+    <script src="~/Scripts/jquery.signalR-2.2.1.min.js"></script>
+    <script src="~/signalr/hubs"></script>
+
+<script src="~/Scripts/chat-controller.js"></script>
+@RenderSection("scripts", required: false)
 
 </body>
 </html>

@@ -7,7 +7,6 @@
     ViewBag.LabelEMail = "Email";
     ViewBag.ViewProfile = "Profile Anzeigen";
     ViewBag.Search = "Suche...";
-    ViewBag.isOnline = false; //TODO:: change if signlar already implement
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
 }
 <link href="~/Content/custom.css" rel="stylesheet" />
@@ -65,16 +64,24 @@
                                         </div>
                                     </div>
                                     <div class="col-xs-12 bottom text-center">
-                                        @if (ViewBag.isOnline)
+                                        @if (user.UserId.Equals(ViewBag.User.UserId))
                                         {
-                                            <a href="#" class="btn btn-success btn-xs disabled" role="button">
-                                                <i class="fa fa-power-off"> </i> Online
+                                            <a href="#" class="btn btn-success btn-xs disabled" id="userStatus" role="button">
+                                                <i class="fa fa-power-off"> </i> <span id="onlineOffline">Online</span>
+                                                <input type="hidden" id="statusUserId" value="@user.UserId.ToString()"/>
                                             </a>
                                         }
                                         else
                                         {
-                                            <a href="#" class="btn btn-danger btn-xs disabled" role="button">
-                                                <i class="fa fa-power-off"> </i> Offline
+                                            <a href="#" class="btn btn-danger btn-xs disabled" id="userStatus"  role="button">
+                                                <i class="fa fa-power-off"> </i> <span id="onlineOffline">Offline</span>
+                                                <input type="hidden" id="statusUserId" value="@user.UserId.ToString()" />
+                                            </a>
+                                        }
+                                        @if (!ViewBag.User.UserId.Equals(user.UserId))
+                                        {
+                                            <a href="@Url.Action("Index", "Chat", new {toUserId = user.UserId.ToString()})" class="btn btn-primary btn-xs" role="button">
+                                                <i class="fa fa-comments-o"></i> Chat
                                             </a>
                                         }
                                         <a href="@Url.Action("Show", "Profile", new {userId = user.UserId.ToString()})" class="btn btn-primary btn-xs" role="button">

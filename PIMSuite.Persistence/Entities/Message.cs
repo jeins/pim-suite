@@ -12,30 +12,20 @@ namespace PIMSuite.Persistence.Entities
     {
         public Message()
         {
-            MessageId = Guid.NewGuid();
-            isRead = false;
-            Creation = DateTime.Now;
+            CreatedAt = DateTime.Now;
         }
-
+        
         [Key]
-        public Guid MessageId { get; set; }
+        public int MessageId { get; set; }
+        
+        public Guid SenderUserId { get; set; }
+        
+        public Guid ReceiverUserId { get; set; }
 
-        public Guid SenderId { get; set; }
+        public string MessageBody { get; set; }
 
-        public Guid ReceiverId { get; set; }
+        public bool IsRead { get; set; }
 
-        public String MessageBody { get; set; }
-
-        public bool isRead { get; set; }
-
-        public DateTime Creation { get; set; }
-
-        [ForeignKey("SenderId")]
-        public User Sender {get; set;}
-
-        [ForeignKey("ReceiverId")]
-        public User Receiver { get; set; }
-
-       
+        public DateTime CreatedAt { get; set; }
     }
 }

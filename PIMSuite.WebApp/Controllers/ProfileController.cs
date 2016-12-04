@@ -32,7 +32,7 @@ namespace PIMSuite.WebApp.Controllers
             }
 
             users = SortProcessor(users, sort);
-            
+
             return View(users.ToPagedList(pageNumber, pageSize));
         }
 
