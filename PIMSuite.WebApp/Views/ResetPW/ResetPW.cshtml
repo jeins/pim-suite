@@ -1,0 +1,28 @@
+﻿@model PIMSuite.Persistence.Entities.User
+
+@{
+    ViewBag.Title = "ResetPW";
+    Layout = "~/Views/Shared/_LandingPageLayout.cshtml";
+}
+
+<link href="~/Content/login.css" rel="stylesheet" />
+<link href="~/Content/material-icons.css" rel="stylesheet" />
+
+<div class="container">
+    <div class="card card-container">
+        <a href="@Url.Content("~")"><i class="material-icons reg_back">arrow_back</i></a>
+        @*<img id="profile-img" class="profile-img-card" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" />*@
+        <img id="profile-img" class="profile-img-card" src="~/Content/images/logo_square.png" />
+        <p id="profile-name" class="profile-name-card"></p>
+        @using (Html.BeginForm("ResetPW", "ResetPW", FormMethod.Post, new { @class = "form-signin" }))
+        {
+            @Html.ViewBag.Message
+            <span id="reauth-email" class="reauth-email"></span>
+
+            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(model => model.Email) } })
+            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+            <br />
+            <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">Neues Passwort anfordern</button>
+        }
+    </div>
+</div>

@@ -21,23 +21,32 @@ namespace PIMSuite.WebApp.Controllers
 {
     public class ResetPWController : BaseController
     {
-        public const int passwordTokenSize = 24;
+        public const int passwordTokenSize = 12;
 
         public ResetPWController()
         {
-
+            this.userRepository = new UserRepository(new DataContext());
         }
 
-        [HttpGet]
-        public ActionResult ResetPassword(String email)
+        public ActionResult ResetPW()
+        {
+            if (HttpContext.GetOwinContext().Authentication.User.Identity.IsAuthenticated)
+            {
+                Response.Redirect("/Dashboard/");
+            }
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult ResetPW(User userEmail)
         {
             User user;
             using (DataContext context = new DataContext())
             {
-                user = context.Users.SingleOrDefault(p => p.Email == email);
+                user = context.Users.SingleOrDefault(p => p.Email == userEmail.Email);
                 if (user == null)
                 {
-                    return new HttpStatusCodeResult(HttpStatusCode.Forbidden, "Wrong credentials!");
+                    return new HttpStatusCodeResult(HttpStatusCode.Forbidden, "Wrong credentials!   Test");
                 }
                 else 
                 {

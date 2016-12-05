@@ -36,10 +36,10 @@
                 </label>
             </div>
             <button class="btn btn-lg btn-primary btn-block btn-signin" data-bind="click: login" type="submit">Anmelden</button>
+        </form>        
+        <form action="@Url.Action("ResetPW", "ResetPW")">
+            <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">Passwort vergessen?</button>
         </form>
-        <a href="#" class="forgot-password">
-            Passwort vergessen?
-        </a>
         <hr />
         <p class="registertext">Noch nicht registriert?</p>
         <form action="@Url.Action("Registration", "Registration")">
