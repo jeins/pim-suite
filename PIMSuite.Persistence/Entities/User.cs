@@ -65,6 +65,9 @@ namespace PIMSuite.Persistence.Entities
         [ForeignKey("LocationName")]
         public Location Location { get; set; }
 
+        [Display(Name = "Projekte")]
+        public string Projects { get; set; }
+
         [Required(ErrorMessage = "Passwort ist erforderlich!")]
         [DataType(DataType.Password)]
         [Display(Name = "Passwort")]
