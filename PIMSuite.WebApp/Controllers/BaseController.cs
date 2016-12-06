@@ -37,6 +37,8 @@ namespace PIMSuite.WebApp.Controllers
                     ViewBag.TotalUnReadMessage = unReadMessages.Count();
                     ViewBag.UnReadMessage = unReadMessages;
                 }
+                ViewBag.ActionName = this.ControllerContext.RouteData.Values["action"].ToString();
+                ViewBag.ControllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
             }
         }
     }

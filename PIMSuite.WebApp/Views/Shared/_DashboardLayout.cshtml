@@ -1,4 +1,13 @@
-﻿<!DOCTYPE html>
+﻿@functions{
+    public string ControllerIsActive(string actionName, string controllerName)
+    {
+        if (ViewBag.ControllerName.Equals(controllerName) && ViewBag.ActionName.Equals(actionName))
+            return "active";
+        else
+            return "";
+    }
+}
+<!DOCTYPE html>
 
 <html>
 <head>
@@ -46,7 +55,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="@Url.Action("", "Dashboard")">PIMSuite</a>
+                <a class="navbar-brand" href="@Url.Action("Index", "Dashboard")">PIMSuite</a>
             </div>
             <!-- Top Menu Items -->
             <ul class="nav navbar-right top-nav">
@@ -145,22 +154,22 @@
             <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
-                    <li class="active">
-                        <a href="@Url.Action("", "Dashboard")"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
+                    <li class="@ControllerIsActive("Index","Dashboard")">
+                        <a href="@Url.Action("Index", "Dashboard")"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
                     </li>
-                    <li>
-                        <a href="@Url.Action("", "Profile")"><i class="fa fa-fw fa-address-book"></i> Profile</a>
+                    <li class="@ControllerIsActive("Index","Profile")">
+                        <a href="@Url.Action("Index", "Profile")"><i class="fa fa-fw fa-address-book"></i> Profile</a>
                     </li>
-                    <li>
-                        <a href="@Url.Action("", "Department")"><i class="fa fa-fw fa-university"></i> Abteilungen</a>
+                    <li class="@ControllerIsActive("Index", "Department")">
+                        <a href="@Url.Action("Index", "Department")"><i class="fa fa-fw fa-university"></i> Abteilungen</a>
                     </li>
-                    <li>
-                        <a href="@Url.Action("", "Location")"><i class="fa fa-fw fa-building"></i> Standorte</a>
+                    <li class="@ControllerIsActive("Index", "Location")">
+                        <a href="@Url.Action("Index", "Location")"><i class="fa fa-fw fa-building"></i> Standorte</a>
                     </li>
-                    <li>
-                        <a href="@Url.Action("", "Registration")"><i class="fa fa-fw fa-users"></i> Benutzer</a>
+                    <li class="@ControllerIsActive("Index", "Registration")">
+                        <a href="@Url.Action("Index", "Registration")"><i class="fa fa-fw fa-users"></i> Benutzer</a>
                     </li>
-                    <li>
+                    <li class="@ControllerIsActive("Index", "Chat")">
                         <a href="@Url.Action("Index", "Chat")"><i class="fa fa-comments-o"></i>  Chat</a>
                     </li>
                     @{
