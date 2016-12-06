@@ -94,7 +94,8 @@ namespace PIMSuite.WebApp.Controllers
                 {
                     user.ValidationToken = null;
                     user.isValidated = true;
-                    userRepository.UpdateUser(user);
+                    //userRepository.UpdateUser(user);
+                    userRepository.ValidateUser(user, true);
                     userRepository.Save();
                     ModelState.Clear();
                     ViewBag.Message = user.Firstname + " " + user.Lastname + " " + "wurde erfolgreich validiert!";

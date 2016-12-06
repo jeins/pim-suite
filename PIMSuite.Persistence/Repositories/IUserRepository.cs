@@ -15,6 +15,7 @@ namespace PIMSuite.Persistence.Repositories
         User GetUserByUsername(String Username);
         void InsertUser(User User);
         void DeleteUser(Guid GuidId);
+        void ValidateUser(User user, Boolean validated);
         void UpdateUser(User user);
         void Save();
     }

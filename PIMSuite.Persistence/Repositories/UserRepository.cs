@@ -50,6 +50,14 @@ namespace PIMSuite.Persistence.Repositories
             context.SaveChanges();
         }
 
+        public void ValidateUser(User user, Boolean validated)
+        {
+            var entity = context.Users.SingleOrDefault(dbuser => dbuser.UserId == user.UserId);
+            entity.isValidated = validated;
+            context.Users.Attach(entity);
+            context.Entry(entity).State = EntityState.Modified;
+        }
+
         public void UpdateUser(User user)
         {
             var entity = context.Users.SingleOrDefault(dbuser => dbuser.UserId == user.UserId);
