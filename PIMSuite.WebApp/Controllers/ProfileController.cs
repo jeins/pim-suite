@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using PIMSuite.Persistence;
 using PIMSuite.Persistence.Entities;
 using PagedList;
+using PIMSuite.Utilities.Auth;
 
 namespace PIMSuite.WebApp.Controllers
 {
@@ -55,7 +56,64 @@ namespace PIMSuite.WebApp.Controllers
             }
             
             ViewBag.EnableEditProfile = CheckCurrentUser(guid);
+            ViewBag.CurrentUser = user;
 
+            return View(user);
+        }
+
+        [AuthorizationFilter]
+        public ActionResult Edit(string userId)
+        {
+            ViewBag.Departments = new SelectList(new DataContext().Departments, "Name", "Name");
+            ViewBag.Locations = new SelectList(new DataContext().Locations, "Name", "Name");
+            Guid guid;
+
+            if (String.IsNullOrEmpty(userId) || !Guid.TryParse(userId, out guid))
+            {
+                return RedirectToAction("Index", "Profile");
+            }
+
+            var user = _dataContext.Users.Find(guid);
+
+            if (user == null || !CheckCurrentUser(guid))
+            {
+                return RedirectToAction("Index", "Profile");
+            }
+
+
+            return View(user);
+        }
+
+        [AuthorizationFilter]
+        [HttpPost]
+        public ActionResult Edit(User user)
+        {
+            ViewBag.Departments = new SelectList(new DataContext().Departments, "Name", "Name");
+            ViewBag.Locations = new SelectList(new DataContext().Locations, "Name", "Name");
+            var username = HttpContext.GetOwinContext().Authentication.User.Identity.Name;
+            var edituser = userRepository.GetUserByUsername(username);
+            Guid guid=edituser.UserId;
+            var hashhelper = new HashHelper();
+
+            user.UserId = guid;
+
+            if (user == null || edituser == null || !CheckCurrentUser(guid))
+            {
+                return RedirectToAction("Index", "Profile");
+            }
+
+            if (user.Password == null || user.Password.Equals(""))
+            {
+                user.Password = edituser.Password;
+            }
+            else
+            {
+                user.Password = hashhelper.Hash(user.Password);
+            }
+            userRepository.UpdateUser(user);
+            userRepository.Save();
+
+            //return RedirectToAction("Show", "Profile", new { userId = ViewBag.CurrentUser.UserId.ToString() });
             return View(user);
         }
 

@@ -6,21 +6,37 @@
 }
 <link href="~/Content/custom.css" rel="stylesheet" />
 <div class="profile">
-    <div class="page-title">
-        <div class="title_left">
-            <h3>@ViewBag.Title</h3>
-        </div>
-    </div>
-
     <div class="clearfix"></div>
 
     <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="x_panel">
                 <div class="x_title">
+                    @if (ViewBag.CurrentUser.UserId.Equals(ViewBag.User.UserId))
+                    {
+                        <a href="#" class="btn btn-success btn-xs disabled" id="userStatus" role="button">
+                            <i class="fa fa-power-off"> </i> <span id="onlineOffline">Online</span>
+                            <input type="hidden" id="statusUserId" value="@ViewBag.CurrentUser.UserId.ToString()" />
+                        </a>
+                    }
+                    else
+                    {
+                        <a href="#" class="btn btn-danger btn-xs disabled" id="userStatus" role="button">
+                            <i class="fa fa-power-off"> </i> <span id="onlineOffline">Offline</span>
+                            <input type="hidden" id="statusUserId" value="@ViewBag.CurrentUser.UserId.ToString()" />
+                        </a>
+                    }
+                    @if (!ViewBag.User.UserId.Equals(ViewBag.CurrentUser.UserId))
+                    {
+                        <a href="@Url.Action("Index", "Chat", new {toUserId = ViewBag.CurrentUser.UserId.ToString()})" class="btn btn-primary btn-xs" role="button">
+                            <i class="fa fa-comments-o"></i> Chat
+                        </a>
+                    }
                     @if (ViewBag.EnableEditProfile)
                     {
-                        <button class="btn btn-success"><i class="fa fa-edit m-right-xs"></i> Edit Profile</button>
+                        <a href="@Url.Action("Edit", "Profile", new {userId = ViewBag.CurrentUser.UserId.ToString()})" class="btn btn-primary btn-xs" role="button">
+                            <i class="fa fa-edit"></i> Profil bearbeiten
+                        </a>
                     }
                 </div>
                 <div class="clearfix"></div>
@@ -51,9 +67,9 @@
                             </div>
 
                             <div class="form-group flex">
-                                <label for="division" class="col-sm-2 control-label">@Html.DisplayNameFor(m => m.DepartmentName)</label>
-                                <div id="division" class="col-sm-10">
-                                    <span>: @Html.DisplayFor(m => m.DepartmentName)</span>
+                                <label for="lastname" class="col-sm-2 control-label">@Html.DisplayNameFor(m => m.Username)</label>
+                                <div id="lastname" class="col-sm-10">
+                                    <span>: @Html.DisplayFor(m => m.Username)</span>
                                 </div>
                             </div>
 
@@ -63,6 +79,28 @@
                                     <span>: @Html.DisplayFor(m => m.Email)</span>
                                 </div>
                             </div>
+
+                            <div class="form-group flex">
+                                <label for="division" class="col-sm-2 control-label">@Html.DisplayNameFor(m => m.DepartmentName)</label>
+                                <div id="division" class="col-sm-10">
+                                    <span>: @Html.DisplayFor(m => m.DepartmentName)</span>
+                                </div>
+                            </div>
+
+                            <div class="form-group flex">
+                                <label for="division" class="col-sm-2 control-label">@Html.DisplayNameFor(m => m.PhoneNumber)</label>
+                                <div id="division" class="col-sm-10">
+                                    <span>: @Html.DisplayFor(m => m.PhoneNumber)</span>
+                                </div>
+                            </div>
+
+                            <div class="form-group flex">
+                                <label for="division" class="col-sm-2 control-label">@Html.DisplayNameFor(m => m.LocationName)</label>
+                                <div id="division" class="col-sm-10">
+                                    <span>: @Html.DisplayFor(m => m.LocationName)</span>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
