@@ -54,7 +54,7 @@ namespace PIMSuite.Persistence.Entities
         public Department Department { get; set; }
 
         [Required(ErrorMessage = "Telefonnumer ist erforderlich!")]
-        [Display(Name = "Dienstnummer")]
+        [Display(Name = "Telefonnummer")]
         [DataType(DataType.PhoneNumber)]
         //[RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Bitte eine gültige Telefonnummer eingeben!")]
         public string PhoneNumber { get; set; }
