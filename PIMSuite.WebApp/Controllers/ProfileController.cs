@@ -7,6 +7,9 @@ using PIMSuite.Persistence;
 using PIMSuite.Persistence.Entities;
 using PagedList;
 using PIMSuite.Utilities.Auth;
+using Microsoft.AspNet.SignalR;
+using PIMSuite.Persistence.Repositories;
+using PIMSuite.WebApp.SignalRHub;
 
 namespace PIMSuite.WebApp.Controllers
 {
@@ -80,7 +83,7 @@ namespace PIMSuite.WebApp.Controllers
                 return RedirectToAction("Index", "Profile");
             }
 
-
+            user.Password = null;
             return View(user);
         }
 
@@ -113,8 +116,20 @@ namespace PIMSuite.WebApp.Controllers
             userRepository.UpdateUser(user);
             userRepository.Save();
 
-            //return RedirectToAction("Show", "Profile", new { userId = ViewBag.CurrentUser.UserId.ToString() });
-            return View(user);
+            if (!user.Username.Equals(edituser.Username))
+            {
+                var hub = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
+                IConnectionRepository connectionRepository = new ConnectionRepository(new DataContext());
+                connectionRepository.RemoveUser(guid, null);
+                hub.Clients.All.onUserDisconnected(guid);
+
+                HttpContext.GetOwinContext().Authentication.SignOut();
+                return RedirectToAction("", "", new { successMessage = "Your Username has been successfully updated, please login again!" });
+            }
+            else
+            {
+                return RedirectToAction("Show", "Profile", new { userId = guid.ToString() });
+            }
         }
 
         private IQueryable<User> SearchProcessor(IQueryable<User> user, string searchString)
@@ -149,7 +164,7 @@ namespace PIMSuite.WebApp.Controllers
         private bool CheckCurrentUser(Guid userId)
         {
             User user = ViewBag.User;
-            if (user.UserId.Equals(userId))
+            if (user != null && user.UserId.Equals(userId))
             {
                 return true;
             }
