@@ -116,7 +116,7 @@ namespace PIMSuite.WebApp.Controllers
             userRepository.UpdateUser(user);
             userRepository.Save();
 
-            if (!user.Username.Equals(edituser.Username))
+            if (!user.Username.Equals(username))
             {
                 var hub = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
                 IConnectionRepository connectionRepository = new ConnectionRepository(new DataContext());
@@ -124,7 +124,7 @@ namespace PIMSuite.WebApp.Controllers
                 hub.Clients.All.onUserDisconnected(guid);
 
                 HttpContext.GetOwinContext().Authentication.SignOut();
-                return RedirectToAction("", "", new { successMessage = "Your Username has been successfully updated, please login again!" });
+                return RedirectToAction("Index", "Home", new { successMessage = "Your Username has been successfully updated, please login again!" });
             }
             else
             {
