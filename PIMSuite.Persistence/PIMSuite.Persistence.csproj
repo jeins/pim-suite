@@ -62,7 +62,9 @@
     <Compile Include="Entities\Department.cs" />
     <Compile Include="Entities\Leadership.cs" />
     <Compile Include="Entities\Location.cs" />
+    <Compile Include="Entities\Meeting.cs" />
     <Compile Include="Entities\Message.cs" />
+    <Compile Include="Entities\participateMeeting.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
