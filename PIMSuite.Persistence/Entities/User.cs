@@ -89,6 +89,16 @@ namespace PIMSuite.Persistence.Entities
 
         public ICollection<Message> SentMessages { get; set; }
         public ICollection<Message> ReceivedMessages { get; set; }
+
+        public ICollection<Calendar> Calendars { get; set; }
+
+        public ICollection<Calendar_Event> Events { get; set; }
+
+        public ICollection<Calendar_Subscription> CalendarSubscriptions { get; set; }
+
+        public ICollection<Event_Invite> SentInvites { get; set; }
+
+        public ICollection<Event_Invite> ReceivedInvites { get; set; }
         // TODO: remaining properties
     }
 }

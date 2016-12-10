@@ -73,7 +73,7 @@
                             @foreach (var unReadMessage in ViewBag.UnReadMessage)
                             {
                                 <li class="message-preview">
-                                    <a href="@Url.Action("Index", "Chat", new {toUserId = unReadMessage["senderId"]})">
+                                    <a href="@Url.Action("Index", "Chat", new { toUserId = unReadMessage["senderId"] })">
                                         <div class="media">
                                             <span class="pull-left">
                                                 <img class="media-object" src="http://placehold.it/50x50" alt="">
@@ -92,7 +92,7 @@
                                 </li>
 
                                 int index = ViewBag.UnReadMessage.IndexOf(unReadMessage);
-                                if (index > 2) { break;}
+                                if (index > 2) { break; }
                             }
 
                             @if (ViewBag.TotalUnReadMessage > 5)
@@ -154,10 +154,10 @@
             <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
-                    <li class="@ControllerIsActive("Index","Dashboard")">
+                    <li class="@ControllerIsActive("Index", "Dashboard")">
                         <a href="@Url.Action("Index", "Dashboard")"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
                     </li>
-                    <li class="@ControllerIsActive("Index","Profile")">
+                    <li class="@ControllerIsActive("Index", "Profile")">
                         <a href="@Url.Action("Index", "Profile")"><i class="fa fa-fw fa-address-book"></i> Profile</a>
                     </li>
                     <li class="@ControllerIsActive("Index", "Department")">
@@ -175,20 +175,9 @@
                     @{
                         if (ViewBag.User.isAdmin)
                         {
-                    <li>
-                        <a href="javascript:;" data-toggle="collapse" data-target="#administrativetasks"><i class="fa fa-fw fa-wrench"></i> Systemverwaltung <i class="fa fa-fw fa-caret-down"></i></a>
-                        <ul id="administrativetasks" class="collapse">
-                            <li>
-                                <a href="@Url.Action("", "Department")"><i class="fa fa-fw fa-university"></i> Abteilungen verwalten</a>
+                            <li class="@ControllerIsActive("Index", "Administration")">
+                                <a href="@Url.Action("Index", "Administration")"><i class="fa fa-fw fa-wrench"></i>  Administration</a>
                             </li>
-                            <li>
-                                <a href="@Url.Action("", "Registration")"><i class="fa fa-fw fa-users"></i> Benutzer verwalten</a>
-                            </li>
-                            <li>
-                                <a href="@Url.Action("", "Location")"><i class="fa fa-fw fa-building"></i> Standorte verwalten</a>
-                            </li>
-                        </ul>
-                    </li>
                         }
                     }
                 </ul>

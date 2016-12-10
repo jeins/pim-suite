@@ -18,24 +18,46 @@ namespace PIMSuite.Persistence
         public DbSet<Location> Locations { get; set; }
         public DbSet<Message> Messages { get; set; }
         public DbSet<Connection> Connections { get; set; }
+        public DbSet<Calendar> Calendars { get; set; }
+        public DbSet<Calendar_Event> CalendarEvents { get; set; }
+        public DbSet<Calendar_Subscription> CalendarSubscriptions { get; set; }
+        public DbSet<Event_Invite> EventInvites { get; set; }
 
-//        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-//        {
-//            //Database.SetInitializer(new CreateDatabaseIfNotExists<DbContext>());
-//            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<DbContext>());
-//            modelBuilder.Entity<Message>()
-//                       .HasRequired(m => m.Sender)
-//                       .WithMany(u => u.SentMessages)
-//                       .HasForeignKey(m => m.SenderId)
-//                       .WillCascadeOnDelete(false);
-//
-//            modelBuilder.Entity<Message>()
-//                       .HasRequired(m => m.Receiver)
-//                       .WithMany(u => u.ReceivedMessages)
-//                       .HasForeignKey(m => m.ReceiverId)
-//                       .WillCascadeOnDelete(false);
-//                       
-//            base.OnModelCreating(modelBuilder);
-//        }
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            //Database.SetInitializer(new CreateDatabaseIfNotExists<DbContext>());
+            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<DbContext>());
+            //modelBuilder.Entity<Message>()
+            //           .HasRequired(m => m.Sender)
+            //           .WithMany(u => u.SentMessages)
+            //           .HasForeignKey(m => m.SenderId)
+            //           .WillCascadeOnDelete(false);
+
+            //modelBuilder.Entity<Message>()
+            //           .HasRequired(m => m.Receiver)
+            //           .WithMany(u => u.ReceivedMessages)
+            //           .HasForeignKey(m => m.ReceiverId)
+            //           .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Calendar>()
+                        .HasRequired(m => m.Owner)
+                        .WithMany(m => m.Calendars)
+                        .HasForeignKey(m => m.OwnerId)
+                        .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Event_Invite>()
+                        .HasRequired(m => m.InviteReceiver)
+                        .WithMany(m => m.ReceivedInvites)
+                        .HasForeignKey(m => m.InviteReceiverId)
+                        .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Event_Invite>()
+                        .HasRequired(m => m.InviteSender)
+                        .WithMany(m => m.SentInvites)
+                        .HasForeignKey(m => m.InviteSenderId)
+                        .WillCascadeOnDelete(false);
+
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }

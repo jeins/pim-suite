@@ -4,4 +4,10 @@
 
 body {
     height: calc(100% - 50px);
+    overflow: hidden;
+}
+
+.container-fluid {
+    overflow-y: auto;
+    height: 100%;
 }
