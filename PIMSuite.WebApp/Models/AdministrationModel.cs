@@ -9,5 +9,7 @@ namespace PIMSuite.WebApp.Models
     {
         public IEnumerable<PIMSuite.Persistence.Entities.User> Users{get;set;}
         public IEnumerable<PIMSuite.Persistence.Entities.Department> Departments { get; set; }
+        public IEnumerable<PIMSuite.Persistence.Entities.Location> Locations { get; set; }
+        public IEnumerable<PIMSuite.Persistence.Entities.Domain> Domains { get; set; }
     }
 }
