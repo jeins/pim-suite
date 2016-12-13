@@ -26,6 +26,11 @@ namespace PIMSuite.Persistence.Entities
 
         [Required(ErrorMessage = "Name ist erforderlich!")]
         public string Name { get; set; }
+        
+        //ein öffentlicher oder privater Kalendar
+        //true - privater
+        //false - öffentlicher
+        public bool Privacy { get; set; }
 
         public DateTime CreatedAt { get; set; }
     }

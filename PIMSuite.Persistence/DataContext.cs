@@ -23,7 +23,7 @@ namespace PIMSuite.Persistence
         public DbSet<Calendar_Event> CalendarEvents { get; set; }
         public DbSet<Calendar_Subscription> CalendarSubscriptions { get; set; }
         public DbSet<Event_Invite> EventInvites { get; set; }
-
+        public DbSet<EventParticipation> EventParticipations { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             //Database.SetInitializer(new CreateDatabaseIfNotExists<DbContext>());
