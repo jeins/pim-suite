@@ -16,7 +16,7 @@ namespace PIMSuite.WebApp.Controllers
         public CalendarController()
         {
             _dataContext = new DataContext();
-            _calendarRepository = new CalenderRepository(_dataContext);
+            _calendarRepository = new CalendarRepository(_dataContext);
         }
 
         // Fields

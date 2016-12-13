@@ -18,7 +18,7 @@ namespace PIMSuite.Persistence.Entities
         [Key]
         public Guid PaticipationId { get; set; }
 
-        public Guid CalenderEventId { get; set; }
+        public Guid CalendarEventId { get; set; }
 
         public Guid UserId { get; set; }
 

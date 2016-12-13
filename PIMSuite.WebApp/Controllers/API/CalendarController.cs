@@ -3,6 +3,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using PIMSuite.Persistence;
+using PIMSuite.Persistence.Entities;
 using PIMSuite.Persistence.Repositories;
 
 namespace PIMSuite.WebApp.Controllers.API
@@ -20,7 +21,7 @@ namespace PIMSuite.WebApp.Controllers.API
         public CalendarController()
         {
             _dataContext = new DataContext();
-            _calendarRepository = new CalenderRepository(_dataContext);
+            _calendarRepository = new CalendarRepository(_dataContext);
         }
 
         // Fields
@@ -33,7 +34,10 @@ namespace PIMSuite.WebApp.Controllers.API
         [HttpPost]
         public HttpResponseMessage CreateCalendar(CreateCalendarModel model)
         {
-            //_calendarRepository.getAllPublicCalendarsByUserId()
+            var calendar = new Calendar()
+            {
+                
+            }
 
             return Request.CreateResponse(HttpStatusCode.Accepted);
         }

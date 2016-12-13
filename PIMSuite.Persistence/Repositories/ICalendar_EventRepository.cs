@@ -6,9 +6,9 @@ namespace PIMSuite.Persistence.Repositories
 {
     public interface ICalendar_EventRepository
     {
-        void InsertCalender_Event(Calendar_Event ev);
-        void DeleteCalender_Event(Guid eventId);
-        IEnumerable<Calendar_Event> GetAllCalender_EventByUserIdAndCalenderId(Guid userId, int caledarId);
+        void InsertCalendar_Event(Calendar_Event ev);
+        void DeleteCalendar_Event(Guid eventId);
+        IEnumerable<Calendar_Event> GetAllCalendar_EventByUserIdAndCalendarId(Guid userId, int calendarId);
         void Save(); 
     }
 }

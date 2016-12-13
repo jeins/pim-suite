@@ -72,8 +72,8 @@
     <Compile Include="Entities\User.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repositories\CalenderRepository.cs" />
-    <Compile Include="Repositories\Calender_EventRepository.cs" />
+    <Compile Include="Repositories\CalendarRepository.cs" />
+    <Compile Include="Repositories\Calendar_EventRepository.cs" />
     <Compile Include="Repositories\DomainRepository.cs" />
     <Compile Include="Repositories\ConnectionRepository.cs" />
     <Compile Include="Repositories\DepartmentRepository.cs" />
