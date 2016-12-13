@@ -175,7 +175,7 @@
                         <a href="@Url.Action("Index", "Calendar")"><i class="fa fa-comments-o"></i>  Kalender</a>
                     </li>
                     @{
-                        if (ViewBag.User.isAdmin)
+                        if (ViewBag.User.IsAdmin)
                         {
                             <li class="@ControllerIsActive("Index", "Administration")">
                                 <a href="@Url.Action("Index", "Administration")"><i class="fa fa-fw fa-wrench"></i>  Administration</a>

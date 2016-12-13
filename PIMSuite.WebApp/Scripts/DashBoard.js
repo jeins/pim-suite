@@ -14,4 +14,4 @@
     }
 };
 
-ko.applyBindings(dashboardViewModel);
+ko.applyBindings(dashboardViewModel, document.getElementsByClassName('navbar')[0]);

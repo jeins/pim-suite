@@ -47,7 +47,7 @@ namespace PIMSuite.WebApp.Controllers.API
             _calendarRepository.InsertCalendar(calendar);
             _calendarRepository.Save();
 
-            return Request.CreateResponse(HttpStatusCode.Accepted);
+            return Request.CreateResponse(HttpStatusCode.Accepted, calendar.CalendarId);
         }
     }
 }
