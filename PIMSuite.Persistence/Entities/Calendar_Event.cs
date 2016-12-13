@@ -1,19 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PIMSuite.Persistence.Entities
 {
     public class Calendar_Event
     {
+        // Constructors
+
         public Calendar_Event()
         {
             CreatedAt = DateTime.Now;
         }
+
+        // Properties
 
         [Key]
         public int EventId { get; set; }
@@ -39,10 +39,10 @@ namespace PIMSuite.Persistence.Entities
         public string Location { get; set; }
 
         //Für ganztagige Events
-        public Boolean AllDayEvent { get; set; }
+        public bool AllDayEvent { get; set; }
 
         //Für "Termin findet wirklich statt" Flag
-        public Boolean Confirmed { get; set; }
+        public bool Confirmed { get; set; }
 
         [Required(ErrorMessage = "Startzeit ist erforderlich!")]
         public DateTime StartTime { get; set; }
@@ -50,8 +50,6 @@ namespace PIMSuite.Persistence.Entities
         [Required(ErrorMessage = "Endzeit ist erforderlich!")]
         public DateTime EndTime { get; set; }
 
-        public DateTime CreatedAt { get; set; }
-
-
+        public DateTime CreatedAt { get; private set; }
     }
 }

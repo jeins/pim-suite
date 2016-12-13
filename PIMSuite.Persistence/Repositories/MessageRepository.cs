@@ -118,7 +118,7 @@ namespace PIMSuite.Persistence.Repositories
                     var tmpArr = new Dictionary<string, string>
                 {
                     {"senderId",  senderId.ToString()},
-                    {"senderLastName", user.Lastname },
+                    {"senderLastName", user.LastName },
                     {"messageBody",  message.MessageBody},
                     {"createdAt",  message.CreatedAt.ToString("D")}
                 };

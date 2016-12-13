@@ -1,18 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PIMSuite.Persistence.Entities
 {
     public class Domain
     {
+        // Constructors
+
         public Domain()
         {
             CreatedAt = DateTime.Now;
         }
+
+        // Properties
 
         [Key]
         public int DomainId { get; set; }
@@ -21,6 +21,6 @@ namespace PIMSuite.Persistence.Entities
         [Required(ErrorMessage = "Domain ist erforderlich!")]
         public string DomainName { get; set; }
 
-        public DateTime CreatedAt { get; set; }
+        public DateTime CreatedAt { get; private set; }
     }
 }

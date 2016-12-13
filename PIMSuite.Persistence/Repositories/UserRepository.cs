@@ -57,7 +57,7 @@ namespace PIMSuite.Persistence.Repositories
         public void ValidateUser(User user, bool validated)
         {
             var entity = _context.Users.SingleOrDefault(dbuser => dbuser.UserId == user.UserId);
-            entity.isValidated = validated;
+            entity.IsValidated = validated;
             _context.Users.Attach(entity);
             _context.Entry(entity).State = EntityState.Modified;
         }
@@ -73,9 +73,9 @@ namespace PIMSuite.Persistence.Repositories
                     propertyInfo.SetValue(user, entity.GetType().GetProperty(propertyInfo.Name).GetValue(entity, null));
                 }
             }
-            user.isAdmin = entity.isAdmin;
-            user.isValidated = entity.isValidated;
-            user.Creation = entity.Creation;
+            user.IsAdmin = entity.IsAdmin;
+            user.IsValidated = entity.IsValidated;
+            user.Modified = entity.Modified;
             _context.Entry(entity).CurrentValues.SetValues(user);
             _context.Users.Attach(entity);
             _context.Entry(entity).State = EntityState.Modified;

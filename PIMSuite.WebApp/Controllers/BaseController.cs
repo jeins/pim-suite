@@ -32,7 +32,7 @@ namespace PIMSuite.WebApp.Controllers
                 else
                 {
                     var unReadMessages = _messageRepository.GetNotificationOfUnReadMessage(user.UserId);
-                    ViewBag.FullName = user.Firstname + " " + user.Lastname;
+                    ViewBag.FullName = user.FirstName + " " + user.LastName;
                     ViewBag.User = user;
                     ViewBag.TotalUnReadMessage = unReadMessages.Count();
                     ViewBag.UnReadMessage = unReadMessages;

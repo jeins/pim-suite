@@ -1,22 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PIMSuite.Persistence.Entities
 {
     public class Message
     {
+        // Constructors
+
         public Message()
         {
             CreatedAt = DateTime.Now;
         }
         
+        // Properties
+
         [Key]
-        public int MessageId { get; set; }
+        public int MessageId { get; private set; }
         
         public Guid SenderUserId { get; set; }
         
@@ -26,6 +25,6 @@ namespace PIMSuite.Persistence.Entities
 
         public bool IsRead { get; set; }
 
-        public DateTime CreatedAt { get; set; }
+        public DateTime CreatedAt { get; private set; }
     }
 }

@@ -39,15 +39,15 @@ namespace PIMSuite.WebApp.Controllers
             {
                 User user = new Persistence.Entities.User
                 {
-                    Firstname = "Max",
-                    Lastname = "Mustermann",
+                    FirstName = "Max",
+                    LastName = "Mustermann",
                     Username = "maxm",
                     Email = "max@mail.org",
                     PhoneNumber = "12345678",
                     DepartmentName = "IT-Support",
                     LocationName = "Berlin",
                     Password = new HashHelper().Hash("mustermann"),
-                    isAdmin = true
+                    IsAdmin = true
 
                 };
                 userRepository.InsertUser(user);

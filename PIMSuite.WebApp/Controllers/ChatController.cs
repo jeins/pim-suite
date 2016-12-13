@@ -52,7 +52,7 @@ namespace PIMSuite.WebApp.Controllers
                 usersWithUnReadMessages.Add(new[]
                 {
                     user.UserId.ToString(),
-                    user.Lastname,
+                    user.LastName,
                     totalUnReadMessage.ToString()
                 });
             }

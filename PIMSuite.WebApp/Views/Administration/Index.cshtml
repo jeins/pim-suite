@@ -17,8 +17,8 @@
                             <tr>
                                 <th>@Html.DisplayNameFor(model => model.Users.First().UserId)</th>
                                 <th>@Html.DisplayNameFor(model => model.Users.First().Username)</th>
-                                <th>@Html.DisplayNameFor(model => model.Users.First().Firstname)</th>
-                                <th>@Html.DisplayNameFor(model => model.Users.First().Lastname)</th>
+                                <th>@Html.DisplayNameFor(model => model.Users.First().FirstName)</th>
+                                <th>@Html.DisplayNameFor(model => model.Users.First().LastName)</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -27,8 +27,8 @@
                                 <tr>
                                     <td>@Html.DisplayFor(modelItem => item.UserId)</td>
                                     <td>@Html.DisplayFor(modelItem => item.Username)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.Firstname)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.Lastname)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.FirstName)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.LastName)</td>
                                 </tr>
                             }
                         </tbody>

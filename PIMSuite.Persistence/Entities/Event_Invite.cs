@@ -1,22 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PIMSuite.Persistence.Entities
 {
     public class Event_Invite
     {
+        // Constructors
+
         public Event_Invite()
         {
             CreatedAt = DateTime.Now;
         }
 
+        // Properties
+
         [Key]
-        public int InviteId { get; set; }
+        public int InviteId { get; private set; }
 
         [Required(ErrorMessage = "Einladender ist erforderlich!")]
         public Guid InviteSenderId { get; set; }
@@ -32,10 +32,8 @@ namespace PIMSuite.Persistence.Entities
 
         //0: Eingeladen, 1: Angenommen, 2: Abgelehnt
         [Required(ErrorMessage = "Status ist erforderlich!")]
-        public int status { get; set; }
-
-
-        public DateTime CreatedAt { get; set; }
-
+        public int Status { get; set; }
+        
+        public DateTime CreatedAt { get; private set; }
     }
 }

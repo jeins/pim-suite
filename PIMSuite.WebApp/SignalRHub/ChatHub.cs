@@ -27,7 +27,7 @@ namespace PIMSuite.WebApp.SignalRHub
             var messageId = _messageRepository.InsertMessage(sender.UserId, new Guid(toUserId), message);
             var dateTime = new DateTime().ToString("g");
 
-            Clients.Client(Context.ConnectionId).onSendMessageToSender(sender.User.Lastname, message, dateTime, "sender");
+            Clients.Client(Context.ConnectionId).onSendMessageToSender(sender.User.LastName, message, dateTime, "sender");
 
             if (receiver != null)
                 Clients.Client(receiver.ConnectionId)

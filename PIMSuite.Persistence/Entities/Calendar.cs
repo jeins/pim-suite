@@ -1,22 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PIMSuite.Persistence.Entities
 {
     public class Calendar
     {
+        // Constructors
+
         public Calendar()
         {
             CreatedAt = DateTime.Now;
         }
 
+        // Properties
+
         [Key]
-        public int CalendarId { get; set; }
+        public int CalendarId { get; private set; }
 
         [ForeignKey("OwnerId")]
         public User Owner { get; set; }
@@ -27,11 +27,8 @@ namespace PIMSuite.Persistence.Entities
         [Required(ErrorMessage = "Name ist erforderlich!")]
         public string Name { get; set; }
         
-        //ein öffentlicher oder privater Kalendar
-        //true - privater
-        //false - öffentlicher
-        public bool Privacy { get; set; }
+        public bool IsPrivate { get; set; }
 
-        public DateTime CreatedAt { get; set; }
+        public DateTime CreatedAt { get; private set; }
     }
 }

@@ -29,7 +29,7 @@ namespace PIMSuite.WebApp
                     HttpContext.Current.GetOwinContext().Authentication.SignOut();
                     return;
                 }
-                if (user.isValidated)
+                if (user.IsValidated)
                 {
                     return;
                 }

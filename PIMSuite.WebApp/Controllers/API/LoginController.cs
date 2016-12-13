@@ -45,7 +45,7 @@ namespace PIMSuite.WebApp.Controllers.API
                         user = context.Users.SingleOrDefault(p => p.Username == model.EmailOrUser);
                     }
                     var hh = new HashHelper();
-                    if (user != null && !user.isValidated)
+                    if (user != null && !user.IsValidated)
                     {
                         return Request.CreateResponse(HttpStatusCode.Forbidden, "User is not validated!");
                     }

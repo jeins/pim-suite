@@ -1,21 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PIMSuite.Persistence.Entities
 {
     public class Connection
     {
+        // Constructors
+
         public Connection()
         {       
             Id = Guid.NewGuid();
         }
 
+        // Properties
+
         [Key]
-        public Guid Id { get; set; }
+        public Guid Id { get; private set; }
 
         public string ConnectionId { get; set; }
 

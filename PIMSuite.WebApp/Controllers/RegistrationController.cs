@@ -61,13 +61,13 @@ namespace PIMSuite.WebApp.Controllers
             {
                 var hashhelper = new HashHelper();                
                 //TODO: Bis auf Weiteres zum besseren Testen immer aktiv
-                user.isAdmin = true;
+                user.IsAdmin = true;
                 user.Password = hashhelper.Hash(user.Password);
                 user.ValidationToken = TokenGenerator.GenerateValidationToken(validationTokenSize);
                 userRepository.InsertUser(user);
                 userRepository.Save();
                 ModelState.Clear();
-                ViewBag.Message = user.Firstname + " " + user.Lastname + " " + "wurde erfolgreich registriert!";                
+                ViewBag.Message = user.FirstName + " " + user.LastName + " " + "wurde erfolgreich registriert!";                
                 EmailHelper.SendMail("smtp.gmail.com", "PIMSuiteASP@gmail.com", "noreplyASP", user.Email, "Your Validation Code for the PIM Suite", "Validation Link: " + Request.Url.GetLeftPart(UriPartial.Authority) + "/Registration/Validation?token=" + user.ValidationToken);
                 Response.Redirect("/?infoMessage=A validation link has been sent to your mail-address, please check your mails and click the link to validate!");
             }
@@ -93,12 +93,12 @@ namespace PIMSuite.WebApp.Controllers
                 else
                 {
                     user.ValidationToken = null;
-                    user.isValidated = true;
+                    user.IsValidated = true;
                     //userRepository.UpdateUser(user);
                     userRepository.ValidateUser(user, true);
                     userRepository.Save();
                     ModelState.Clear();
-                    ViewBag.Message = user.Firstname + " " + user.Lastname + " " + "wurde erfolgreich validiert!";
+                    ViewBag.Message = user.FirstName + " " + user.LastName + " " + "wurde erfolgreich validiert!";
                     Response.Redirect("/?successMessage=" + user.Email + " has been successfully validated! You can now login, congratulations!");
                 }
 

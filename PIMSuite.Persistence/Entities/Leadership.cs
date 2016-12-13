@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PIMSuite.Persistence.Entities
 {
     public class Leadership
     {
+        // Constructors
+
         public Leadership()
         {
             LeadershipId = Guid.NewGuid();
@@ -17,8 +14,9 @@ namespace PIMSuite.Persistence.Entities
         }
 
         // Properties
+
         [Key]
-        public Guid LeadershipId { get; set; }
+        public Guid LeadershipId { get; private set; }
         
         public Guid UserId { get; set; }
 
@@ -26,6 +24,6 @@ namespace PIMSuite.Persistence.Entities
 
         public bool Chief { get; set; }
 
-        public DateTime Creation { get; set; }
+        public DateTime Creation { get; private set; }
     }
 }

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Net;
 using System.Net.Http;
+using System.Web;
 using System.Web.Http;
+using Microsoft.AspNet.Identity;
 using PIMSuite.Persistence;
 using PIMSuite.Persistence.Entities;
 using PIMSuite.Persistence.Repositories;
@@ -34,10 +36,16 @@ namespace PIMSuite.WebApp.Controllers.API
         [HttpPost]
         public HttpResponseMessage CreateCalendar(CreateCalendarModel model)
         {
-            var calendar = new Calendar()
+            var userId = Guid.Parse(HttpContext.Current.GetOwinContext().Authentication.User.Identity.GetUserId());
+            var calendar = new Calendar
             {
-                
-            }
+                Name = model.Name,
+                IsPrivate = model.IsPrivate,
+                OwnerId = userId
+            };
+
+            _calendarRepository.InsertCalendar(calendar);
+            _calendarRepository.Save();
 
             return Request.CreateResponse(HttpStatusCode.Accepted);
         }

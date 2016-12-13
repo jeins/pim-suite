@@ -5,9 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PIMSuite.Persistence.Entities
 {
@@ -15,24 +12,26 @@ namespace PIMSuite.Persistence.Entities
     public class User
     {
         // Constructors
+
         public User()
         {
             UserId = Guid.NewGuid();
             Creation = DateTime.Now;
-
+            Modified = Creation;
         }
 
         // Properties
+
         [Key]
-        public Guid UserId { get; set; }
+        public Guid UserId { get; set; } // TODO: Should be private !!
 
         [Required(ErrorMessage = "Vorname ist erforderlich!")]
         [Display(Name = "Vorname")]
-        public string Firstname { get; set; }
+        public string FirstName { get; set; }
 
         [Required(ErrorMessage = "Nachname ist erforderlich!")]
         [Display(Name = "Nachname")]
-        public string Lastname { get; set; }
+        public string LastName { get; set; }
 
         [Required(ErrorMessage = "Benutzername ist erforderlich!")]
         [Display(Name = "Benutzername")]
@@ -75,17 +74,19 @@ namespace PIMSuite.Persistence.Entities
         public string Password { get; set; }
 
         [Display(Name = "Administrator")]
-        public Boolean isAdmin { get; set; }
+        public bool IsAdmin { get; set; }
 
-        public DateTime Creation { get; set; }
+        public DateTime Creation { get; private set; }
                
+        public DateTime Modified { get; set; }
+
         [Display(Name = "Validation Token")]
         [JsonIgnore]
         public string ValidationToken { get; set; }
 
         [Display(Name = "Validated")]
         [JsonIgnore]
-        public Boolean isValidated { get; set; }
+        public bool IsValidated { get; set; }
 
         public ICollection<Message> SentMessages { get; set; }
         public ICollection<Message> ReceivedMessages { get; set; }
