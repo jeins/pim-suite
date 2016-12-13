@@ -1,20 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using PIMSuite.Persistence.Entities;
 
 namespace PIMSuite.Persistence.Repositories
 {
     public class ConnectionRepository : IConnectionRepository
     {
-        private DataContext _dataContext;
+        // Constructors
 
         public ConnectionRepository(DataContext dataContext)
         {
             _dataContext = dataContext;
         }
+
+        // Fields
+
+        private readonly DataContext _dataContext;
+
+        // Methods
 
         public IEnumerable<Connection> GetConnectedUsers(Guid currentUserGuid)
         {

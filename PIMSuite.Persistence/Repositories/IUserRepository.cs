@@ -1,21 +1,17 @@
 ﻿using PIMSuite.Persistence.Entities;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PIMSuite.Persistence.Repositories
 {
     public interface IUserRepository : IDisposable
     {   
         IEnumerable<User> GetUsers();
-        User GetUserByID(Guid GuidId);
-
-        User GetUserByUsername(String Username);
-        void InsertUser(User User);
-        void DeleteUser(Guid GuidId);
-        void ValidateUser(User user, Boolean validated);
+        User GetUserByID(Guid guidId);
+        User GetUserByUsername(String username);
+        void InsertUser(User user);
+        void DeleteUser(Guid guidId);
+        void ValidateUser(User user, bool validated);
         void UpdateUser(User user);
         void Save();
     }

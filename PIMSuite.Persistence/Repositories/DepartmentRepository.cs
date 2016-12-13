@@ -1,65 +1,67 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using PIMSuite.Persistence.Entities;
-using PIMSuite.Persistence;
 using System.Data.Entity;
 
 namespace PIMSuite.Persistence.Repositories
 {
-    public class DepartmentRepository : IDepartmentRepository, IDisposable
+    public class DepartmentRepository : IDepartmentRepository
     {
-        private DataContext context;
-        private bool disposed = false;
+        // Constructors
 
         public DepartmentRepository(DataContext context)
         {
-            this.context = context;
+            _context = context;
         }
 
-        public void DeleteDepartment(string DepartmentName)
+        // Fields
+
+        private readonly DataContext _context;
+        private bool _disposed = false;
+
+        // Methods
+
+        public void DeleteDepartment(string departmentName)
         {
-            context.Departments.Remove(context.Departments.Find(DepartmentName));
+            _context.Departments.Remove(_context.Departments.Find(departmentName));
         }
 
-        public Department GetDepartmentByName(string DepartmentName)
+        public Department GetDepartmentByName(string departmentName)
         {
-            return context.Departments.Find(DepartmentName);
+            return _context.Departments.Find(departmentName);
         }
 
         public IEnumerable<Department> GetDepartments()
         {
-            return context.Departments.ToList();
+            return _context.Departments.ToList();
         }
 
-        public void InsertDepartment(Department Department)
+        public void InsertDepartment(Department department)
         {
-            context.Departments.Add(Department);
+            _context.Departments.Add(department);
         }
 
         public void Save()
         {
-            context.SaveChanges();
+            _context.SaveChanges();
         }
 
-        public void UpdateDepartment(Department Department)
+        public void UpdateDepartment(Department department)
         {
-            context.Entry(Department).State = EntityState.Modified;
+            _context.Entry(department).State = EntityState.Modified;
         }
-
-
+        
         protected virtual void Dispose(bool disposing)
         {
-            if (!this.disposed)
+            if (!_disposed)
             {
                 if (disposing)
                 {
-                    context.Dispose();
+                    _context.Dispose();
                 }
             }
-            this.disposed = true;
+            _disposed = true;
         }
 
         public void Dispose()

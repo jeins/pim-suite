@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using PIMSuite.Persistence.Entities;
 using System.Data.Entity;
 using System.Reflection;
@@ -11,56 +9,62 @@ namespace PIMSuite.Persistence.Repositories
 {
     public class UserRepository : IUserRepository, IDisposable
     {
-        private DataContext context;
-        private bool disposed = false;
+        // Constructors
 
         public UserRepository(DataContext dataContext)
         {
-            this.context = dataContext;
+            _context = dataContext;
         }
 
-        public void DeleteUser(Guid GuidId)
+        // Fields
+
+        private readonly DataContext _context;
+        private bool _disposed = false;
+
+        // Methods
+
+        public void DeleteUser(Guid guidId)
         {
-            context.Users.Remove(context.Users.Find(GuidId));
+            _context.Users.Remove(_context.Users.Find(guidId));
         }
 
-        public User GetUserByID(Guid GuidId)
+        public User GetUserByID(Guid guidId)
         {
-            return context.Users.Find(GuidId);
+            return _context.Users.Find(guidId);
         }
 
-        public User GetUserByUsername(String Username)
+        public User GetUserByUsername(String username)
         {
-            User myUser = context.Users.SingleOrDefault(user => user.Username == Username);
+            User myUser = _context.Users.SingleOrDefault(user => user.Username == username);
             return myUser;
         }
 
         public IEnumerable<User> GetUsers()
         {
-            return context.Users.ToList();
+            return _context.Users.ToList();
         }
 
         public void InsertUser(User user)
         {
-            context.Users.Add(user);
+            _context.Users.Add(user);
         }
 
         public void Save()
         {
-            context.SaveChanges();
+            _context.SaveChanges();
         }
 
-        public void ValidateUser(User user, Boolean validated)
+        public void ValidateUser(User user, bool validated)
         {
-            var entity = context.Users.SingleOrDefault(dbuser => dbuser.UserId == user.UserId);
+            var entity = _context.Users.SingleOrDefault(dbuser => dbuser.UserId == user.UserId);
             entity.isValidated = validated;
-            context.Users.Attach(entity);
-            context.Entry(entity).State = EntityState.Modified;
+            _context.Users.Attach(entity);
+            _context.Entry(entity).State = EntityState.Modified;
         }
 
         public void UpdateUser(User user)
         {
-            var entity = context.Users.SingleOrDefault(dbuser => dbuser.UserId == user.UserId);
+            var entity = _context.Users.SingleOrDefault(dbuser => dbuser.UserId == user.UserId);
             
             foreach (PropertyInfo propertyInfo in user.GetType().GetProperties())
             {
@@ -72,21 +76,21 @@ namespace PIMSuite.Persistence.Repositories
             user.isAdmin = entity.isAdmin;
             user.isValidated = entity.isValidated;
             user.Creation = entity.Creation;
-            context.Entry(entity).CurrentValues.SetValues(user);
-            context.Users.Attach(entity);
-            context.Entry(entity).State = EntityState.Modified;
+            _context.Entry(entity).CurrentValues.SetValues(user);
+            _context.Users.Attach(entity);
+            _context.Entry(entity).State = EntityState.Modified;
         }
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!this.disposed)
+            if (!_disposed)
             {
                 if (disposing)
                 {
-                    context.Dispose();
+                    _context.Dispose();
                 }
             }
-            this.disposed = true;
+            _disposed = true;
         }
 
         public void Dispose()

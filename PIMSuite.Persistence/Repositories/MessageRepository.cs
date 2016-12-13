@@ -9,12 +9,18 @@ namespace PIMSuite.Persistence.Repositories
 {
     public class MessageRepository : IMessageRepository
     {
-        private DataContext _dataContext;
+        // Constructors
 
         public MessageRepository(DataContext dataContext)
         {
             _dataContext = dataContext;
         }
+
+        // Fields
+
+        private readonly DataContext _dataContext;
+
+        // Methods
 
         public IEnumerable<string[]> GetMessageHistories(Guid senderUserGuid, Guid receiverUserGuid)
         {

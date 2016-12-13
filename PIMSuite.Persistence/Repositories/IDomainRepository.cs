@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using PIMSuite.Persistence.Entities;
 
 namespace PIMSuite.Persistence.Repositories
@@ -10,9 +7,9 @@ namespace PIMSuite.Persistence.Repositories
     public interface IDomainRepository
     {
         IEnumerable<Domain> GetDomains();
-        void InsertDomain(string DomainName);
-        void UpdateDomain(int DomainId, string DomainName);
-        void RemoveDomain(int DomainId);
-        Boolean isValid(string DomainName);
+        void InsertDomain(string domainName);
+        void UpdateDomain(int domainId, string domainName);
+        void RemoveDomain(int domainId);
+        bool CheckIsValid(string domainName);
     }
 }

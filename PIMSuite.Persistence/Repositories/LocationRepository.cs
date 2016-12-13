@@ -1,65 +1,67 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using PIMSuite.Persistence.Entities;
-using PIMSuite.Persistence;
 using System.Data.Entity;
 
 namespace PIMSuite.Persistence.Repositories
 {
     public class LocationRepository : ILocationRepository, IDisposable
     {
-        private DataContext context;
-        private bool disposed = false;
-
+        // Constructors
 
         public LocationRepository(DataContext context)
         {
-            this.context=context;
+            _context = context;
         }
 
-        public void DeleteLocation(string LocationName)
+        // Fields
+
+        private readonly DataContext _context;
+        private bool _disposed = false;
+
+        // Methods
+
+        public void DeleteLocation(string locationName)
         {
-            context.Locations.Remove(context.Locations.Find(LocationName));
+            _context.Locations.Remove(_context.Locations.Find(locationName));
         }
         
-        public Location GetLocationByName(string LocationName)
+        public Location GetLocationByName(string locationName)
         {
-            return context.Locations.Find(LocationName);
+            return _context.Locations.Find(locationName);
         }
 
         public IEnumerable<Location> GetLocations()
         {
-            return context.Locations.ToList();
+            return _context.Locations.ToList();
         }
 
-        public void InsertLocation(Location Location)
+        public void InsertLocation(Location location)
         {
-            context.Locations.Add(Location);
+            _context.Locations.Add(location);
         }
 
-        public void UpdateLocation(Location Location)
+        public void UpdateLocation(Location location)
         {
-            context.Entry(Location).State = EntityState.Modified;
+            _context.Entry(location).State = EntityState.Modified;
         }
 
         public void Save()
         {
-            context.SaveChanges();
+            _context.SaveChanges();
         }
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!this.disposed)
+            if (!_disposed)
             {
                 if (disposing)
                 {
-                    context.Dispose();
+                    _context.Dispose();
                 }
             }
-            this.disposed = true;
+            _disposed = true;
         }
 
         public void Dispose()
@@ -67,6 +69,5 @@ namespace PIMSuite.Persistence.Repositories
             Dispose(true);
             GC.SuppressFinalize(this);
         }
-
     }
 }

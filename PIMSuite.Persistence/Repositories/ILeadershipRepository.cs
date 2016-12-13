@@ -1,20 +1,16 @@
 ﻿using PIMSuite.Persistence.Entities;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PIMSuite.Persistence.Repositories
 {
     public interface ILeadershipRepository : IDisposable
     {
-
         IEnumerable<Leadership> GetLeadership();
-        Leadership GetLeadershipByUserId(Guid GuidId);
-        void InsertLeadership(Leadership Leadership);
-        void DeleteLeadership(Guid UserId);
-        void UpdateLeadership(Leadership Leadership);
+        Leadership GetLeadershipByUserId(Guid guidId);
+        void InsertLeadership(Leadership leadership);
+        void DeleteLeadership(Guid userId);
+        void UpdateLeadership(Leadership leadership);
         void Save();
     }
 }

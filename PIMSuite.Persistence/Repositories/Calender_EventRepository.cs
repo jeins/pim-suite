@@ -5,31 +5,39 @@ using PIMSuite.Persistence.Entities;
 
 namespace PIMSuite.Persistence.Repositories
 {
-    public class Calender_EventRepository : ICalender_EventRepository
+    public class Calender_EventRepository : ICalendar_EventRepository
     {
-        private DataContext context;
+        // Constructors
+
         public Calender_EventRepository(DataContext context)
         {
-            this.context = context;
-        }
-        public void deleteCalender_Event(Guid eventId)
-        {
-            context.CalendarEvents.Remove(context.CalendarEvents.Find(eventId));
+            _context = context;
         }
 
-        public IEnumerable<Calendar_Event> getAllCalender_EventByUserIdAndCalenderId(Guid UserId, int CaledarId)
+        // Fields
+
+        private readonly DataContext _context;
+
+        // Methods
+
+        public void DeleteCalender_Event(Guid eventId)
         {
-            return context.CalendarEvents.Where(c => c.CalendarId == CaledarId  &&  c.OwnerId == UserId).ToList();
+            _context.CalendarEvents.Remove(_context.CalendarEvents.Find(eventId));
         }
 
-        public void insertCalender_Event(Calendar_Event ev)
+        public IEnumerable<Calendar_Event> GetAllCalender_EventByUserIdAndCalenderId(Guid userId, int caledarId)
         {
-            context.CalendarEvents.Add(ev);
+            return _context.CalendarEvents.Where(c => c.CalendarId == caledarId  &&  c.OwnerId == userId).ToList();
+        }
+
+        public void InsertCalender_Event(Calendar_Event ev)
+        {
+            _context.CalendarEvents.Add(ev);
         }
 
         public void Save()
         {
-            context.SaveChanges();
+            _context.SaveChanges();
         }
     }
 }

@@ -183,6 +183,8 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="AuthorizationFilter.cs" />
     <Compile Include="Controllers\AdministrationController.cs" />
+    <Compile Include="Controllers\API\CalendarController.cs" />
+    <Compile Include="Controllers\CalendarController.cs" />
     <Compile Include="Models\AdministrationModel.cs" />
     <Compile Include="SignalRHub\ChatHub.cs" />
     <Compile Include="Controllers\API\LoginController.cs" />
@@ -324,6 +326,8 @@
     <Content Include="Views\ResetPW\ResetPW.cshtml" />
     <Content Include="Views\Profile\Edit.cshtml" />
     <Content Include="Views\Administration\Index.cshtml" />
+    <Content Include="Views\Calendar\Create.cshtml" />
+    <Content Include="Views\Calendar\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

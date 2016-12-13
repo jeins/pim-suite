@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using PIMSuite.Persistence.Entities;
 using System.Data.Entity;
 
@@ -10,56 +8,60 @@ namespace PIMSuite.Persistence.Repositories
 {
     public class LeadershipRepository : ILeadershipRepository, IDisposable
     {
-        private DataContext context;
-        private bool disposed = false;
+        // Constructors
 
         public LeadershipRepository(DataContext context)
         {
-            this.context = context;
+            _context = context;
         }
-        public void DeleteLeadership(Guid UserId)
+
+        // Fields
+
+        private readonly DataContext _context;
+        private bool _disposed = false;
+
+        // Methods
+
+        public void DeleteLeadership(Guid userId)
         {
-            context.Leaderships.Remove(context.Leaderships.Find(UserId));
+            _context.Leaderships.Remove(_context.Leaderships.Find(userId));
         }
-
-      
-
+        
         public IEnumerable<Leadership> GetLeadership()
         {
-            return context.Leaderships.ToList();
+            return _context.Leaderships.ToList();
         }
 
-        public Leadership GetLeadershipByUserId(Guid UserId)
+        public Leadership GetLeadershipByUserId(Guid userId)
         {
-            return context.Leaderships.Find(UserId);
+            return _context.Leaderships.Find(userId);
         }
 
-        public void InsertLeadership(Leadership Leadership)
+        public void InsertLeadership(Leadership leadership)
         {
-            context.Leaderships.Add(Leadership);
+            _context.Leaderships.Add(leadership);
         }
 
         public void Save()
         {
-            context.SaveChanges();
+            _context.SaveChanges();
         }
 
-        public void UpdateLeadership(Leadership Leadership)
+        public void UpdateLeadership(Leadership leadership)
         {
-            context.Entry(Leadership).State = EntityState.Modified;
+            _context.Entry(leadership).State = EntityState.Modified;
         }
-
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!this.disposed)
+            if (!_disposed)
             {
                 if (disposing)
                 {
-                    context.Dispose();
+                    _context.Dispose();
                 }
             }
-            this.disposed = true;
+            _disposed = true;
         }
 
         public void Dispose()

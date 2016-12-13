@@ -1,23 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using PIMSuite.Persistence.Entities;
 
 namespace PIMSuite.Persistence.Repositories
 {
-    public class CalenderRepository : ICalenderRepository
+    public class CalenderRepository : ICalendarRepository
     {
-        private DataContext context;
+        // Constructors
+
         public CalenderRepository(DataContext context)
         {
-            this.context = context;
+            _context = context;
         }
 
-        public IEnumerable<Calendar> getAllPublicCalendarsByUserId(Guid UserId)
+        // Fields
+
+        private readonly DataContext _context;
+        
+        // Methods
+
+        public IEnumerable<Calendar> GetAllPublicCalendarsByUserId(Guid userId)
         {
-            return context.Calendars.Where(c => c.OwnerId == UserId && c.Privacy == false).ToList();
+            return _context.Calendars.Where(c => c.OwnerId == userId && c.Privacy == false).ToList();
         }
     }
 }

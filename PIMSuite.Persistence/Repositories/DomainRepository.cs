@@ -1,20 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using PIMSuite.Persistence.Entities;
 
 namespace PIMSuite.Persistence.Repositories
 {
     public class DomainRepository : IDomainRepository
     {
-        private DataContext _dataContext;
+        // Constructors
 
         public DomainRepository(DataContext dataContext)
         {
             _dataContext = dataContext;
         }
+
+        // Fields
+
+        private readonly DataContext _dataContext;
+
+        // Methods
 
         public IEnumerable<Domain> GetDomains()
         {
@@ -23,29 +27,29 @@ namespace PIMSuite.Persistence.Repositories
             return domains;
         }
 
-        public void InsertDomain(string DomainName)
+        public void InsertDomain(string domainName)
         {
             var domain = new Domain
             {
-                DomainName = DomainName
+                DomainName = domainName
             };
             _dataContext.Domains.Add(domain);
             _dataContext.SaveChanges();
         }
 
-        public void UpdateDomain(int DomainId, string DomainName)
+        public void UpdateDomain(int domainId, string domainName)
         {
-            var domain = _dataContext.Domains.SingleOrDefault(c => c.DomainId.Equals(DomainId));
+            var domain = _dataContext.Domains.SingleOrDefault(c => c.DomainId.Equals(domainId));
             if (domain != null)
             {
-                domain.DomainId = DomainId;
+                domain.DomainId = domainId;
                 _dataContext.SaveChanges();
             }
         }
 
-        public void RemoveDomain(int DomainId)
+        public void RemoveDomain(int domainId)
         {
-            var domain = _dataContext.Domains.FirstOrDefault(c => c.DomainId == DomainId);
+            var domain = _dataContext.Domains.FirstOrDefault(c => c.DomainId == domainId);
 
             if (domain != null)
             {
@@ -54,9 +58,9 @@ namespace PIMSuite.Persistence.Repositories
             }
         }
 
-        public Boolean isValid(string DomainName)
+        public bool CheckIsValid(string domainName)
         {
-            Domain domain = _dataContext.Domains.SingleOrDefault(c => c.DomainName == DomainName);
+            Domain domain = _dataContext.Domains.SingleOrDefault(c => c.DomainName == domainName);
             if (domain != null)
             {
                 return true;

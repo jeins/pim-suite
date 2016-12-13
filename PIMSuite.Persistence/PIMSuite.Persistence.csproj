@@ -77,8 +77,8 @@
     <Compile Include="Repositories\DomainRepository.cs" />
     <Compile Include="Repositories\ConnectionRepository.cs" />
     <Compile Include="Repositories\DepartmentRepository.cs" />
-    <Compile Include="Repositories\ICalenderRepository.cs" />
-    <Compile Include="Repositories\ICalender_EventRepository.cs" />
+    <Compile Include="Repositories\ICalendarRepository.cs" />
+    <Compile Include="Repositories\ICalendar_EventRepository.cs" />
     <Compile Include="Repositories\IDomainRepository.cs" />
     <Compile Include="Repositories\IConnectionRepository.cs" />
     <Compile Include="Repositories\IDepartmentRepository.cs" />
