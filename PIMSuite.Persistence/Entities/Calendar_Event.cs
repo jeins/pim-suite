@@ -11,6 +11,7 @@ namespace PIMSuite.Persistence.Entities
         public Calendar_Event()
         {
             CreatedAt = DateTime.Now;
+            isPrivate = true;
         }
 
         // Properties
@@ -47,6 +48,10 @@ namespace PIMSuite.Persistence.Entities
         
         [Required(ErrorMessage = "Dauer ist erforderlich!")]
         public DateTime Duration { get; set; } 
+        //true ein privater Termin
+        //false ein öffentlicher Termin
+        //automatisch ein privater
+        public bool isPrivate { get; set; }
         
         //Für "Termin findet wirklich statt" Flag
         public bool Confirmed { get; set; }
