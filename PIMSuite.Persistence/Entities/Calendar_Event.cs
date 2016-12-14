@@ -33,22 +33,23 @@ namespace PIMSuite.Persistence.Entities
         [Required(ErrorMessage = "Name ist erforderlich!")]
         public string Name { get; set; }
 
+        [Required(ErrorMessage = "Titel der Veranstaltung ist erforderlich!")]
         public string Description { get; set; } 
 
         //Achtung, ist als Freitext-String gedacht, daher keine Verknüpfung zu Location Entität
         public string Location { get; set; }
 
-        //Für ganztagige Events
-        public bool AllDayEvent { get; set; }
+        [Required(ErrorMessage = "Datum ist erforderlich!")]
+        public DateTime Date { get; set; }
 
+        [Required(ErrorMessage = "Uhrzeit ist erforderlich!")]
+        public DateTime Time { get; set; }
+        
+        [Required(ErrorMessage = "Dauer ist erforderlich!")]
+        public DateTime Duration { get; set; } 
+        
         //Für "Termin findet wirklich statt" Flag
         public bool Confirmed { get; set; }
-
-        [Required(ErrorMessage = "Startzeit ist erforderlich!")]
-        public DateTime StartTime { get; set; }
-
-        [Required(ErrorMessage = "Endzeit ist erforderlich!")]
-        public DateTime EndTime { get; set; }
 
         public DateTime CreatedAt { get; private set; }
     }
