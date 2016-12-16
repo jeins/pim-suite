@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 using PIMSuite.Persistence;
 using PIMSuite.Persistence.Repositories;
 
@@ -40,6 +41,10 @@ namespace PIMSuite.WebApp.Controllers
 
         public ActionResult Show(int calendarId)
         {
+            var calendar = _calendarRepository.GetCalendarByCalendarId(calendarId);
+
+            ViewBag.CalendarName = calendar.Name;
+
             return View();
         }
     }

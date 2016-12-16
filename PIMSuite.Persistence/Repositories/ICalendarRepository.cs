@@ -10,5 +10,6 @@ namespace PIMSuite.Persistence.Repositories
         IEnumerable<Calendar> GetAllUserCalendars(Guid userId);
         void InsertCalendar(Calendar calendar);
         void Save();
+        Calendar GetCalendarByCalendarId(int calendarId);
     }
 }

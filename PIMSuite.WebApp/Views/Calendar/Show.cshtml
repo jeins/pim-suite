@@ -12,7 +12,7 @@
     <div class="col-md-12">
         <div class="x_panel">
             <div class="x_title">
-                <h2>Calendar</h2>
+                <h2>@ViewBag.CalendarName</h2>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
@@ -25,12 +25,34 @@
     <script src="~/Scripts/fullcalendar/moment.min.js"></script>
     <script src="~/Scripts/fullcalendar/fullcalendar.js"></script>
     <script>
+        var date = new Date(),
+            d = date.getDate(),
+            m = date.getMonth(),
+            y = date.getFullYear();
         var calendar = $('#calendar').fullCalendar({
             header: {
                 left: 'prev,next today',
                 center: 'title',
                 right: 'month,agendaWeek'
-            }
+            },
+            events: [{
+                title: 'Test Event 1',
+                start: new Date(y, m, 1),
+                allDay: true
+            }, {
+                title: 'Test Event 2',
+                start: new Date(y, m, d - 5),
+                end: new Date(y, m, d - 2)
+            }, {
+                title: 'Test Event 3',
+                start: new Date(y, m, d, 10, 30),
+                allDay: false
+            }, {
+                title: 'Test Event 4',
+                start: new Date(y, m, d + 14, 12, 0),
+                end: new Date(y, m, d, 14, 0),
+                allDay: false
+            }]
         });
     </script>
 }

@@ -39,5 +39,10 @@ namespace PIMSuite.Persistence.Repositories
         {
             _context.SaveChanges();
         }
+
+        public Calendar GetCalendarByCalendarId(int calendarId)
+        {
+            return _context.Calendars.FirstOrDefault(c => c.CalendarId == calendarId);
+        }
     }
 }
