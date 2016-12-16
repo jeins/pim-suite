@@ -28,10 +28,17 @@ namespace PIMSuite.WebApp.Controllers
 
         public ActionResult Index()
         {
+            ViewBag.CalendarList = _calendarRepository.GetAllUserCalendars(ViewBag.User.UserId);
+
             return View();
         }
 
         public ActionResult Create()
+        {
+            return View();
+        }
+
+        public ActionResult Show(int calendarId)
         {
             return View();
         }

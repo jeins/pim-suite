@@ -9,3 +9,14 @@
 <p>
     <a href="@Url.Action("Create", "Calendar")">Kalendar erstellen</a>
 </p>
+
+<h2>User Kalendar Liste</h2>
+
+<ul>
+    @foreach (var calendar in ViewBag.CalendarList)
+    {
+        <li>
+            <a href="@Url.Action("Show", "Calendar", new {calendarId = calendar.CalendarId})">@calendar.Name</a>
+        </li>
+    }
+</ul>

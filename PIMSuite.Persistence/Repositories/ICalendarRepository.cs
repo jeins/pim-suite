@@ -7,6 +7,7 @@ namespace PIMSuite.Persistence.Repositories
     public interface ICalendarRepository
     {
         IEnumerable<Calendar> GetAllPublicCalendarsByUserId(Guid userId);
+        IEnumerable<Calendar> GetAllUserCalendars(Guid userId);
         void InsertCalendar(Calendar calendar);
         void Save();
     }
