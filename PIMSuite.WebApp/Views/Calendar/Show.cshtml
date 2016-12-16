@@ -1,7 +1,36 @@
 ﻿
 @{
-    ViewBag.Title = "Show";
+    ViewBag.Title = "Kalender Anzeigen";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
 }
 
-<h2>Show</h2>
+<link href="~/Content/fullcalendar.min.css" rel="stylesheet" />
+<link href="~/Content/fullcalendar.print.css" rel="stylesheet" media="print"/>
+<link href="~/Content/custom.css" rel="stylesheet" />
 
+<div class="row">
+    <div class="col-md-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>Calendar</h2>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <div id='calendar'></div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts {
+    <script src="~/Scripts/fullcalendar/moment.min.js"></script>
+    <script src="~/Scripts/fullcalendar/fullcalendar.js"></script>
+    <script>
+        var calendar = $('#calendar').fullCalendar({
+            header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'month,agendaWeek'
+            }
+        });
+    </script>
+}
