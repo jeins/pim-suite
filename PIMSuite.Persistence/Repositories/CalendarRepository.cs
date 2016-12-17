@@ -44,5 +44,6 @@ namespace PIMSuite.Persistence.Repositories
         {
             return _context.Calendars.FirstOrDefault(c => c.CalendarId == calendarId);
         }
+
     }
 }

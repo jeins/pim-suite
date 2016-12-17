@@ -1,8 +1,9 @@
-﻿
+﻿@model PIMSuite.Persistence.Entities.Calendar
 @{
     ViewBag.Title = "Kalender Anzeigen";
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
 }
+@Html.ActionLink("zurück zu meinen Kalendern", "Index")
 
 <link href="~/Content/fullcalendar.min.css" rel="stylesheet" />
 <link href="~/Content/fullcalendar.print.css" rel="stylesheet" media="print"/>
@@ -55,4 +56,6 @@
             }]
         });
     </script>
+
 }
+

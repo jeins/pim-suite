@@ -53,8 +53,9 @@ namespace PIMSuite.WebApp.Controllers
             return View();
         }
 
-        public ActionResult CreateEvent(int CalendarId)
+        public ActionResult CreateEvent(int  CalendarId)
         {
+
 
             Calendar_Event _event = new Calendar_Event();
             var userId = Guid.Parse(User.Identity.GetUserId());

@@ -11,7 +11,7 @@ namespace PIMSuite.Persistence.Entities
         public Calendar_Event()
         {
             CreatedAt = DateTime.Now;
-            isPrivate = true;
+            Confirmed = true;
         }
 
         // Properties
@@ -34,20 +34,19 @@ namespace PIMSuite.Persistence.Entities
         [Required(ErrorMessage = "Name ist erforderlich!")]
         public string Name { get; set; }
 
-        [Required(ErrorMessage = "Titel der Veranstaltung ist erforderlich!")]
+        [Required(ErrorMessage = "Beschreibung der Veranstaltung ist erforderlich!")]
         public string Description { get; set; } 
 
         //Achtung, ist als Freitext-String gedacht, daher keine Verknüpfung zu Location Entität
         public string Location { get; set; }
+        [DataType(DataType.DateTime)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime StartsAt { get; set; }
 
-        [Required(ErrorMessage = "Datum ist erforderlich!")]
-        public DateTime Date { get; set; }
+        [DataType(DataType.DateTime)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime EndsAt { get; set; }
 
-        [Required(ErrorMessage = "Uhrzeit ist erforderlich!")]
-        public DateTime Time { get; set; }
-        
-        [Required(ErrorMessage = "Dauer ist erforderlich!")]
-        public DateTime Duration { get; set; } 
         //true ein privater Termin
         //false ein öffentlicher Termin
         //automatisch ein privater
