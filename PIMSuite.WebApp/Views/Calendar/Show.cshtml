@@ -1,9 +1,14 @@
-﻿@model PIMSuite.Persistence.Entities.Calendar
+﻿
 @{
     ViewBag.Title = "Kalender Anzeigen";
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
 }
-@Html.ActionLink("zurück zu meinen Kalendern", "Index")
+<p>
+@Html.ActionLink("zurück zu meinen Kalendern", "Index")|
+</p>
+<p>
+@Html.ActionLink("Termin erstellen", "CreateEvent", new { CalendarId = (int)ViewBag.CalendarId }) 
+</p>
 
 <link href="~/Content/fullcalendar.min.css" rel="stylesheet" />
 <link href="~/Content/fullcalendar.print.css" rel="stylesheet" media="print"/>
@@ -14,6 +19,7 @@
         <div class="x_panel">
             <div class="x_title">
                 <h2>@ViewBag.CalendarName</h2>
+                
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">

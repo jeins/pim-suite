@@ -49,6 +49,7 @@ namespace PIMSuite.WebApp.Controllers
             var calendar = _calendarRepository.GetCalendarByCalendarId(calendarId);
 
             ViewBag.CalendarName = calendar.Name;
+            ViewBag.CalendarId = calendar.CalendarId;
 
             return View();
         }
