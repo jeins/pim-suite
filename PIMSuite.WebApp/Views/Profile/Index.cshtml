@@ -87,6 +87,9 @@
                                         <a href="@Url.Action("Show", "Profile", new {userId = user.UserId.ToString()})" class="btn btn-primary btn-xs" role="button">
                                             <i class="fa fa-user"> </i> @ViewBag.ViewProfile
                                         </a>
+                                        <a href="@Url.Action("Index", "Calendar", new {CalendarId = user.UserId.ToString()})" class="btn btn-primary btn-xs" role="button">
+                                            <i class="fa fa-calendar"> </i> Kalender
+                                        </a>
                                     </div>
                                 </div>
                             </div>

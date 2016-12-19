@@ -4,13 +4,13 @@
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
 }
 
-<h2>Kalendar</h2>
+<h2>Kalender</h2>
 
 <p>
-    <a href="@Url.Action("Create", "Calendar")">Kalendar erstellen</a>
+    <a href="@Url.Action("Create", "Calendar")">Kalender erstellen</a>
 </p>
 
-<h2>User Kalendar Liste</h2>
+<h2>User Kalender Liste</h2>
 
 <ul>
     @foreach (var calendar in ViewBag.CalendarList)
