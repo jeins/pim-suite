@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 
+
+
 namespace PIMSuite.Persistence.Repositories
 {
     public interface IUserRepository : IDisposable

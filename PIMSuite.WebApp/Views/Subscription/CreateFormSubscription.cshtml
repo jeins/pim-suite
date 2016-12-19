@@ -1,0 +1,36 @@
+﻿
+@{
+    ViewBag.Title = "CreateFormSubscription";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+
+@using (Html.BeginForm())
+{
+    <p>
+        Find by name: @Html.TextBox("SearchString")
+        <input type="submit" value="Search" />
+    </p>
+}
+
+
+@using PIMSuite.Persistence.Entities;
+<ul>
+    @foreach (var u in ViewData["users"] as IEnumerable<User>)
+    {
+        <li>
+           
+            @Ajax.ActionLink(@u.FirstName + " " + @u.LastName, "GetCalendars",
+                new { UserId = u.UserId },
+                new AjaxOptions()
+                {
+
+                    UpdateTargetId = "searchResults",
+                    InsertionMode = InsertionMode.Replace
+                })
+        </li>
+    }
+</ul>
+
+<div id="searchResults">
+</div>
+@Html.ActionLink("Zucück zu meinen Abonnements", "Index")

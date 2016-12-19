@@ -5,6 +5,7 @@ using PIMSuite.Persistence.Entities;
 using System.Data.Entity;
 using System.Reflection;
 
+
 namespace PIMSuite.Persistence.Repositories
 {
     public class UserRepository : IUserRepository, IDisposable
@@ -98,5 +99,7 @@ namespace PIMSuite.Persistence.Repositories
             Dispose(true);
             GC.SuppressFinalize(this);
         }
+
+     
     }
 }

@@ -1,0 +1,14 @@
+﻿@using PIMSuite.Persistence.Entities;
+
+@ViewBag.UserCalendars
+
+
+@foreach (var C in ViewData["calendars"] as IEnumerable<Calendar>)
+{
+    <li>
+        @C.Name <button type="button" onclick="location.href='@Url.Action("CreateSubscription","Subscription")'">abonnieren</button>
+    </li>
+}
+
+
+

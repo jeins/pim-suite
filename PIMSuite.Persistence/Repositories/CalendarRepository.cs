@@ -20,7 +20,7 @@ namespace PIMSuite.Persistence.Repositories
         
         // Methods
 
-        public IEnumerable<Calendar> GetAllPublicCalendarsByUserId(Guid userId)
+        public IEnumerable<Calendar> GetAllCalendarsByUserId(Guid userId)
         {
             return _context.Calendars.Where(c => c.OwnerId == userId && c.IsPrivate == false).ToList();
         }
