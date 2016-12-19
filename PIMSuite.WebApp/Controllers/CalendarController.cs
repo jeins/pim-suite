@@ -53,18 +53,15 @@ namespace PIMSuite.WebApp.Controllers
             return View();
         }
 
-        public ActionResult CreateEvent(int  CalendarId)
+        public ActionResult CreateEvent(int calendarId)
         {
-
-
             Calendar_Event _event = new Calendar_Event();
             var userId = Guid.Parse(User.Identity.GetUserId());
 
             _event.OwnerId = userId;
-            _event.CalendarId = CalendarId;
+            _event.CalendarId = calendarId;
 
             return View(_event);
-
         }
 
         [HttpPost]
@@ -78,14 +75,12 @@ namespace PIMSuite.WebApp.Controllers
                     _calendarEventRepository.Save();
                     return RedirectToAction("Index");
                 }
-
             }
             catch (Exception ex)
             {
                 ModelState.AddModelError(String.Empty, ex);
             }
             return View(_event);
-
         }
     }
 }
