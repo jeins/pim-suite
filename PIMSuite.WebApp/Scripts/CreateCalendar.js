@@ -1,14 +1,12 @@
 ﻿var createCalendarViewModel = {
     name: ko.observable(''),
-    isPrivate: ko.observable(false),
     create: function () {
         $.ajax(
         {
             url: '/API/Calendar/CreateCalendar',
             type: 'POST',
             data: {
-                name: this.name(),
-                isPrivate: this.isPrivate()
+                name: this.name()
             },
             dataType: 'json'
         }).done(function () {

@@ -27,8 +27,6 @@ namespace PIMSuite.Persistence.Entities
         [Required(ErrorMessage = "Name ist erforderlich!")]
         public string Name { get; set; }
         
-        public bool IsPrivate { get; set; }
-
         public DateTime CreatedAt { get; private set; }
     }
 }

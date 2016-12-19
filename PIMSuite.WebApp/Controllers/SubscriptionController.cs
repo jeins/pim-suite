@@ -55,7 +55,7 @@ namespace PIMSuite.WebApp.Controllers
         {
 
             ViewBag.UserCalendars = "Der Benutzer hat folgende Kalender";
-            var calendars = _calendarRepository.GetAllUserCalendars(UserId);
+            var calendars = _calendarRepository.GetAllCalendarsByUserId(UserId);
 
             ViewData["calendars"] = calendars;
             return PartialView("searchResults", calendars);

@@ -33,7 +33,7 @@ namespace PIMSuite.WebApp.Controllers
 
         public ActionResult Index()
         {
-            ViewBag.CalendarList = _calendarRepository.GetAllUserCalendars(ViewBag.User.UserId);
+            ViewBag.CalendarList = _calendarRepository.GetAllCalendarsByUserId(ViewBag.User.UserId);
 
             return View();
         }
@@ -42,7 +42,6 @@ namespace PIMSuite.WebApp.Controllers
         {
             return View();
         }
-
 
         public ActionResult Show(int calendarId)
         {

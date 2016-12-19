@@ -13,7 +13,6 @@ namespace PIMSuite.WebApp.Controllers.API
     public class CreateCalendarModel
     {
         public string Name { get; set; }
-        public bool IsPrivate { get; set; }
     }
 
     public class CalendarController : ApiController
@@ -40,7 +39,6 @@ namespace PIMSuite.WebApp.Controllers.API
             var calendar = new Calendar
             {
                 Name = model.Name,
-                IsPrivate = model.IsPrivate,
                 OwnerId = userId
             };
 
