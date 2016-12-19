@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Linq;
+using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Net.Http;
+using System.Runtime.Serialization;
 using System.Web;
 using System.Web.Http;
 using Microsoft.AspNet.Identity;
@@ -11,8 +13,11 @@ using PIMSuite.Persistence.Repositories;
 
 namespace PIMSuite.WebApp.Controllers.API
 {
+    [DataContract]
     public class CreateCalendarModel
     {
+        [DataMember(IsRequired = true)]
+        [Required]
         public string Name { get; set; }
     }
 
@@ -35,20 +40,24 @@ namespace PIMSuite.WebApp.Controllers.API
 
         // Methods
 
-        [System.Web.Http.HttpPost]
+        [HttpPost]
         public HttpResponseMessage CreateCalendar(CreateCalendarModel model)
         {
-            var userId = Guid.Parse(HttpContext.Current.GetOwinContext().Authentication.User.Identity.GetUserId());
-            var calendar = new Calendar
+            if (model != null && ModelState.IsValid)
             {
-                Name = model.Name,
-                OwnerId = userId
-            };
+                var userId = Guid.Parse(HttpContext.Current.GetOwinContext().Authentication.User.Identity.GetUserId());
+                var calendar = new Calendar
+                {
+                    Name = model.Name,
+                    OwnerId = userId
+                };
 
-            _calendarRepository.InsertCalendar(calendar);
-            _calendarRepository.Save();
+                _calendarRepository.InsertCalendar(calendar);
+                _calendarRepository.Save();
 
-            return Request.CreateResponse(HttpStatusCode.Accepted, calendar.CalendarId);
+                return Request.CreateResponse(HttpStatusCode.Accepted, calendar.CalendarId);
+            }
+            return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "invalid data");
         }
 
         public HttpResponseMessage GetCalendarEvents(string userId, int calendarId)
