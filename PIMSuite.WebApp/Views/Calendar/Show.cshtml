@@ -19,7 +19,7 @@
         <div class="x_panel">
             <div class="x_title">
                 <h2>@ViewBag.CalendarName</h2>
-                
+
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
@@ -28,19 +28,82 @@
         </div>
     </div>
 </div>
+
+<div id="ViewEvent" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myModalLabel2">View Event</h4>
+            </div>
+            <div class="modal-body">
+
+                <div id="testmodal2" style="padding: 5px 20px;">
+                    <form id="antoform2" class="form-horizontal calender" role="form">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Start - End</label>
+                            <div class="col-xs-3">
+                                <input type="text" class="form-control" id="view_start" name="view_start">
+                            </div>
+                            <div class="col-xs-3">
+                                <input type="text" class="form-control" id="view_end" name="view_end">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Title</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="view_title" name="view_title">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Location</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="view_location" name="view_location">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Description</label>
+                            <div class="col-sm-9">
+                                <textarea class="form-control" style="height: 55px;" id="view_description" name="view_description"></textarea>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="view_event" data-toggle="modal" data-target="#ViewEvent"></div>
+
 @section scripts {
     <script src="~/Scripts/fullcalendar/moment.min.js"></script>
     <script src="~/Scripts/fullcalendar/fullcalendar.js"></script>
     <script>
-        var date = new Date(),
-            d = date.getDate(),
-            m = date.getMonth(),
-            y = date.getFullYear();
         var calendar = $('#calendar').fullCalendar({
             header: {
                 left: 'prev,next today',
                 center: 'title',
                 right: 'month,agendaWeek'
+            },
+            selectable: true,
+            selectHelper: true,
+            eventClick: function (calEvent, jsEvent, view) {
+                $('#view_event').click();
+                $('#view_start').val(moment(calEvent.start).format("hh:mm a"));
+                $('#view_end').val(moment(calEvent.end).format("hh:mm a"));
+                $('#view_title').val(calEvent.title);
+                $('#view_location').val(calEvent.location);
+                $("#view_description").val(calEvent.description);
+
+                console.log(calEvent);
+
+                calendar.fullCalendar('unselect');
             },
             events: '/API/Calendar/GetCalendarEvents?userId=@ViewBag.UserId&calendarId=@ViewBag.CalendarId'
         });
