@@ -1,6 +1,10 @@
 ﻿var createCalendarViewModel = {
     name: ko.observable(''),
+    creationSuccessful: ko.observable(false),
+    creationFailed: ko.observable(false),
     create: function () {
+        this.creationSuccessful(false);
+        this.creationFailed(false);
         $.ajax(
         {
             url: '/API/Calendar/CreateCalendar',
@@ -10,7 +14,10 @@
             },
             dataType: 'json'
         }).done(function () {
-            alert('created');
+            createCalendarViewModel.creationSuccessful(true);
+            createCalendarViewModel.name('');
+        }).fail(function() {
+            createCalendarViewModel.creationFailed(true);
         });
     }
 };
