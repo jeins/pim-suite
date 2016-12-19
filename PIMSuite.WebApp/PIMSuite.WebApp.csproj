@@ -342,6 +342,7 @@
     <Content Include="Views\Subscription\Index.cshtml" />
     <Content Include="Views\Subscription\CreateFormSubscription.cshtml" />
     <Content Include="Views\Subscription\searchResults.cshtml" />
+    <Content Include="Views\Calendar\List.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

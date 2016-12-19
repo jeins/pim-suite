@@ -25,6 +25,11 @@ namespace PIMSuite.Persistence.Repositories
             return _context.Calendars.Where(c => c.OwnerId == userId).ToList();
         }
 
+  /*      public IEnumerable<Calendar> GetAllPublicCalendarsByUserId(Guid userId)
+        {
+            return _context.Calendars.Where(c => c.OwnerId == userId && !c.isPrivate).ToList();
+        } */
+
         public void InsertCalendar(Calendar calendar)
         {
             _context.Calendars.Add(calendar);

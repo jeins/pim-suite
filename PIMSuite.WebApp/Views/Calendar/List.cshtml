@@ -1,0 +1,30 @@
+﻿
+@{
+    ViewBag.Title = "Öffentliche Kalender von " + ViewBag.UserName;
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+
+<link href="~/Content/fullcalendar.min.css" rel="stylesheet" />
+<link href="~/Content/fullcalendar.print.css" rel="stylesheet" media="print" />
+<link href="~/Content/custom.css" rel="stylesheet" />
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="x_panel">
+
+            <div class="x_content">
+                <ul>
+                    @foreach (var calendar in ViewBag.CalendarList)
+                    {
+                        <li>
+                            <a href="@Url.Action("Show", "Calendar", new {calendarId = calendar.CalendarId})">@calendar.Name</a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
