@@ -51,6 +51,7 @@ namespace PIMSuite.WebApp.Controllers
 
             ViewBag.CalendarName = calendar.Name;
             ViewBag.CalendarId = calendar.CalendarId;
+            ViewBag.UserId = User.Identity.GetUserId();
 
             return View();
         }
