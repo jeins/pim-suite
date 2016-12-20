@@ -13,6 +13,7 @@ namespace PIMSuite.Persistence.Validators
         public UserValidator()
         {
             RuleFor(x => x.Email).Must(BeUniqueEmail).WithMessage("Email already exists");
+            RuleFor(x => x.Email).Must(BeValidDomain).WithMessage("Your Mail-Domain is not allowed");
             RuleFor(x => x.Username).Must(BeUniqueUsername).WithMessage("Username already exists");
         }
 
@@ -24,6 +25,12 @@ namespace PIMSuite.Persistence.Validators
         private bool BeUniqueEmail(string email)
         {
             return new DataContext().Users.FirstOrDefault(x => x.Email == email) == null;
+        }
+
+        private bool BeValidDomain(string email)
+        {
+            var domain = email.Split('@')[1];
+            return new DataContext().Domains.FirstOrDefault(x => x.DomainName == domain) != null;
         }
     }
 }

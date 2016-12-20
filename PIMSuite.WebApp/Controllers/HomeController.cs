@@ -20,7 +20,13 @@ namespace PIMSuite.WebApp.Controllers
             IDepartmentRepository departmentRepository = new DepartmentRepository(new DataContext());
             ILocationRepository locationRepository = new LocationRepository(new DataContext());
             IUserRepository userRepository = new UserRepository(new DataContext());
-            
+            IDomainRepository domainRepository = new DomainRepository(new DataContext());
+
+            if (domainRepository.GetDomains().Count() == 0)
+            {
+                domainRepository.InsertDomain("gmail.com");
+                domainRepository.InsertDomain("live.de");
+            }
 
             if (departmentRepository.GetDepartments().Count() == 0)
             {

@@ -70,5 +70,10 @@ namespace PIMSuite.Persistence.Repositories
                 return false;
             }
         }
+
+        public void Save()
+        {
+            _dataContext.SaveChanges();
+        }
     }
 }

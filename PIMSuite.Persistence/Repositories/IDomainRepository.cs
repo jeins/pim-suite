@@ -11,5 +11,6 @@ namespace PIMSuite.Persistence.Repositories
         void UpdateDomain(int domainId, string domainName);
         void RemoveDomain(int domainId);
         bool CheckIsValid(string domainName);
+        void Save();
     }
 }
