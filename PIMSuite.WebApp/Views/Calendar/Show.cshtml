@@ -49,6 +49,15 @@
                             <input type="text" class="form-control" id="view_end" name="view_end">
                         </div>
                     </div>
+                    @if (ViewBag.DisplayAll)
+                    {
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Private Calendar</label>
+                            <div class="col-sm-9">
+                                <input type="checkbox" class="form-control" id="view_is_private" name="view_is_private">
+                            </div>
+                        </div>
+                    }
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Title</label>
                         <div class="col-sm-9">
@@ -93,6 +102,12 @@
                         </div>
                         <div class="col-xs-4">
                             <input type="text" class="form-control" id="add_end" name="add_end">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Private Calendar</label>
+                        <div class="col-sm-9">
+                            <input type="checkbox" class="form-control" id="add_is_private" name="add_is_private">
                         </div>
                     </div>
                     <div class="form-group">
@@ -149,6 +164,7 @@
                     $('#add_end').val("");
                     $('#add_location').val("");
                     $('#add_description').val("");
+                    $('#add_is_private').prop('checked', false);
 
                     $(".add_submit").on('click', function() {
                         var calendarId = @ViewBag.CalendarId;
@@ -159,7 +175,8 @@
                             location: $('#add_location').val(),
                             description: $('#add_description').val(),
                             allDay: false,
-                            calendarId: calendarId
+                            calendarId: calendarId,
+                            isPrivate: $('#add_is_private').prop('checked')
                         };
 
                         calendar.fullCalendar('renderEvent', newEvent, true);
@@ -184,6 +201,7 @@
                     $('#view_title').val(calEvent.title);
                     $('#view_location').val(calEvent.location);
                     $("#view_description").val(calEvent.description);
+                    $('#view_is_private').prop('checked', calEvent.isPrivateEvent);
 
                     console.log(calEvent);
 

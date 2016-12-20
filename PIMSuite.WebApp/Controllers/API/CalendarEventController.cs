@@ -31,17 +31,20 @@ namespace PIMSuite.WebApp.Controllers.API
         public string Location { get; set; }
         public string Description { get; set; }
         public int CalendarId { get; set; }
+
+        [DataMember(IsRequired = true)]
+        [Required]
+        public bool IsPrivate { get; set; }
     }
 
     public class CalendarEventController : ApiController
     {
-        private readonly DataContext _dataContext;
         private readonly ICalendar_EventRepository _calendarEventRepository;
 
         public CalendarEventController()
         {
-            _dataContext = new DataContext();
-            _calendarEventRepository = new Calendar_EventRepository(_dataContext);
+            var dataContext = new DataContext();
+            _calendarEventRepository = new Calendar_EventRepository(dataContext);
         }
 
         [HttpPost]
@@ -58,7 +61,8 @@ namespace PIMSuite.WebApp.Controllers.API
                     StartsAt = DateTime.Parse(model.Start),
                     EndsAt = DateTime.Parse(model.End),
                     Description = model.Description,
-                    Location = model.Location
+                    Location = model.Location,
+                    isPrivate = model.IsPrivate
                 };
 
                 _calendarEventRepository.InsertCalendar_Event(calendarEvent);
@@ -71,7 +75,9 @@ namespace PIMSuite.WebApp.Controllers.API
 
         public HttpResponseMessage GetEvents(string userId, int calendarId)
         {
+            var displayAllEvent = DisplayAllEvent(new Guid(userId));
             var eventList = _calendarEventRepository.GetAllCalendar_EventByUserIdAndCalendarId(new Guid(userId), calendarId)
+                .Where(c => c.isPrivate == displayAllEvent || c.isPrivate == false)
                 .Select(c => new
                 {
                     id = c.EventId,
@@ -80,11 +86,25 @@ namespace PIMSuite.WebApp.Controllers.API
                     location = c.Location,
                     start = c.StartsAt.ToString(("s")),
                     end = c.EndsAt.ToString("s"),
+                    isPrivateEvent = c.isPrivate,
+                    displayAllEvent = displayAllEvent,
                     allday = false
                 }
             );
 
             return Request.CreateResponse(HttpStatusCode.OK, eventList, Configuration.Formatters.JsonFormatter);
+        }
+
+        private bool DisplayAllEvent(Guid eventOwner)
+        {
+            var currUserId = Guid.Parse(HttpContext.Current.GetOwinContext().Authentication.User.Identity.GetUserId());
+
+            if (currUserId.Equals(eventOwner))
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }
