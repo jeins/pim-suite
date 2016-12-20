@@ -20,6 +20,7 @@ namespace PIMSuite.WebApp.Controllers
         {
             _dataContext = new DataContext();
             _calendarRepository = new CalendarRepository(_dataContext);
+            _userRepository = new UserRepository(_dataContext);
             _calendarEventRepository = new Calendar_EventRepository(_dataContext);
         }
 
@@ -28,6 +29,7 @@ namespace PIMSuite.WebApp.Controllers
         private readonly DataContext _dataContext;
         private readonly ICalendarRepository _calendarRepository;
         private readonly ICalendar_EventRepository _calendarEventRepository;
+        private readonly UserRepository _userRepository;
 
         // Methods
 
@@ -51,6 +53,14 @@ namespace PIMSuite.WebApp.Controllers
             ViewBag.CalendarId = calendar.CalendarId;
             ViewBag.UserId = User.Identity.GetUserId();
 
+            return View();
+        }
+
+        public ActionResult List(Guid userId)
+        {
+            ViewBag.CalendarList = _calendarRepository.GetAllCalendarsByUserId(userId);
+            User user = _userRepository.GetUserByID(userId);
+            ViewBag.UserName = user.FirstName + " " + user.LastName;
             return View();
         }
 
