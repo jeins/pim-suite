@@ -12,6 +12,7 @@
 
 <link href="~/Content/fullcalendar.min.css" rel="stylesheet" />
 <link href="~/Content/fullcalendar.print.css" rel="stylesheet" media="print"/>
+<link href="~/Content/bootstrap-datetimepicker/bootstrap-datetimepicker.min.css" rel="stylesheet" />
 <link href="~/Content/custom.css" rel="stylesheet" />
 
 <div class="row">
@@ -29,48 +30,44 @@
     </div>
 </div>
 
-<div id="ViewEvent" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div id="ViewEvent" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
 
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h4 class="modal-title" id="myModalLabel2">View Event</h4>
+                <h4 class="modal-title">View Event</h4>
             </div>
             <div class="modal-body">
-
-                <div id="testmodal2" style="padding: 5px 20px;">
-                    <form id="antoform2" class="form-horizontal calender" role="form">
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">Start - End</label>
-                            <div class="col-xs-3">
-                                <input type="text" class="form-control" id="view_start" name="view_start">
-                            </div>
-                            <div class="col-xs-3">
-                                <input type="text" class="form-control" id="view_end" name="view_end">
-                            </div>
+                <form class="form-horizontal calender" role="form">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Start - End</label>
+                        <div class="col-xs-4">
+                            <input type="text" class="form-control" id="view_start" name="view_start">
                         </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">Title</label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control" id="view_title" name="view_title">
-                            </div>
+                        <div class="col-xs-4">
+                            <input type="text" class="form-control" id="view_end" name="view_end">
                         </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">Location</label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control" id="view_location" name="view_location">
-                            </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Title</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="view_title" name="view_title">
                         </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">Description</label>
-                            <div class="col-sm-9">
-                                <textarea class="form-control" style="height: 55px;" id="view_description" name="view_description"></textarea>
-                            </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Location</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="view_location" name="view_location">
                         </div>
-
-                    </form>
-                </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Description</label>
+                        <div class="col-sm-9">
+                            <textarea class="form-control" style="height: 55px;" id="view_description" name="view_description"></textarea>
+                        </div>
+                    </div>
+                </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -79,33 +76,125 @@
     </div>
 </div>
 
+<div id="AddEvent" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">Add New Event</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal calender" role="form">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Start - End</label>
+                        <div class="col-xs-4">
+                            <input type="text" class="form-control" id="add_start" name="add_start">
+                        </div>
+                        <div class="col-xs-4">
+                            <input type="text" class="form-control" id="add_end" name="add_end">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Title</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="add_title" name="add_title">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Location</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="add_location" name="add_location">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Description</label>
+                        <div class="col-sm-9">
+                            <textarea class="form-control" style="height: 55px;" id="add_description" name="add_description"></textarea>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default add_close" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary add_submit">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div id="view_event" data-toggle="modal" data-target="#ViewEvent"></div>
+<div id="add_event" data-toggle="modal" data-target="#AddEvent"></div>
 
 @section scripts {
     <script src="~/Scripts/fullcalendar/moment.min.js"></script>
     <script src="~/Scripts/fullcalendar/fullcalendar.js"></script>
+    <script src="~/Scripts/bootstrap-datetimepicker/bootstrap-datetimepicker.min.js"></script>
     <script>
-        var calendar = $('#calendar').fullCalendar({
-            header: {
-                left: 'prev,next today',
-                center: 'title',
-                right: 'month,agendaWeek'
-            },
-            selectable: true,
-            selectHelper: true,
-            eventClick: function (calEvent, jsEvent, view) {
-                $('#view_event').click();
-                $('#view_start').val(moment(calEvent.start).format("hh:mm a"));
-                $('#view_end').val(moment(calEvent.end).format("hh:mm a"));
-                $('#view_title').val(calEvent.title);
-                $('#view_location').val(calEvent.location);
-                $("#view_description").val(calEvent.description);
+        var calendar = $('#calendar')
+            .fullCalendar({
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'month,agendaWeek'
+                },
+                selectable: true,
+                selectHelper: true,
+                select: function (start) {
+                    $('#add_event').click();
 
-                console.log(calEvent);
+                    $('#add_start').val(moment(start).format('DD.MM.YYYY hh:mm a'));
+                    $('#add_title').val("");
+                    $('#add_end').val("");
+                    $('#add_location').val("");
+                    $('#add_description').val("");
 
-                calendar.fullCalendar('unselect');
-            },
-            events: '/API/Calendar/GetCalendarEvents?userId=@ViewBag.UserId&calendarId=@ViewBag.CalendarId'
+                    $(".add_submit").on('click', function() {
+                        var calendarId = @ViewBag.CalendarId;
+                        var newEvent = {
+                            title: $('#add_title').val(),
+                            start: moment($('#add_start').val(), 'DD.MM.YYYY hh:mm a').format("LLLL"),
+                            end: moment($('#add_end').val(), 'DD.MM.YYYY hh:mm a').format("LLLL"),
+                            location: $('#add_location').val(),
+                            description: $('#add_description').val(),
+                            allDay: false,
+                            calendarId: calendarId
+                        };
+
+                        calendar.fullCalendar('renderEvent', newEvent, true);
+                        calendar.fullCalendar('unselect');
+
+                        $.ajax({
+                            type: 'POST',
+                            url: '/API/CalendarEvent/CreateNewEvent',
+                            data: newEvent
+                        });
+
+                        $('.add_close').click();
+
+                        return false;
+                    });
+
+                },
+                eventClick: function(calEvent) {
+                    $('#view_event').click();
+                    $('#view_start').val(moment(calEvent.start).format('DD.MM.YYYY hh:mm a'));
+                    $('#view_end').val(moment(calEvent.end).format('DD.MM.YYYY hh:mm a'));
+                    $('#view_title').val(calEvent.title);
+                    $('#view_location').val(calEvent.location);
+                    $("#view_description").val(calEvent.description);
+
+                    console.log(calEvent);
+
+                    calendar.fullCalendar('unselect');
+                },
+                events: '/API/CalendarEvent/GetEvents?userId=@ViewBag.UserId&calendarId=@ViewBag.CalendarId'
+            });
+
+        $(function () {
+            $('#add_start').datetimepicker({ format: 'DD.MM.YYYY hh:mm a' });
+            $('#add_end').datetimepicker({ format: 'DD.MM.YYYY hh:mm a' });
         });
     </script>
 
