@@ -7,44 +7,64 @@
 <div class="main_section">
     <div class="container" style="width: 100%">
         <div class="chat_container">
+
+            <!-- chat sidebar -->
             <div class="col-sm-3 chat_sidebar">
                 <div class="row">
                     <div id="custom-search-input">
-                        <div class="input-group col-md-12">
-                            <input type="text" class=" search-query form-control" placeholder="Search"/>
+                        <div class="input-group col-md-10">
+                            <input type="text" class="search-query form-control" placeholder="Search"/>
                             <button class="btn btn-danger" type="button">
                                 <i class="fa fa-search" aria-hidden="true"></i>
                             </button>
                         </div>
+
+                        <button class="btn btn-success col-md-2" id="create-group" type="button">
+                            <i class="fa fa-plus" aria-hidden="true"></i>
+                        </button>
                     </div>
                     <div class="member_list">
-                        <ul class="list-unstyled" id="users">
+                        <ul class="list-unstyled" id="chat-rooms">
                             @foreach (var user in ViewBag.UserList)
                             {
-                                <li class="left clearfix @(ViewBag.ChatToUserId == user[0] ? "selectedUser" : null)" id="userList" user-id="@user[0]" user-lastname="@user[1]">
-                                    <div class="chat-body clearfix">
-                                        <div class="header_sec">
-                                            <strong class="primary-font">@user[1]</strong>
-                                            <span class="badge pull-right">@(user[2] == "0" ? "" : user[2])</span>
+                                if (user[3] == "user")
+                                {
+                                    <li class="left clearfix @(ViewBag.ChatToUserId == user[0] ? "selectedUser" : null)" id="chat-room" user-id="@user[0]" user-lastname="@user[1]">
+                                        <div class="chat-body clearfix">
+                                            <div class="header_sec">
+                                                <strong class="primary-font">@user[1]</strong>
+                                                <span class="badge pull-right">@(user[2] == "0" ? "" : user[2])</span>
+                                            </div>
                                         </div>
-                                    </div>
-                                </li>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li class="left clearfix @(ViewBag.ChatToUserId == user[0] ? "selectedUser" : null)" id="chat-room" group-id="@user[0]" group-name="@user[1]">
+                                        <div class="chat-body clearfix">
+                                            <div class="header_sec">
+                                                <strong class="primary-font">@user[1]</strong>
+                                                <span class="badge pull-right">@(user[2] == "0" ? "" : user[2])</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                }
                             }
                         </ul>
                     </div>
                 </div>
             </div>
-            <!--chat_sidebar-->
 
-
+            <!-- message section -->
             <div class="col-sm-9 message_section">
                 <div class="row">
                     <div class="new_message_head">
                         <div class="pull-left">
                             <span id="chatWith"></span>
                         </div>
-                    </div><!--new_message_head-->
+                    </div>
 
+                    <!-- chat area -->
                     <div class="chat_area">
                         <ul class="list-unstyled" id="messageColumn">
                             @foreach (var chatHistory in ViewBag.ChatHistories)
@@ -59,7 +79,7 @@
                                 </li>
                             }
                         </ul>
-                    </div><!--chat_area-->
+                    </div>
                     <div class="message_write">
                         <textarea class="form-control" id="messageBody" placeholder="type a message"></textarea>
                         <div class="clearfix"></div>
@@ -71,11 +91,63 @@
                         </div>
                     </div>
                 </div>
-            </div> <!--message_section-->
+            </div>
         </div>
     </div>
 </div>
 
+<!-- create group name modal -->
+<div id="CreateGroup" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">Create New Group Chat</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Group Name</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="chat-group-name" name="chat-group-name">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default cgn-close" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary cgn-submit">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="modal-create-group" data-toggle="modal" data-target="#CreateGroup"></div>
+
+<!-- add user to group chat modal -->
+<div id="AddUserToGroup" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">Add User</h4>
+            </div>
+            <div class="modal-body add-user">
+                <form class="form-horizontal" role="form">
+                    <input type="text" id="au-search-name" onkeyup="filterUser()" placeholder="Search user..">
+
+                    <ul id="au-user-list"></ul>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default au-close" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary au-add">Add</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="add-user-to-group" data-toggle="modal" data-target="#AddUserToGroup"></div>
 
 @section scripts {
     <script>
@@ -87,5 +159,83 @@
             </text>
         }
 
+        $('#create-group').on('click', function () {
+            $('#modal-create-group').click();
+
+            $('.cgn-submit').on('click', function () {
+                var groupName = $('#chat-group-name').val();
+                var requestBody = {
+                    groupName: groupName,
+                    userId: $('#currUserId').val(),
+                    isOwner: true
+                };
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/API/Chat/CreateNewGroup',
+                    data: requestBody,
+                    dataType: 'json',
+                    success: function (response) {
+                        var html = '<li class="left clearfix" id="chat-room" group-id="' + response + '" group-name="' + groupName + '"> ' +
+                                        '<div class="chat-body clearfix">' +
+                                            '<div class="header_sec">' +
+                                                '<strong class="primary-font">Group: ' + groupName + '</strong><span class="badge pull-right"></span>' +
+                                            '</div>' +
+                                        '</div>' +
+                                    '</li>';
+
+                        $('#chat-rooms').prepend(html);
+                        $('.cgn-close').click();
+                    }
+                });
+            });
+        });
+
+        function addUserToGroupChat() {
+            $('#add-user-to-group').click();
+
+            $.ajax({
+                type: 'GET',
+                url: '/API/Chat/GetUserNotInChatGroup',
+                data: { groupId: $('#userId').val() },
+                dataType: 'json',
+                success: function (response) {
+                    var html = '';
+                    console.log(response);
+
+                    Object.keys(response).forEach(function (i) {
+                        html += '<li><label><input type="checkbox" name="user" value="' + response[i].UserId + '"> ' + response[i].FirstName + ' ' + response[i].LastName + '</label></li>';
+                    });
+
+                    $('#au-user-list').prepend(html);
+                }
+            });
+
+            $('.au-add').on('click', function () {
+                var arrUserId = [];
+                $('#au-user-list input[name="user"]:checked').each(function () {
+                    arrUserId.push(this.value);
+                });
+                $('#chatWith').text('chat with: ' + JSON.stringify(arrUserId));
+                $('.au-close').click();
+            });
+        }
+
+        function filterUser() {
+            var searchUser = document.getElementById("au-search-name");
+            var findUser = searchUser.value.toUpperCase();
+            var userList = document.getElementById("au-user-list");
+            var user = userList.getElementsByTagName("li");
+
+            for (var i = 0; i < user.length; i++) {
+                var userName = user[i].getElementsByTagName("label")[0];
+                if (userName.innerHTML.toUpperCase().indexOf(findUser) > -1) {
+                    user[i].style.display = "";
+                } else {
+                    user[i].style.display = "none";
+
+                }
+            }
+        }
         </script>
 }

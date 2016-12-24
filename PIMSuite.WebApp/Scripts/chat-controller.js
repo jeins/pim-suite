@@ -9,19 +9,41 @@ $('#sendMessage').click(function () {
     $('#messageBody').val('').focus();
 });
 
-$('#users').on('click', 'li#userList', function () {
+$('#chat-rooms').on('click', 'li#chat-room', function () {
     var sender = $('#currUserId').val();
-    var receiver = $(this).attr('user-id');
+
+    var userIdAttr = $(this).attr('user-id');
+    var userNameAttr = $(this).attr('user-lastname');
+    var groupIdAttr = $(this).attr('group-id');
+    var groupNameAttr = $(this).attr('group-name');
+    var isGroup = false;
+
+    $('.new_message_head').removeClass('pull-right');
+    if (typeof groupIdAttr !== typeof undefined && groupIdAttr !== false) {
+        var html = '<div class="pull-right">'+
+                        '<button class="btn btn-success" id="add-user" type="button" onclick="addUserToGroupChat()" style="background-color: #5cb85c">' +
+                            '<i class="fa fa-plus" aria-hidden="true"></i>'+
+                        '</button>'+
+                    '</div>';
+        $('.new_message_head').append(html);
+
+        isGroup = true;
+    }
+
+    var receiverId = isGroup ? groupIdAttr : userIdAttr;
+    var receiverName = isGroup ? groupNameAttr : userNameAttr;
 
     $('.message_section').show();
-    $('#users li').removeClass('selectedUser');
+    $('#chat-rooms li').removeClass('selectedUser');
     $('#messageColumn li').remove();
-    $('#userId').val(receiver);
-    $('#chatWith').text('chat with: ' + $(this).attr('user-lastname'));
+    $('#userId').val(receiverId);
+    $('#chatWith').text('chat with: ' + receiverName);
     $(this).toggleClass('selectedUser');
 
-    chat.server.loadChatHistories(sender, receiver);
-    chat.server.readMessage(sender, receiver);
+    if (!isGroup) {
+        chat.server.loadChatHistories(sender, receiverId);
+        chat.server.readMessage(sender, receiverId);
+    }
 });
 
 chat.client.onNewUserConnected = function (userId) {
@@ -58,7 +80,7 @@ chat.client.onSendMessageToReceiver = function (messageId, messageBody, senderUs
 }
 
 chat.client.sendNotification = function (totalUnReadMessages, senderUserId) {
-    $('#users li').each(function (i, value) {
+    $('#chat-rooms li').each(function (i, value) {
         var userId = $(value).attr('user-id');
         if (userId === senderUserId) {
             $(value).find('.badge').text(totalUnReadMessages);
@@ -67,7 +89,7 @@ chat.client.sendNotification = function (totalUnReadMessages, senderUserId) {
 }
 
 chat.client.readMessage = function (senderUserId) {
-    $('#users li').each(function (i, value) {
+    $('#chat-rooms li').each(function (i, value) {
         var userId = $(value).attr('user-id');
         if (userId === senderUserId) {
             $(value).find('.badge').text('');

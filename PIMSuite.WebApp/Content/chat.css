@@ -218,3 +218,48 @@
     background-color: #3c8dbc;
     color: #fff;
 }
+
+#create-group {
+    top: 3px; 
+    height: 33px; 
+    background: green; 
+    right: 5px; 
+    color: #fff;
+}
+
+.modal-body.add-user {
+    max-height: calc(100vh - 212px);
+    overflow-y: auto;
+}
+
+#au-search-name {
+    background-position: 10px 12px;
+    background-repeat: no-repeat;
+    width: 100%;
+    font-size: 16px;
+    padding: 12px 20px 12px 40px;
+    border: 1px solid #ddd;
+    margin-bottom: 12px;
+}
+
+#au-search-name:before {
+    content: "\f002";
+    font-family: FontAwesome;
+}
+
+#au-user-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+#au-user-list li label {
+    border: 1px solid #ddd;
+    margin-top: -1px; 
+    background-color: #f6f6f6;
+    padding: 12px;
+    text-decoration: none;
+    font-size: 18px;
+    color: black;
+    display: block
+}
