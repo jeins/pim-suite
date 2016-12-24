@@ -34,7 +34,7 @@ namespace PIMSuite.WebApp.Controllers
                 ViewBag.ChatHistories = _messageRepository.GetMessageHistories(currentUser.UserId, new Guid(toUserId));
             }
 
-            ViewBag.UserList = GetUserWithUnReadMessage();
+            ViewBag.UserList = GetChatGroup().Concat(GetUserWithUnReadMessage());
 
             return View();
         }
@@ -53,11 +53,31 @@ namespace PIMSuite.WebApp.Controllers
                 {
                     user.UserId.ToString(),
                     user.LastName,
-                    totalUnReadMessage.ToString()
+                    totalUnReadMessage.ToString(),
+                    "user"
                 });
             }
 
             return usersWithUnReadMessages;
+        }
+
+        private IEnumerable<string[]> GetChatGroup()
+        {
+            var chatGroupList = new List<string[]>();
+            var chatGroups = _dataContext.ChatGroups;
+
+            foreach (var chatGroup in chatGroups)
+            {
+                chatGroupList.Add(new []
+                {
+                    chatGroup.GroupId.ToString(),
+                    "Group: " + chatGroup.GroupName,
+                    "0",
+                    "group"
+                });
+            }
+
+            return chatGroupList;
         }
     }
 }
