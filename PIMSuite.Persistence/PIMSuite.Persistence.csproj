@@ -61,6 +61,7 @@
     <Compile Include="Entities\Calendar.cs" />
     <Compile Include="Entities\Calendar_Event.cs" />
     <Compile Include="Entities\Calendar_Subscription.cs" />
+    <Compile Include="Entities\ChatGroup.cs" />
     <Compile Include="Entities\Connection.cs" />
     <Compile Include="Entities\Department.cs" />
     <Compile Include="Entities\Domain.cs" />
