@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using PIMSuite.Persistence;
@@ -9,9 +10,9 @@ namespace PIMSuite.WebApp.SignalRHub
 {
     public class ChatHub : Microsoft.AspNet.SignalR.Hub
     {
-        private DataContext _dataContext;
-        private IConnectionRepository _connectionRepository;
-        private IMessageRepository _messageRepository;
+        private readonly DataContext _dataContext;
+        private readonly IConnectionRepository _connectionRepository;
+        private readonly IMessageRepository _messageRepository;
 
         public ChatHub()
         {
@@ -24,43 +25,73 @@ namespace PIMSuite.WebApp.SignalRHub
         {
             var receiver = _dataContext.Connections.FirstOrDefault(c => c.UserId.ToString().Equals(toUserId));
             var sender = _dataContext.Connections.FirstOrDefault(c => c.ConnectionId == Context.ConnectionId);
-            var messageId = _messageRepository.InsertMessage(sender.UserId, new Guid(toUserId), message);
-            var dateTime = new DateTime().ToString("g");
-
-            Clients.Client(Context.ConnectionId).onSendMessageToSender(sender.User.LastName, message, dateTime, "sender");
-
-            if (receiver != null)
-                Clients.Client(receiver.ConnectionId)
-                    .onSendMessageToReceiver(messageId, message, sender.UserId, receiver.UserId, dateTime, "receiver");
-            else
+            if (sender != null)
             {
-                _messageRepository.UpdateMessageStatus(messageId, false);
+                var messageId = _messageRepository.InsertMessage(sender.UserId, new Guid(toUserId), message);
+                var dateTime = new DateTime().ToString("g");
+
+                Clients.Client(Context.ConnectionId).onSendMessageToSender(sender.User.LastName, message, dateTime, "sender");
+
+                if (receiver != null)
+                {
+                    Clients.Client(receiver.ConnectionId)
+                        .onSendMessageToReceiver(messageId, message, sender.UserId, receiver.UserId, dateTime, "receiver");
+                }
+                else
+                {
+                    _messageRepository.UpdateMessageStatus(messageId, false);
+                }
+            }
+        }
+
+        public void SendGroupMessage(string groupId, string message)
+        {
+            var sender = _dataContext.Connections.FirstOrDefault(c => c.ConnectionId == Context.ConnectionId);
+            var group = _dataContext.ChatGroups.FirstOrDefault(g => g.GroupId == new Guid(groupId));
+
+            if (sender != null && group != null)
+            {
+                var messageId = _messageRepository.InsertMessage(sender.UserId, new Guid(groupId), message);
+                var dateTime = new DateTime().ToString("g");
+                
+                Clients.Client(Context.ConnectionId).onSendMessageToSender(sender.User.LastName, message, dateTime, "sender");
+                Clients.OthersInGroup(group.GroupName).onSendMessageToGroup(message, sender.UserId, dateTime, sender.User.LastName);
             }
         }
 
         public void UserConnect(string userId)
         {
-            var connectionId = Context.ConnectionId;
             var userGuid = new Guid(userId);
             var connectedUsers = _connectionRepository.GetConnectedUsers(userGuid);
-            var currentUser = _dataContext.Users.FirstOrDefault(u => u.UserId.Equals(userGuid));
 
             if (!IsUserIdExistOnConnection(userGuid))
             {
-                _connectionRepository.InsertConnection(userGuid, connectionId);
+                _connectionRepository.InsertConnection(userGuid, Context.ConnectionId);
             }
             else
             {
-                _connectionRepository.UpdateConnection(userGuid, connectionId);
+                _connectionRepository.UpdateConnection(userGuid, Context.ConnectionId);
+
             }
 
+            UpdateUserGroupConnection(userId, Context.ConnectionId);
+
             Clients.Caller.loadConnectedUser(connectedUsers.ToArray());
-            Clients.AllExcept(connectionId).onNewUserConnected(userId);
+            Clients.AllExcept(Context.ConnectionId).onNewUserConnected(userId);
         }
 
-        public void LoadChatHistories(string senderUserId, string receiverUserId)
+        public void LoadChatHistories(string senderUserId, string receiverUserId, bool isGroup)
         {
-            var chatHistories = _messageRepository.GetMessageHistories(new Guid(senderUserId), new Guid(receiverUserId));
+            IEnumerable<string[]> chatHistories;
+
+            if (!isGroup)
+            {
+                chatHistories = _messageRepository.GetMessageHistories(new Guid(senderUserId), new Guid(receiverUserId));
+            }
+            else
+            {
+                chatHistories = _messageRepository.GetGroupMessageHistories(new Guid(senderUserId), new Guid(receiverUserId));
+            }
 
             Clients.Caller.loadChatHistories(chatHistories);
         }
@@ -85,14 +116,39 @@ namespace PIMSuite.WebApp.SignalRHub
             Clients.Client(Context.ConnectionId).readMessage(senderUserId);
         }
 
+        public void AddUserToGroup(string groupName, string userId)
+        {
+            var userConnectionId = _dataContext.Connections.FirstOrDefault(c => c.UserId.Equals(new Guid(userId)));
+
+            if (userConnectionId != null)
+            {
+                Groups.Add(userConnectionId.ConnectionId, groupName);
+            }
+        }
+
+        private void UpdateUserGroupConnection(string userId, string connectionId)
+        {
+            var userGroups = _dataContext.UserChatGroups.Where(u => u.UserId.Equals(new Guid(userId)));
+
+            foreach (var userGroup in userGroups)
+            {
+                Groups.Add(connectionId, userGroup.ChatGroup.GroupName);
+            }
+        }
+
         public override Task OnDisconnected(bool stopCalled)
         {
             var userId = _connectionRepository.RemoveUser(Guid.Empty, Context.ConnectionId);
 
-            if (userId != Guid.Empty)
+            if (userId == Guid.Empty) return base.OnDisconnected(stopCalled);
+
+            var userGroups = _dataContext.UserChatGroups.Where(u => u.UserId.Equals(userId));
+            foreach (var userGroup in userGroups)
             {
-                Clients.All.onUserDisconnected(userId.ToString());
+                Groups.Remove(Context.ConnectionId, userGroup.ChatGroup.GroupName);
             }
+
+            Clients.All.onUserDisconnected(userId.ToString());
 
             return base.OnDisconnected(stopCalled);
         }
@@ -100,9 +156,8 @@ namespace PIMSuite.WebApp.SignalRHub
         private bool IsUserIdExistOnConnection(Guid userId)
         {
             var count = _dataContext.Connections.Count(u => u.UserId == userId);
-            if (count > 0) return true;
 
-            return false;
+            return count > 0;
         }
     }
 }

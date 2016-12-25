@@ -5,7 +5,12 @@ $.connection.hub.start().done(function () {
 });
 
 $('#sendMessage').click(function () {
-    chat.server.sendMessage($('#userId').val(), $('#messageBody').val());
+    if ($(this).attr('is-group') === "true") {
+        chat.server.sendGroupMessage($('#userId').val(), $('#messageBody').val());
+    } else {
+        chat.server.sendMessage($('#userId').val(), $('#messageBody').val());
+    }
+
     $('#messageBody').val('').focus();
 });
 
@@ -18,13 +23,13 @@ $('#chat-rooms').on('click', 'li#chat-room', function () {
     var groupNameAttr = $(this).attr('group-name');
     var isGroup = false;
 
-    $('.new_message_head').removeClass('pull-right');
     if (typeof groupIdAttr !== typeof undefined && groupIdAttr !== false) {
-        var html = '<div class="pull-right">'+
+        var html = '<div id="adduserbtn" class="pull-right">'+
                         '<button class="btn btn-success" id="add-user" type="button" onclick="addUserToGroupChat()" style="background-color: #5cb85c">' +
                             '<i class="fa fa-plus" aria-hidden="true"></i>'+
                         '</button>'+
                     '</div>';
+        $('#adduserbtn').remove();
         $('.new_message_head').append(html);
 
         isGroup = true;
@@ -39,11 +44,13 @@ $('#chat-rooms').on('click', 'li#chat-room', function () {
     $('#userId').val(receiverId);
     $('#chatWith').text('chat with: ' + receiverName);
     $(this).toggleClass('selectedUser');
+    $('#sendMessage').attr('is-group', isGroup);
+
+    chat.server.loadChatHistories(sender, receiverId, isGroup);
 
     if (!isGroup) {
-        chat.server.loadChatHistories(sender, receiverId);
         chat.server.readMessage(sender, receiverId);
-    }
+    } 
 });
 
 chat.client.onNewUserConnected = function (userId) {
@@ -61,7 +68,7 @@ chat.client.loadConnectedUser = function(users) {
 }
 
 chat.client.onSendMessageToSender = function (lastName, messageBody, dateTime, senderOrReceiver) {
-    var html = getChatTemplate(senderOrReceiver, messageBody, dateTime);
+    var html = getChatTemplate(senderOrReceiver, messageBody, dateTime, "");
     $('#messageColumn').append(html);
 }
 
@@ -71,12 +78,17 @@ chat.client.onSendMessageToReceiver = function (messageId, messageBody, senderUs
         if (currentChatWithUser !== senderUserId) {
             chat.server.sendNotification(receiverUserId, senderUserId, messageId);
         } else {
-            var html = getChatTemplate(senderOrReceiver, messageBody, dateTime);
+            var html = getChatTemplate(senderOrReceiver, messageBody, dateTime, "");
             $('#messageColumn').append(html);
         }
     }
 
     chat.server.readMessage(senderUserId, receiverUserId);
+}
+
+chat.client.onSendMessageToGroup = function (messageBody, senderUserId, dateTime, senderLastName) {
+    var html = getChatTemplate("receiver", messageBody, dateTime, senderLastName);
+    $('#messageColumn').append(html);
 }
 
 chat.client.sendNotification = function (totalUnReadMessages, senderUserId) {
@@ -101,13 +113,14 @@ chat.client.loadChatHistories = function (chatHistories) {
     var html = '';
 
     $.each(chatHistories, function (key, chatHistory) {
-        html += getChatTemplate(chatHistory[0], chatHistory[1], chatHistory[2]);
+        var userLastName = chatHistory[3].includes("receiver") ? chatHistory[3].split('_')[1] : '';
+        html += getChatTemplate(chatHistory[0], chatHistory[1], chatHistory[2], userLastName);
     });
 
     $('#messageColumn').append(html);
 }
 
-function getChatTemplate(senderOrReceiver, messageBody, dateTime) {
+function getChatTemplate(senderOrReceiver, messageBody, dateTime, userLastName) {
     var html = '<li class="left clearfix';
     if (senderOrReceiver === 'sender') {
         html += ' admin_chat"><span class="chat-img1 pull-right"><img src="/Content/images/no_propic.png" alt="User Avatar" class="img-circle"> </span>';
@@ -118,6 +131,7 @@ function getChatTemplate(senderOrReceiver, messageBody, dateTime) {
     }
 
     html += '<p>' + messageBody + '</p>';
+    if (userLastName) html += '<div class="chat_time pull-left">From: <span style="font-style: oblique; font-size: 12px; text-decoration: underline;">' + userLastName + '</span></div>';
 //    html += '<div class="chat_time pull-left">' + dateTime + '</div>';
     html += '</div></li>';
     return html;
