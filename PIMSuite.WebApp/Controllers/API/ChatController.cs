@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Http;
 using System.Runtime.Serialization;
 using System.Web.Http;
+using Newtonsoft.Json.Linq;
 using PIMSuite.Persistence;
 using PIMSuite.Persistence.Entities;
 
@@ -20,9 +21,19 @@ namespace PIMSuite.WebApp.Controllers.API
 
         [DataMember(IsRequired = true)]
         [Required]
-        public string UserId { get; set; }
+        public string OwnerId { get; set; }
+    }
 
-        public bool IsOwner { get; set; }
+    [DataContract]
+    public class AddUserToChatGroupModel
+    {
+        [DataMember(IsRequired = true)]
+        [Required]
+        public string GroupId { get; set; }
+
+        [DataMember(IsRequired = true)]
+        [Required]
+        public string UsersId { get; set; }
     }
 
     public class ChatController : ApiController
@@ -33,8 +44,7 @@ namespace PIMSuite.WebApp.Controllers.API
         {
             _dataContext = new DataContext();
         }
-
-
+        
         [HttpPost]
         public HttpResponseMessage CreateNewGroup(CreateChatGroupModel model)
         {
@@ -43,11 +53,17 @@ namespace PIMSuite.WebApp.Controllers.API
                 var chatGroup = new ChatGroup
                 {
                     GroupName = model.GroupName,
-                    UserId = new Guid(model.UserId),
-                    IsOwner = model.IsOwner
+                    OwnerId = new Guid(model.OwnerId)
+                };
+
+                var userChatGroup = new UserChatGroup
+                {
+                    GroupId = new Guid(chatGroup.GroupId.ToString()),
+                    UserId = new Guid(model.OwnerId)
                 };
 
                 _dataContext.ChatGroups.Add(chatGroup);
+                _dataContext.UserChatGroups.Add(userChatGroup);
                 _dataContext.SaveChanges();
                 
                 return Request.CreateResponse(HttpStatusCode.Accepted, chatGroup.GroupId);
@@ -59,11 +75,35 @@ namespace PIMSuite.WebApp.Controllers.API
         public HttpResponseMessage GetUserNotInChatGroup(string groupId)
         {
             var userList = _dataContext.Users.Select(u => new {u.UserId, u.FirstName, u.LastName}).ToList();
-            var userFromGroup = _dataContext.ChatGroups.Where(g => g.GroupId.Equals(new Guid(groupId))).Select(g => g.UserId).ToList();
+            var userFromGroup = _dataContext.ChatGroups.Where(g => g.GroupId.Equals(new Guid(groupId))).Select(g => g.OwnerId).ToList();
 
             userList.RemoveAll(u => userFromGroup.Contains(u.UserId));
 
             return Request.CreateResponse(HttpStatusCode.OK, userList, Configuration.Formatters.JsonFormatter);
+        }
+
+        [HttpPost]
+        public HttpResponseMessage AddUserToChatGroup(AddUserToChatGroupModel model)
+        {
+            if (model != null && ModelState.IsValid)
+            {
+                var users = model.UsersId.Split('_');
+                foreach (var userId in users)
+                {
+                    var userChatGroup = new UserChatGroup
+                    {
+                        GroupId = new Guid(model.GroupId),
+                        UserId = new Guid(userId)
+                    };
+
+                    _dataContext.UserChatGroups.Add(userChatGroup);
+                }
+
+                _dataContext.SaveChanges();
+                return Request.CreateResponse(HttpStatusCode.Accepted, "");
+            }
+
+            return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "invalid data");
         }
     }
 }
