@@ -6,6 +6,7 @@ namespace PIMSuite.Persistence.Repositories
     public interface IMessageRepository
     {
         IEnumerable<string[]> GetMessageHistories(Guid senderUserGuid, Guid receiverUserGuid);
+        IEnumerable<string[]> GetGroupMessageHistories(Guid currentUserGuid, Guid groupGuid);
         int InsertMessage(Guid senderUserGuid, Guid receiverUserGuid, string messageBody);
         void UpdateMessageStatus(int messageGuid, bool isRead);
         void SetMessageStatusToRead(Guid receiverUserGuid, Guid senderUserGuid);

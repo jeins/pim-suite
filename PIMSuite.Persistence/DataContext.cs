@@ -25,6 +25,7 @@ namespace PIMSuite.Persistence
         public DbSet<Event_Invite> EventInvites { get; set; }
         public DbSet<EventParticipation> EventParticipations { get; set; }
         public DbSet<ChatGroup> ChatGroups { get; set; }
+        public DbSet<UserChatGroup> UserChatGroups { get; set; }
         
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

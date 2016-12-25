@@ -16,9 +16,7 @@ namespace PIMSuite.Persistence.Entities
 
         public string GroupName { get; set; }
 
-        public Guid UserId { get; set; }
-
-        public bool IsOwner { get; set; }
+        public Guid OwnerId { get; set; }
 
         public DateTime CreatedAt { get; private set; }
 

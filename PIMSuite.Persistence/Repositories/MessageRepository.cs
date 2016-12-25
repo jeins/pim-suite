@@ -33,15 +33,43 @@ namespace PIMSuite.Persistence.Repositories
                 )
                 .OrderBy(m=>m.CreatedAt)
                 .ToList();
+            var sender = _dataContext.Users.FirstOrDefault(u => u.UserId.Equals(senderUserGuid));
+            var receiver = _dataContext.Users.FirstOrDefault(u => u.UserId.Equals(receiverUserGuid));
 
             foreach (var message in messages)
             {
                 var senderOrReceiverLabel = message.SenderUserId.Equals(senderUserGuid) ? "sender" : "receiver";
+                var userLastName = (senderOrReceiverLabel == "sender") ? "sender_" + sender.LastName : "receiver_" + receiver.LastName;
                 var tmpArr = new[]
                 {
                     senderOrReceiverLabel,
                     message.MessageBody,
-                    message.CreatedAt.ToString("g")
+                    message.CreatedAt.ToString("g"),
+                    userLastName
+                };
+
+                chatHistory.Add(tmpArr);
+            }
+
+            return chatHistory;
+        }
+
+        public IEnumerable<string[]> GetGroupMessageHistories(Guid currentUserGuid, Guid groupGuid)
+        {
+            var chatHistory = new List<string[]>();
+            var messages = _dataContext.Messages.Where(m => m.ReceiverUserId.Equals(groupGuid)).OrderBy(m => m.CreatedAt).ToList();
+
+            foreach (var message in messages)
+            {
+                var senderOrReceiverLabel = message.SenderUserId.Equals(currentUserGuid) ? "sender" : "receiver";
+                var user = _dataContext.Users.FirstOrDefault(u => u.UserId.Equals(message.SenderUserId));
+                var userLastName = (user.UserId.Equals(currentUserGuid)) ? "sender_" + user.LastName : "receiver_" + user.LastName;
+                var tmpArr = new[]
+                {
+                    senderOrReceiverLabel,
+                    message.MessageBody,
+                    message.CreatedAt.ToString("g"),
+                    userLastName
                 };
 
                 chatHistory.Add(tmpArr);
