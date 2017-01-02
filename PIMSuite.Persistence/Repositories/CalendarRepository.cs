@@ -45,5 +45,9 @@ namespace PIMSuite.Persistence.Repositories
             return _context.Calendars.FirstOrDefault(c => c.CalendarId == calendarId);
         }
 
+        public Guid GetUserByCalendarId(int calendarId)
+        {
+            return _context.Calendars.Find(calendarId).OwnerId;
+        }
     }
 }

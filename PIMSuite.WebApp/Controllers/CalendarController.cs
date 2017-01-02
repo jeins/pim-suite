@@ -22,6 +22,7 @@ namespace PIMSuite.WebApp.Controllers
             _calendarRepository = new CalendarRepository(_dataContext);
             _userRepository = new UserRepository(_dataContext);
             _calendarEventRepository = new Calendar_EventRepository(_dataContext);
+            _subscriptionRepository = new Calendar_SubscriptionRepository(_dataContext);
         }
 
         // Fields
@@ -30,6 +31,7 @@ namespace PIMSuite.WebApp.Controllers
         private readonly ICalendarRepository _calendarRepository;
         private readonly ICalendar_EventRepository _calendarEventRepository;
         private readonly UserRepository _userRepository;
+        private readonly ICalendar_SubscriptionRepository _subscriptionRepository;
 
         // Methods
 
@@ -52,9 +54,40 @@ namespace PIMSuite.WebApp.Controllers
             ViewBag.CalendarName = calendar.Name;
             ViewBag.CalendarId = calendar.CalendarId;
             ViewBag.UserId = calendar.OwnerId.ToString();
+            ViewBag.OwnerName= _userRepository.GetUserByID(calendar.OwnerId).FirstName+" "+_userRepository.GetUserByID(calendar.OwnerId).LastName;
             ViewBag.DisplayAll = User.Identity.GetUserId().Equals(calendar.OwnerId.ToString());
-
+            
+            var flag=_subscriptionRepository.SubscrptionContainsinUserList(calendarId, Guid.Parse(HttpContext.GetOwinContext().Authentication.User.Identity.GetUserId()));
+            if (flag == true)
+            {
+                ViewBag.Flag = "nicht mehr folgen";
+            }
+            else
+            {
+                ViewBag.Flag = "abonnieren";
+            }
             return View();
+        }
+
+        [HttpPost]
+        public void CreateSubscription(int calendarId)
+        {
+            
+            var _sub = new Calendar_Subscription
+            {
+                CalendarId = calendarId,
+                SubscriberId = Guid.Parse(HttpContext.GetOwinContext().Authentication.User.Identity.GetUserId())
+            };
+
+            _subscriptionRepository.Insert(_sub);
+            _subscriptionRepository.Save();
+        }
+
+        [HttpPost]
+        public void RemoveSubscription(int calendarId)
+        {
+            _subscriptionRepository.Delete(calendarId, Guid.Parse(HttpContext.GetOwinContext().Authentication.User.Identity.GetUserId()));
+            _subscriptionRepository.Save();
         }
 
         public ActionResult List(Guid userId)
@@ -65,34 +98,8 @@ namespace PIMSuite.WebApp.Controllers
             return View();
         }
 
-        public ActionResult CreateEvent(int calendarId)
-        {
-            Calendar_Event _event = new Calendar_Event();
-            var userId = Guid.Parse(User.Identity.GetUserId());
+        
 
-            _event.OwnerId = userId;
-            _event.CalendarId = calendarId;
-
-            return View(_event);
-        }
-
-        [HttpPost]
-        public ActionResult CreateEvent(Calendar_Event _event)
-        {
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    _calendarEventRepository.InsertCalendar_Event(_event);
-                    _calendarEventRepository.Save();
-                    return RedirectToAction("Index");
-                }
-            }
-            catch (Exception ex)
-            {
-                ModelState.AddModelError(String.Empty, ex);
-            }
-            return View(_event);
-        }
+       
     }
 }
