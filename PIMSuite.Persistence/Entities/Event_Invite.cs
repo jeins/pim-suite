@@ -30,6 +30,12 @@ namespace PIMSuite.Persistence.Entities
         [ForeignKey("InviteReceiverId")]
         public User InviteReceiver { get; set; }
 
+        [Required(ErrorMessage = "Event ist erforderlich!")]
+        public int InviteEventId { get; set; }
+
+        [ForeignKey("InviteEventId")]
+        public Calendar_Event InviteEvent { get; set; }
+
         //0: Eingeladen, 1: Angenommen, 2: Abgelehnt
         [Required(ErrorMessage = "Status ist erforderlich!")]
         public int Status { get; set; }
