@@ -348,7 +348,6 @@
     <Content Include="Views\Calendar\Create.cshtml" />
     <Content Include="Views\Calendar\Index.cshtml" />
     <Content Include="Views\Calendar\Show.cshtml" />
-    <Content Include="Views\Calendar\CreateEvent.cshtml" />
     <Content Include="Views\Calendar\List.cshtml" />
     <Content Include="Views\Subscription\Index.cshtml" />
   </ItemGroup>
