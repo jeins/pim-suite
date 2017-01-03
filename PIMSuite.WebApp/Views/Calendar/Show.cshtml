@@ -79,7 +79,14 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <form>
+                    <input type="hidden" id="view_event_id" name="view_event_id" />
+                    @if (ViewBag.DisplayAll)
+                    {
+                        <button type="button" class="btn btn-danger deletebutton" data-bind="click: deleteevent">Delete</button>
+                    }
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </form>
             </div>
         </div>
     </div>
@@ -143,6 +150,7 @@
 <div id="add_event" data-toggle="modal" data-target="#AddEvent"></div>
 
 @section scripts {
+    <script src="~/Scripts/DeleteEvent.js"></script>
     <script src="~/Scripts/fullcalendar/moment.min.js"></script>
     <script src="~/Scripts/fullcalendar/fullcalendar.js"></script>
     <script src="~/Scripts/bootstrap-datetimepicker/bootstrap-datetimepicker.min.js"></script>
@@ -206,6 +214,7 @@
                     $('#view_title').val(calEvent.title);
                     $('#view_location').val(calEvent.location);
                     $("#view_description").val(calEvent.description);
+                    $("#view_event_id").val(calEvent.id);
                     $('#view_is_private').prop('checked', calEvent.isPrivateEvent);
 
                     console.log(calEvent);
