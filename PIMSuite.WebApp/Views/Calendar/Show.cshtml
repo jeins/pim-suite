@@ -15,10 +15,13 @@
         <div class="x_panel">
             <div class="x_title">
                 <h2>@ViewBag.CalendarName</h2>
-             
-                <input type="button"  class="btn btn-primary" id="subscribe" value=@ViewBag.Flag>
+                
+                
+                    <input type="button" class="btn btn-primary" id="subscribe" value=@ViewBag.Flag style="display:@ViewBag.UserCheck">
+                
+               
 
-                <div class="clearfix"></div>
+                                <div class="clearfix"></div>
             </div>
             <div class="x_content">
                 <div id='calendar'></div>
@@ -76,7 +79,14 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <form>
+                    <input type="hidden" id="view_event_id" name="view_event_id" />
+                    @if (ViewBag.DisplayAll)
+                    {
+                        <button type="button" class="btn btn-danger deletebutton" data-bind="click: deleteevent">Delete</button>
+                    }
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </form>
             </div>
         </div>
     </div>
@@ -140,10 +150,16 @@
 <div id="add_event" data-toggle="modal" data-target="#AddEvent"></div>
 
 @section scripts {
+    <script src="~/Scripts/DeleteEvent.js"></script>
     <script src="~/Scripts/fullcalendar/moment.min.js"></script>
     <script src="~/Scripts/fullcalendar/fullcalendar.js"></script>
     <script src="~/Scripts/bootstrap-datetimepicker/bootstrap-datetimepicker.min.js"></script>
+    <script src="~/Scripts/notify.js"></script>
+
     <script>
+        
+       
+
         var calendar = $('#calendar')
             .fullCalendar({
                 header: {
@@ -156,7 +172,7 @@
                 select: function (start) {
                     $('#add_event').click();
 
-                    $('#add_start').val(moment(start).format('DD.MM.YYYY hh:mm a'));
+                    $('#add_start').val(moment(start).format('DD-MM-YYYY HH:mm'));
                     $('#add_title').val("");
                     $('#add_end').val("");
                     $('#add_location').val("");
@@ -167,8 +183,8 @@
                         var calendarId = @ViewBag.CalendarId;
                         var newEvent = {
                             title: $('#add_title').val(),
-                            start: moment($('#add_start').val(), 'DD.MM.YYYY hh:mm a').format("LLLL"),
-                            end: moment($('#add_end').val(), 'DD.MM.YYYY hh:mm a').format("LLLL"),
+                            start: moment($('#add_start').val(), 'DD-MM-YYYY HH:mm').format("LLLL"),
+                            end: moment($('#add_end').val(), 'DD-MM-YYYY HH:mm').format("LLLL"),
                             location: $('#add_location').val(),
                             description: $('#add_description').val(),
                             allDay: false,
@@ -193,11 +209,12 @@
                 },
                 eventClick: function(calEvent) {
                     $('#view_event').click();
-                    $('#view_start').val(moment(calEvent.start).format('DD.MM.YYYY hh:mm a'));
-                    $('#view_end').val(moment(calEvent.end).format('DD.MM.YYYY hh:mm a'));
+                    $('#view_start').val(moment(calEvent.start).format('DD-MM-YYYY HH:mm'));
+                    $('#view_end').val(moment(calEvent.end).format('DD-MM-YYYY HH:mm'));
                     $('#view_title').val(calEvent.title);
                     $('#view_location').val(calEvent.location);
                     $("#view_description").val(calEvent.description);
+                    $("#view_event_id").val(calEvent.id);
                     $('#view_is_private').prop('checked', calEvent.isPrivateEvent);
 
                     console.log(calEvent);
@@ -208,47 +225,53 @@
             });
 
         $(function () {
-            $('#add_start').datetimepicker({ format: 'DD.MM.YYYY hh:mm a' });
-            $('#add_end').datetimepicker({ format: 'DD.MM.YYYY hh:mm a' });
+            $('#add_start').datetimepicker({ format: 'DD-MM-YYYY HH:mm' });
+            $('#add_end').datetimepicker({ format: 'DD-MM-YYYY HH:mm' });
         });
 
+        
 
 
-
-
-
-
-    $(function () {
-
-        $("#subscribe").click(function () {
-            var self = $(this);
-            if (self.val() == "abonnieren") {
-                $.ajax({
-                    type: "POST",
-                    url: "/Calendar/CreateSubscription",
-                    data: '{calendarId: "' + @ViewBag.CalendarId+ '" }',
-                    contentType: "application/json; charset=utf-8",
+        
+       
+        $(function () {
+           
+            
+                $("#subscribe").click(function () {
+                    var self = $(this);
+                    if (self.val() == "abonnieren") {
+                        $.ajax({
+                            type: "POST",
+                            url: "/Calendar/CreateSubscription",
+                            data: '{calendarId: "' + @ViewBag.CalendarId+ '" }',
+                            contentType: "application/json; charset=utf-8",
                     
-                });
-                self.val("nicht mehr folgen");
-            }
-            else {
-                if (self.val() == "nicht mehr folgen") {
-                    $.ajax({
-                        type: "POST",
-                        url: "/Calendar/RemoveSubscription",
-                        data: '{calendarId: "' + @ViewBag.CalendarId+ '" }',
-                        contentType: "application/json; charset=utf-8",
+                        });
+                        self.val("deabonnieren");
+                        $.notify("Jetzt abonnieren Sie den Kalender", "success");
+
+
+                    }
+                    else {
+                        if (self.val() == "deabonnieren") {
+                            $.ajax({
+                                type: "POST",
+                                url: "/Calendar/RemoveSubscription",
+                                data: '{calendarId: "' + @ViewBag.CalendarId+ '" }',
+                                contentType: "application/json; charset=utf-8",
                         
-                    });
+                            });
                 
-                    self.val("abonnieren");
+                            self.val("abonnieren");
+                            $.notify("Sie abonnieren den Kalender nicht mehr", "warn");
 
-                }
+                        }
+                        
 
-            }
+                    }
+                });
             });
-        });
+        
 </script>
    
 

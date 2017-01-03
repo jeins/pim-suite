@@ -20,14 +20,19 @@ namespace PIMSuite.Persistence.Repositories
 
         // Methods
 
-        public void DeleteCalendar_Event(Guid eventId)
+        public void DeleteCalendar_Event(int eventId)
         {
-            _context.CalendarEvents.Remove(_context.CalendarEvents.Find(eventId));
+            _context.CalendarEvents.Remove(_context.CalendarEvents.SingleOrDefault(c => c.EventId == eventId));
         }
 
         public IEnumerable<Calendar_Event> GetAllCalendar_EventByUserIdAndCalendarId(Guid userId, int calendarId)
         {
             return _context.CalendarEvents.Where(c => c.CalendarId == calendarId && c.OwnerId == userId).ToList();
+        }
+
+        public Calendar_Event GetEvent(int eventId)
+        {
+            return _context.CalendarEvents.SingleOrDefault(c => c.EventId == eventId);
         }
 
         public void InsertCalendar_Event(Calendar_Event ev)

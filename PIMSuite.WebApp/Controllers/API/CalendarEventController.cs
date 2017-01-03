@@ -73,6 +73,19 @@ namespace PIMSuite.WebApp.Controllers.API
             return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "invalid data");
         }
 
+        [HttpPost]
+        public HttpResponseMessage DeleteEvent(int eventId)
+        {
+            var userId = Guid.Parse(HttpContext.Current.GetOwinContext().Authentication.User.Identity.GetUserId());
+            if (_calendarEventRepository.GetEvent(eventId).OwnerId==userId)
+            {
+                _calendarEventRepository.DeleteCalendar_Event(eventId);
+                _calendarEventRepository.Save();
+                return Request.CreateResponse(HttpStatusCode.Accepted, eventId);
+            }
+            return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "invalid data");
+        }
+
         public HttpResponseMessage GetEvents(string userId, int calendarId)
         {
             var displayAllEvent = DisplayAllEvent(new Guid(userId));

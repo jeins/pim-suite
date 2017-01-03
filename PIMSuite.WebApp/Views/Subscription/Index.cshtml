@@ -1,8 +1,32 @@
 ﻿
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Abonnements";
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
 }
 
-@Html.ActionLink("ein neues Abonnement", "CreateFormSubscription")
+
+@if (ViewBag.Result.Count == 0)
+{
+    <h4> Sie haben noch keine Kalender abonniert</h4>
+}
+
+                <div >
+                    @foreach (var uc in ViewBag.Result)
+                    {
+
+                        <h3 class="list-group-item-info">Von @uc.FullName abonnieren Sie: </h3>
+
+                        foreach (var c in @uc.Subscriptions)
+                        {
+                            <ul>
+                                
+                                    <h4>
+                                        <a href="@Url.Action("Show", "Calendar", new {calendarId = c.CalendarId})"class="list-group-item">@c.Name</a>
+                                    </h4>
+                                
+                            </ul>
+                        }
+                    }
+
+                </div>
 

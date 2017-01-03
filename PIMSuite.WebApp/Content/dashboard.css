@@ -11,3 +11,12 @@ body {
     overflow-y: auto;
     height: 100%;
 }
+
+.deletebutton {
+    float: left;
+}
+
+#view_is_private, #add_is_private{
+    width: 20px;
+    height: 20px;
+}
