@@ -187,7 +187,6 @@
     <Compile Include="Controllers\API\CalendarEventController.cs" />
     <Compile Include="Controllers\API\ChatController.cs" />
     <Compile Include="Controllers\API\DomainController.cs" />
-    <Compile Include="Controllers\API\SubscriptionController.cs" />
     <Compile Include="Controllers\CalendarController.cs" />
     <Compile Include="Controllers\SubscriptionController.cs" />
     <Compile Include="Models\AdministrationModel.cs" />
@@ -275,6 +274,7 @@
     <Content Include="Scripts\morris\morris.js" />
     <Content Include="Scripts\morris\morris.min.js" />
     <Content Include="Scripts\morris\raphael.min.js" />
+    <Content Include="Scripts\notify.js" />
     <Content Include="Views\Dashboard\Index.cshtml" />
     <Content Include="Content\font-awesome\fonts\fontawesome-webfont.eot" />
     <Content Include="Content\font-awesome\fonts\fontawesome-webfont.ttf" />
@@ -348,10 +348,8 @@
     <Content Include="Views\Calendar\Index.cshtml" />
     <Content Include="Views\Calendar\Show.cshtml" />
     <Content Include="Views\Calendar\CreateEvent.cshtml" />
-    <Content Include="Views\Subscription\Index.cshtml" />
-    <Content Include="Views\Subscription\CreateFormSubscription.cshtml" />
-    <Content Include="Views\Subscription\searchResults.cshtml" />
     <Content Include="Views\Calendar\List.cshtml" />
+    <Content Include="Views\Subscription\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

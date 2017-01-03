@@ -51,6 +51,12 @@ namespace PIMSuite.WebApp.Controllers
         {
             var calendar = _calendarRepository.GetCalendarByCalendarId(calendarId);
 
+            string check = "inherit";
+            if (calendar.OwnerId == Guid.Parse(HttpContext.GetOwinContext().Authentication.User.Identity.GetUserId()))
+            {
+                check = "none";
+            }
+            ViewBag.UserCheck = check;
             ViewBag.CalendarName = calendar.Name;
             ViewBag.CalendarId = calendar.CalendarId;
             ViewBag.UserId = calendar.OwnerId.ToString();
@@ -60,12 +66,14 @@ namespace PIMSuite.WebApp.Controllers
             var flag=_subscriptionRepository.SubscrptionContainsinUserList(calendarId, Guid.Parse(HttpContext.GetOwinContext().Authentication.User.Identity.GetUserId()));
             if (flag == true)
             {
-                ViewBag.Flag = "nicht mehr folgen";
+                ViewBag.Flag = "deabonnieren";
             }
             else
             {
                 ViewBag.Flag = "abonnieren";
             }
+            
+            
             return View();
         }
 
@@ -92,7 +100,45 @@ namespace PIMSuite.WebApp.Controllers
 
         public ActionResult List(Guid userId)
         {
-            ViewBag.CalendarList = _calendarRepository.GetAllCalendarsByUserId(userId);
+            var check = "";
+            var _subscByUser = _subscriptionRepository.getAllSubscriptionsByUserId(Guid.Parse(HttpContext.GetOwinContext().Authentication.User.Identity.GetUserId()));
+            var _profileCalendars = _calendarRepository.GetAllCalendarsByUserId(userId);
+            var _calendarsBySubs = new List<Calendar>();
+            foreach (Calendar_Subscription cs in _subscByUser)
+            {
+                _calendarsBySubs.Add(_calendarRepository.GetCalendarByCalendarId(cs.CalendarId));
+            }
+            var result = new List<Calendar>();
+            foreach (Calendar c in _calendarsBySubs)
+            {
+                foreach (Calendar cu in _profileCalendars)
+                {
+                    if (_calendarsBySubs.Contains(cu) == false)
+                    {
+                        if (result.Contains(cu)==false)
+                            result.Add(cu);
+                    }
+                }
+            }
+            if (result.Count ==0 && _profileCalendars.ToList().Count!=0)
+            {
+                check = "Sie abonnieren alle Kalendar des Benutzers";
+            }
+            if (result.Count == 0 && _profileCalendars.ToList().Count == 0)
+            {
+                check = "Noch keine Kalender erstellt";
+            }
+            else
+            {
+                check = "Sie können noch folgende Kalender des Benutzers abonnieren:";
+            }
+            if (userId== Guid.Parse(HttpContext.GetOwinContext().Authentication.User.Identity.GetUserId()))
+            {
+                check = "Ihre Kalender";
+            }
+            ViewBag.CalendarList = result;
+            ViewBag.FullCalendarList = _profileCalendars;
+            ViewBag.Check = check;
             User user = _userRepository.GetUserByID(userId);
             ViewBag.UserName = user.FirstName + " " + user.LastName;
             return View();
