@@ -71,6 +71,7 @@
     <Compile Include="Entities\Leadership.cs" />
     <Compile Include="Entities\Location.cs" />
     <Compile Include="Entities\Message.cs" />
+    <Compile Include="Entities\Notification.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Entities\UserChatGroup.cs" />
     <Compile Include="Migrations\Configuration.cs" />
@@ -90,10 +91,12 @@
     <Compile Include="Repositories\ILeadershipRepository.cs" />
     <Compile Include="Repositories\ILocationRepository.cs" />
     <Compile Include="Repositories\IMessageRepository.cs" />
+    <Compile Include="Repositories\INotificationRepository.cs" />
     <Compile Include="Repositories\IUserRepository.cs" />
     <Compile Include="Repositories\LeadershipRepository.cs" />
     <Compile Include="Repositories\LocationRepository.cs" />
     <Compile Include="Repositories\MessageRepository.cs" />
+    <Compile Include="Repositories\NotificationRepository.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="Validators\UserValidator.cs" />
   </ItemGroup>

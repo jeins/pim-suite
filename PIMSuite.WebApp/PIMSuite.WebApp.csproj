@@ -187,6 +187,7 @@
     <Compile Include="Controllers\API\CalendarEventController.cs" />
     <Compile Include="Controllers\API\ChatController.cs" />
     <Compile Include="Controllers\API\DomainController.cs" />
+    <Compile Include="Controllers\API\NotificationController.cs" />
     <Compile Include="Controllers\CalendarController.cs" />
     <Compile Include="Controllers\SubscriptionController.cs" />
     <Compile Include="Models\AdministrationModel.cs" />

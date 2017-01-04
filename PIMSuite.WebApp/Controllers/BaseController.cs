@@ -11,8 +11,13 @@ namespace PIMSuite.WebApp.Controllers
 {
     public class BaseController : Controller
     {
+        // Fields
+
         public IUserRepository userRepository;
         private IMessageRepository _messageRepository;
+        private INotificationRepository _notificationRepository;
+
+        // Methods
 
         protected override void Initialize(RequestContext requestContext)
         {
@@ -20,8 +25,9 @@ namespace PIMSuite.WebApp.Controllers
 
             if (HttpContext.GetOwinContext().Authentication.User.Identity.IsAuthenticated)
             {
-                this.userRepository = new UserRepository(new DataContext());
+                userRepository = new UserRepository(new DataContext());
                 _messageRepository = new MessageRepository(new DataContext());
+                _notificationRepository = new NotificationRepository(new DataContext());
                 var username = HttpContext.GetOwinContext().Authentication.User.Identity.Name;
                 var user = userRepository.GetUserByUsername(username);
                 if (user == null)
@@ -37,8 +43,8 @@ namespace PIMSuite.WebApp.Controllers
                     ViewBag.TotalUnReadMessage = unReadMessages.Count();
                     ViewBag.UnReadMessage = unReadMessages;
                 }
-                ViewBag.ActionName = this.ControllerContext.RouteData.Values["action"].ToString();
-                ViewBag.ControllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
+                ViewBag.ActionName = ControllerContext.RouteData.Values["action"].ToString();
+                ViewBag.ControllerName = ControllerContext.RouteData.Values["controller"].ToString();
             }
         }
     }
