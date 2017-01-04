@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using System.Web.Script.Serialization;
 using PIMSuite.Persistence;
 using PIMSuite.Persistence.Repositories;
 using PIMSuite.Persistence.Entities;
@@ -63,7 +62,7 @@ namespace PIMSuite.WebApp.Controllers
             ViewBag.OwnerName= _userRepository.GetUserByID(calendar.OwnerId).FirstName+" "+_userRepository.GetUserByID(calendar.OwnerId).LastName;
             ViewBag.DisplayAll = User.Identity.GetUserId().Equals(calendar.OwnerId.ToString());
             
-            var flag=_subscriptionRepository.SubscriptionContainsInUserList(calendarId, Guid.Parse(HttpContext.GetOwinContext().Authentication.User.Identity.GetUserId()));
+            var flag = _subscriptionRepository.SubscriptionContainsInUserList(calendarId, Guid.Parse(HttpContext.GetOwinContext().Authentication.User.Identity.GetUserId()));
             if (flag == true)
             {
                 ViewBag.Flag = "deabonnieren";
@@ -80,14 +79,13 @@ namespace PIMSuite.WebApp.Controllers
         [HttpPost]
         public void CreateSubscription(int calendarId)
         {
-            
-            var _sub = new Calendar_Subscription
+            var sub = new Calendar_Subscription
             {
                 CalendarId = calendarId,
                 SubscriberId = Guid.Parse(HttpContext.GetOwinContext().Authentication.User.Identity.GetUserId())
             };
 
-            _subscriptionRepository.Insert(_sub);
+            _subscriptionRepository.Insert(sub);
             _subscriptionRepository.Save();
         }
 
@@ -101,30 +99,30 @@ namespace PIMSuite.WebApp.Controllers
         public ActionResult List(Guid userId)
         {
             var check = "";
-            var _subscByUser = _subscriptionRepository.GetAllSubscriptionsByUserId(Guid.Parse(HttpContext.GetOwinContext().Authentication.User.Identity.GetUserId()));
-            var _profileCalendars = _calendarRepository.GetAllCalendarsByUserId(userId);
-            var _calendarsBySubs = new List<Calendar>();
-            foreach (Calendar_Subscription cs in _subscByUser)
+            var subscByUser = _subscriptionRepository.GetAllSubscriptionsByUserId(Guid.Parse(HttpContext.GetOwinContext().Authentication.User.Identity.GetUserId()));
+            var profileCalendars = _calendarRepository.GetAllCalendarsByUserId(userId);
+            var calendarsBySubs = new List<Calendar>();
+            foreach (Calendar_Subscription cs in subscByUser)
             {
-                _calendarsBySubs.Add(_calendarRepository.GetCalendarByCalendarId(cs.CalendarId));
+                calendarsBySubs.Add(_calendarRepository.GetCalendarByCalendarId(cs.CalendarId));
             }
             var result = new List<Calendar>();
-            foreach (Calendar c in _calendarsBySubs)
+            foreach (Calendar c in calendarsBySubs)
             {
-                foreach (Calendar cu in _profileCalendars)
+                foreach (Calendar cu in profileCalendars)
                 {
-                    if (_calendarsBySubs.Contains(cu) == false)
+                    if (calendarsBySubs.Contains(cu) == false)
                     {
                         if (result.Contains(cu)==false)
                             result.Add(cu);
                     }
                 }
             }
-            if (result.Count ==0 && _profileCalendars.ToList().Count!=0)
+            if (result.Count ==0 && profileCalendars.ToList().Count!=0)
             {
                 check = "Sie abonnieren alle Kalendar des Benutzers";
             }
-            if (result.Count == 0 && _profileCalendars.ToList().Count == 0)
+            if (result.Count == 0 && profileCalendars.ToList().Count == 0)
             {
                 check = "Noch keine Kalender erstellt";
             }
@@ -132,12 +130,12 @@ namespace PIMSuite.WebApp.Controllers
             {
                 check = "Sie können noch folgende Kalender des Benutzers abonnieren:";
             }
-            if (userId== Guid.Parse(HttpContext.GetOwinContext().Authentication.User.Identity.GetUserId()))
+            if (userId == Guid.Parse(HttpContext.GetOwinContext().Authentication.User.Identity.GetUserId()))
             {
                 check = "Ihre Kalender";
             }
             ViewBag.CalendarList = result;
-            ViewBag.FullCalendarList = _profileCalendars;
+            ViewBag.FullCalendarList = profileCalendars;
             ViewBag.Check = check;
             User user = _userRepository.GetUserByID(userId);
             ViewBag.UserName = user.FirstName + " " + user.LastName;
