@@ -13,7 +13,6 @@ using PIMSuite.Persistence.Repositories;
 
 namespace PIMSuite.WebApp.Controllers.API
 {
-    
     [DataContract]
     public class CreateCalendarEventModel
     {
@@ -44,11 +43,13 @@ namespace PIMSuite.WebApp.Controllers.API
     public class CalendarEventController : ApiController
     {
         private readonly ICalendar_EventRepository _calendarEventRepository;
+        private readonly INotificationRepository _notificationRepository;
 
         public CalendarEventController()
         {
             var dataContext = new DataContext();
             _calendarEventRepository = new Calendar_EventRepository(dataContext);
+            _notificationRepository = new NotificationRepository(dataContext);
         }
 
         [HttpPost]
@@ -67,7 +68,7 @@ namespace PIMSuite.WebApp.Controllers.API
                     EndsAt = DateTime.Parse(model.End),
                     Description = model.Description,
                     Location = model.Location,
-                    isPrivate = model.IsPrivate
+                    IsPrivate = model.IsPrivate
                 };
 
                 _calendarEventRepository.InsertCalendar_Event(calendarEvent);
@@ -83,10 +84,21 @@ namespace PIMSuite.WebApp.Controllers.API
         public HttpResponseMessage DeleteEvent(int eventId)
         {
             var userId = Guid.Parse(HttpContext.Current.GetOwinContext().Authentication.User.Identity.GetUserId());
-            if (_calendarEventRepository.GetEvent(eventId).OwnerId==userId)
+            var evt = _calendarEventRepository.GetEvent(eventId);
+
+            if (_calendarEventRepository.GetEvent(eventId).OwnerId == userId)
             {
+                // delete event
+
                 _calendarEventRepository.DeleteCalendar_Event(eventId);
                 _calendarEventRepository.Save();
+
+                // create notification
+
+
+
+                // return result
+
                 return Request.CreateResponse(HttpStatusCode.Accepted, eventId);
             }
             return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "invalid data");
@@ -96,7 +108,7 @@ namespace PIMSuite.WebApp.Controllers.API
         {
             var displayAllEvent = DisplayAllEvent(new Guid(userId));
             var eventList = _calendarEventRepository.GetAllCalendar_EventByUserIdAndCalendarId(new Guid(userId), calendarId)
-                .Where(c => c.isPrivate == displayAllEvent || c.isPrivate == false)
+                .Where(c => c.IsPrivate == displayAllEvent || c.IsPrivate == false)
                 .Select(c => new
                 {
                     id = c.EventId,
@@ -105,7 +117,7 @@ namespace PIMSuite.WebApp.Controllers.API
                     location = c.Location,
                     start = c.StartsAt.ToString(("s")),
                     end = c.EndsAt.ToString("s"),
-                    isPrivateEvent = c.isPrivate,
+                    isPrivateEvent = c.IsPrivate,
                     displayAllEvent = displayAllEvent,
                     allday = false
                 }

@@ -45,7 +45,7 @@ namespace PIMSuite.WebApp.Controllers
 
         public ActionResult Index()
         {
-            var _subs = _subscriptionRepository.getAllSubscriptionsByUserId(Guid.Parse(HttpContext.GetOwinContext().Authentication.User.Identity.GetUserId()));
+            var _subs = _subscriptionRepository.GetAllSubscriptionsByUserId(Guid.Parse(HttpContext.GetOwinContext().Authentication.User.Identity.GetUserId()));
             var _subUsers = new List<User>();
             var _subCalendars = new List<Calendar>();
 

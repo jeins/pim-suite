@@ -63,7 +63,7 @@ namespace PIMSuite.WebApp.Controllers
             ViewBag.OwnerName= _userRepository.GetUserByID(calendar.OwnerId).FirstName+" "+_userRepository.GetUserByID(calendar.OwnerId).LastName;
             ViewBag.DisplayAll = User.Identity.GetUserId().Equals(calendar.OwnerId.ToString());
             
-            var flag=_subscriptionRepository.SubscrptionContainsinUserList(calendarId, Guid.Parse(HttpContext.GetOwinContext().Authentication.User.Identity.GetUserId()));
+            var flag=_subscriptionRepository.SubscriptionContainsInUserList(calendarId, Guid.Parse(HttpContext.GetOwinContext().Authentication.User.Identity.GetUserId()));
             if (flag == true)
             {
                 ViewBag.Flag = "deabonnieren";
@@ -101,7 +101,7 @@ namespace PIMSuite.WebApp.Controllers
         public ActionResult List(Guid userId)
         {
             var check = "";
-            var _subscByUser = _subscriptionRepository.getAllSubscriptionsByUserId(Guid.Parse(HttpContext.GetOwinContext().Authentication.User.Identity.GetUserId()));
+            var _subscByUser = _subscriptionRepository.GetAllSubscriptionsByUserId(Guid.Parse(HttpContext.GetOwinContext().Authentication.User.Identity.GetUserId()));
             var _profileCalendars = _calendarRepository.GetAllCalendarsByUserId(userId);
             var _calendarsBySubs = new List<Calendar>();
             foreach (Calendar_Subscription cs in _subscByUser)
@@ -143,9 +143,5 @@ namespace PIMSuite.WebApp.Controllers
             ViewBag.UserName = user.FirstName + " " + user.LastName;
             return View();
         }
-
-        
-
-       
     }
 }

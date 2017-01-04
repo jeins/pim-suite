@@ -23,23 +23,23 @@ namespace PIMSuite.Persistence.Repositories
 
         // Methods
 
-        public void Delete(int CalendarId, Guid SubscriberId)
+        public void Delete(int calendarId, Guid subscriberId)
         {
-           var subs= _context.CalendarSubscriptions.Where(s=>s.CalendarId==CalendarId && s.SubscriberId==SubscriberId);
+           var subs = _context.CalendarSubscriptions.Where(s=>s.CalendarId == calendarId && s.SubscriberId == subscriberId);
             foreach(Calendar_Subscription sub in subs)
             {
                 _context.CalendarSubscriptions.Remove(sub);
             }
         }
 
-        public IEnumerable<Calendar_Subscription> getAllSubscriptionsByUserId(Guid UserId)
+        public IEnumerable<Calendar_Subscription> GetAllSubscriptionsByUserId(Guid userId)
         {
-            return _context.CalendarSubscriptions.Where(s=>s.SubscriberId==UserId).ToList();
+            return _context.CalendarSubscriptions.Where(s=>s.SubscriberId == userId).ToList();
         }
 
-        public void Insert(Calendar_Subscription _subscription)
+        public void Insert(Calendar_Subscription subscription)
         {
-            _context.CalendarSubscriptions.Add(_subscription);
+            _context.CalendarSubscriptions.Add(subscription);
         }
 
         public void Save()
@@ -47,14 +47,12 @@ namespace PIMSuite.Persistence.Repositories
             _context.SaveChanges();
         }
 
-        public Calendar_Subscription getByUserIdAndByCalendarId(Guid subscriberId, int calendarId)
+        public Calendar_Subscription GetByUserIdAndByCalendarId(Guid subscriberId, int calendarId)
         {
             return _context.CalendarSubscriptions.Where(s => s.CalendarId == calendarId && s.SubscriberId == subscriberId).First(); 
         }
-
         
-
-        bool ICalendar_SubscriptionRepository.SubscrptionContainsinUserList(int calendarId, Guid userId)
+        public bool SubscriptionContainsInUserList(int calendarId, Guid userId)
         {
             var subs = _context.CalendarSubscriptions.Where(s => s.SubscriberId == userId).ToList();
             var flag = false;
