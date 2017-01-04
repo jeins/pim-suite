@@ -43,12 +43,14 @@ namespace PIMSuite.WebApp.Controllers.API
     public class CalendarEventController : ApiController
     {
         private readonly ICalendar_EventRepository _calendarEventRepository;
+        private readonly ICalendar_SubscriptionRepository _calendarSubscriptionRepository;
         private readonly INotificationRepository _notificationRepository;
 
         public CalendarEventController()
         {
             var dataContext = new DataContext();
             _calendarEventRepository = new Calendar_EventRepository(dataContext);
+            _calendarSubscriptionRepository = new Calendar_SubscriptionRepository(dataContext);
             _notificationRepository = new NotificationRepository(dataContext);
         }
 
@@ -95,7 +97,16 @@ namespace PIMSuite.WebApp.Controllers.API
 
                 // create notification
 
-
+                var subscriptions = _calendarSubscriptionRepository.GetAllSubscriptionsByCalendarId(evt.CalendarId);
+                foreach (var subscription in subscriptions)
+                {
+                    var notification = new Notification
+                    {
+                        UserId = subscription.SubscriberId
+                    };
+                    _notificationRepository.InsertNotification(notification);
+                }
+                _notificationRepository.Save();
 
                 // return result
 

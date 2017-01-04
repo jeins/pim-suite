@@ -25,9 +25,23 @@ namespace PIMSuite.Persistence.Repositories
             return _context.Notifications.Where(x => x.UserId == userId).OrderByDescending(x => x.CreateDate).ToList();
         }
 
+        public void InsertNotification(Notification notification)
+        {
+            _context.Notifications.Add(notification);
+        }
+
         public void ClearNotificationsForUser(Guid userId)
         {
-            
+            var notifications = _context.Notifications.Where(n => n.UserId == userId).ToList();
+            foreach (var notification in notifications)
+            {
+                _context.Notifications.Remove(notification);
+            }
+        }
+
+        public void Save()
+        {
+            _context.SaveChanges();
         }
     }
 }

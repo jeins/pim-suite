@@ -37,6 +37,11 @@ namespace PIMSuite.Persistence.Repositories
             return _context.CalendarSubscriptions.Where(s=>s.SubscriberId == userId).ToList();
         }
 
+        public IEnumerable<Calendar_Subscription> GetAllSubscriptionsByCalendarId(int calendarId)
+        {
+            return _context.CalendarSubscriptions.Where(s => s.CalendarId == calendarId).ToList();
+        }
+
         public void Insert(Calendar_Subscription subscription)
         {
             _context.CalendarSubscriptions.Add(subscription);

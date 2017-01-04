@@ -29,6 +29,7 @@ namespace PIMSuite.WebApp.Controllers.API
         {
             var userId = Guid.Parse(HttpContext.Current.GetOwinContext().Authentication.User.Identity.GetUserId());
             _notificationRepository.ClearNotificationsForUser(userId);
+            _notificationRepository.Save();
 
             return Request.CreateResponse(HttpStatusCode.Accepted);
         } 
