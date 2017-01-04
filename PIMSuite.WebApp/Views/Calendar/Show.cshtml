@@ -4,12 +4,10 @@
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
 }
 
-
 <link href="~/Content/fullcalendar.min.css" rel="stylesheet" />
 <link href="~/Content/fullcalendar.print.css" rel="stylesheet" media="print"/>
 <link href="~/Content/bootstrap-datetimepicker/bootstrap-datetimepicker.min.css" rel="stylesheet" />
 <link href="~/Content/custom.css" rel="stylesheet" />
-
 
 <h2>@ViewBag.OwnerName</h2>
 <div class="row">
@@ -163,11 +161,8 @@
     <script>
         
         $(function(){
-            
             $('#eventForm').validator();
-            
         });
-
 
         var calendar = $('#calendar')
             .fullCalendar({
@@ -191,9 +186,6 @@
                     $(".add_submit").on('click', function() {
                         
                         var calendarId = @ViewBag.CalendarId;
-                        
-                        
-
                         
                         if ($('#add_title').val().length!=0 &&  $('#add_location').val().length!=0 && $('#add_description').val()!=0 && $('#add_start').val().length!=0 && $('#add_end').val().length!=0 && $('#add_start').val() < $('#add_end').val()){
                             var newEvent = {
@@ -225,13 +217,10 @@
                             if ($('#add_start').val() > $('#add_end').val())
                             {
                                 alert("Der Zeitraum für den Termin wurde nicht korrekt eingegeben! Versuchen Sie noch mal.");
-                                
-
                             }
                             return true;
                         }
                     });
-
 
                 },
                 eventClick: function(calEvent) {
@@ -256,14 +245,7 @@
             $('#add_end').datetimepicker({ format: 'DD-MM-YYYY HH:mm' });
         });
 
-        
-
-
-        
-       
         $(function () {
-           
-            
                 $("#subscribe").click(function () {
                     var self = $(this);
                     if (self.val() == "abonnieren") {
@@ -276,8 +258,6 @@
                         });
                         self.val("deabonnieren");
                         $.notify("Jetzt abonnieren Sie den Kalender", "success");
-
-
                     }
                     else {
                         if (self.val() == "deabonnieren") {
@@ -291,17 +271,11 @@
                 
                             self.val("abonnieren");
                             $.notify("Sie abonnieren den Kalender nicht mehr", "warn");
-
                         }
-                        
-
                     }
                 });
             });
         
 </script>
-   
-
-
 }
 
