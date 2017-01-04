@@ -209,7 +209,8 @@ namespace PIMSuite.WebApp.Controllers.API
                     end = c.EndsAt.ToString("s"),
                     isPrivateEvent = c.IsPrivate,
                     displayAllEvent = displayAllEvent,
-                    allday = false
+                    allday = false,
+                    isConfirmed = c.Confirmed
                 }
             );
 

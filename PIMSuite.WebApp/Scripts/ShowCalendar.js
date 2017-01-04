@@ -6,6 +6,7 @@
     location: ko.observable(),
     description: ko.observable(),
     isPrivate: ko.observable(false),
+    isConfirmed: ko.observable(false),
     editEvent: function() {
         $.ajax(
         {
@@ -18,8 +19,8 @@
                 title: showCalendarViewModel.title(),
                 location: showCalendarViewModel.location(),
                 description: showCalendarViewModel.description(),
-                isPrivate: showCalendarViewModel.isPrivate()
-                //todo: isconfirmed
+                isPrivate: showCalendarViewModel.isPrivate(),
+                isConfirmed: showCalendarViewModel.isConfirmed()
             },
             dataType: 'json'
         }).done(function () {
@@ -27,7 +28,6 @@
         });
     },
     deleteEvent: function () {
-        //var eventId = document.getElementById('view_event_id').value;
         $.ajax(
         {
             url: '/API/CalendarEvent/DeleteEvent?eventId=' + showCalendarViewModel.eventId(),
@@ -115,6 +115,7 @@ var calendar = $('#calendar')
             showCalendarViewModel.location(calEvent.location);
             showCalendarViewModel.description(calEvent.description);
             showCalendarViewModel.isPrivate(calEvent.isPrivateEvent);
+            showCalendarViewModel.isConfirmed(calEvent.isConfirmed);
 
             calendar.fullCalendar('unselect');
         },
