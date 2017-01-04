@@ -9,6 +9,8 @@
 <link href="~/Content/fullcalendar.print.css" rel="stylesheet" media="print"/>
 <link href="~/Content/bootstrap-datetimepicker/bootstrap-datetimepicker.min.css" rel="stylesheet" />
 <link href="~/Content/custom.css" rel="stylesheet" />
+
+
 <h2>@ViewBag.OwnerName</h2>
 <div class="row">
     <div class="col-md-12">
@@ -101,14 +103,14 @@
                 <h4 class="modal-title">Add New Event</h4>
             </div>
             <div class="modal-body">
-                <form class="form-horizontal calender" role="form">
+                <form class="form-horizontal calender" role="form" id="eventForm" method="post">
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Start - End</label>
                         <div class="col-xs-4">
-                            <input type="text" class="form-control" id="add_start" name="add_start">
+                            <input type="datetime" class="form-control" id="add_start" name="add_start" required>
                         </div>
                         <div class="col-xs-4">
-                            <input type="text" class="form-control" id="add_end" name="add_end">
+                            <input type="datetime" class="form-control" id="add_end" name="add_end" required>
                         </div>
                     </div>
                     <div class="form-group">
@@ -118,21 +120,23 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">Title</label>
+                        
+                            
+                            <label class="col-sm-3 control-label">Title<span class="red">*</span></label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="add_title" name="add_title" required placeholder="Title">
+                            </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Location<span class="red">*</span></label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" id="add_title" name="add_title">
+                            <input type="text" class="form-control" id="add_location" name="add_location" required placeholder="Ort">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">Location</label>
+                        <label class="col-sm-3 control-label">Description<span class="red">*</span></label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" id="add_location" name="add_location">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">Description</label>
-                        <div class="col-sm-9">
-                            <textarea class="form-control" style="height: 55px;" id="add_description" name="add_description"></textarea>
+                            <textarea class="form-control" style="height: 55px;" id="add_description" name="add_description" required placeholder="Beschreibung der Veranstaltung"></textarea>
                         </div>
                     </div>
 
@@ -140,7 +144,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default add_close" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary add_submit">Save</button>
+                <button type="submit" class="btn btn-primary add_submit">Save</button>
             </div>
         </div>
     </div>
@@ -155,10 +159,15 @@
     <script src="~/Scripts/fullcalendar/fullcalendar.js"></script>
     <script src="~/Scripts/bootstrap-datetimepicker/bootstrap-datetimepicker.min.js"></script>
     <script src="~/Scripts/notify.js"></script>
-
+    <script src="~/Scripts/validator.js"></script>
     <script>
         
-       
+        $(function(){
+            
+            $('#eventForm').validator();
+            
+        });
+
 
         var calendar = $('#calendar')
             .fullCalendar({
@@ -180,31 +189,49 @@
                     $('#add_is_private').prop('checked', false);
 
                     $(".add_submit").on('click', function() {
+                        
                         var calendarId = @ViewBag.CalendarId;
-                        var newEvent = {
-                            title: $('#add_title').val(),
-                            start: moment($('#add_start').val(), 'DD-MM-YYYY HH:mm').format("LLLL"),
-                            end: moment($('#add_end').val(), 'DD-MM-YYYY HH:mm').format("LLLL"),
-                            location: $('#add_location').val(),
-                            description: $('#add_description').val(),
-                            allDay: false,
-                            calendarId: calendarId,
-                            isPrivate: $('#add_is_private').prop('checked')
-                        };
+                        
+                        
 
-                        calendar.fullCalendar('renderEvent', newEvent, true);
-                        calendar.fullCalendar('unselect');
+                        
+                        if ($('#add_title').val().length!=0 &&  $('#add_location').val().length!=0 && $('#add_description').val()!=0 && $('#add_start').val().length!=0 && $('#add_end').val().length!=0 && $('#add_start').val() < $('#add_end').val()){
+                            var newEvent = {
+                                title: $('#add_title').val(),
+                                start: moment($('#add_start').val(), 'DD-MM-YYYY HH:mm').format("LLLL"),
+                                end: moment($('#add_end').val(), 'DD-MM-YYYY HH:mm').format("LLLL"),
+                                location: $('#add_location').val(),
+                                description: $('#add_description').val(),
+                                allDay: false,
+                                calendarId: calendarId,
+                                isPrivate: $('#add_is_private').prop('checked')
+                            };
 
-                        $.ajax({
-                            type: 'POST',
-                            url: '/API/CalendarEvent/CreateNewEvent',
-                            data: newEvent
-                        });
+                            calendar.fullCalendar('renderEvent', newEvent, true);
+                            calendar.fullCalendar('unselect');
 
-                        $('.add_close').click();
+                            $.ajax({
+                                type: 'POST',
+                                url: '/API/CalendarEvent/CreateNewEvent',
+                                data: newEvent
+                            });
 
-                        return false;
+                            $('.add_close').click();
+
+                            return false;
+                        }
+
+                        else{
+                            if ($('#add_start').val() > $('#add_end').val())
+                            {
+                                alert("Der Zeitraum für den Termin wurde nicht korrekt eingegeben! Versuchen Sie noch mal.");
+                                
+
+                            }
+                            return true;
+                        }
                     });
+
 
                 },
                 eventClick: function(calEvent) {

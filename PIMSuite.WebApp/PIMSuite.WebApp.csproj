@@ -276,6 +276,7 @@
     <Content Include="Scripts\morris\morris.min.js" />
     <Content Include="Scripts\morris\raphael.min.js" />
     <Content Include="Scripts\notify.js" />
+    <Content Include="Scripts\validator.js" />
     <Content Include="Views\Dashboard\Index.cshtml" />
     <Content Include="Content\font-awesome\fonts\fontawesome-webfont.eot" />
     <Content Include="Content\font-awesome\fonts\fontawesome-webfont.ttf" />
@@ -353,7 +354,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\CalendarEvent\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
