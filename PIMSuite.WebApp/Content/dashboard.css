@@ -31,7 +31,7 @@ body {
     color: #336699;
 }
 
-.navbar-nav > li > a:hover .fa-fw {
+.navbar-nav > li > a:hover .fa-fw, .navbar-nav li.active .fa-fw {
     /*color: #6699CC;*/
     color: #99CCFF;
 }
