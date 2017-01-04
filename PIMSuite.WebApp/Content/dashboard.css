@@ -26,3 +26,12 @@ body {
         width: 350px !important;  /* change the number to whatever that you need */
     }
 }
+
+.navbar .fa-fw {
+    color: #336699;
+}
+
+.navbar-nav > li > a:hover .fa-fw {
+    /*color: #6699CC;*/
+    color: #99CCFF;
+}

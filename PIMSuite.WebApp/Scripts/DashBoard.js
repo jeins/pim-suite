@@ -12,7 +12,11 @@
             window.location.href = '/';
         });
     },
-    clearNotifications: function() {
+    clearNotifications: function () {
+        if (!dashboardViewModel.hasNotifications()) {
+            return;
+        }
+
         $.ajax(
         {
             url: '/API/Notification/ClearNotifications',

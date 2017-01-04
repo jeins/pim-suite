@@ -48,10 +48,11 @@ namespace PIMSuite.WebApp.Controllers
 
         public ActionResult Show(int calendarId)
         {
+            var userId = Guid.Parse(HttpContext.GetOwinContext().Authentication.User.Identity.GetUserId());
             var calendar = _calendarRepository.GetCalendarByCalendarId(calendarId);
 
             string check = "inherit";
-            if (calendar.OwnerId == Guid.Parse(HttpContext.GetOwinContext().Authentication.User.Identity.GetUserId()))
+            if (calendar.OwnerId == userId)
             {
                 check = "none";
             }
@@ -61,8 +62,9 @@ namespace PIMSuite.WebApp.Controllers
             ViewBag.UserId = calendar.OwnerId.ToString();
             ViewBag.OwnerName= _userRepository.GetUserByID(calendar.OwnerId).FirstName+" "+_userRepository.GetUserByID(calendar.OwnerId).LastName;
             ViewBag.DisplayAll = User.Identity.GetUserId().Equals(calendar.OwnerId.ToString());
-            
-            var flag = _subscriptionRepository.SubscriptionContainsInUserList(calendarId, Guid.Parse(HttpContext.GetOwinContext().Authentication.User.Identity.GetUserId()));
+            ViewBag.IsOwner = calendar.OwnerId == userId;
+
+            var flag = _subscriptionRepository.SubscriptionContainsInUserList(calendarId, userId);
             if (flag == true)
             {
                 ViewBag.Flag = "deabonnieren";
