@@ -18,4 +18,4 @@
     }
 }
 
-ko.applyBindings(domainViewModel, document.getElementById("domainBlock")[0]);
+ko.applyBindings(domainViewModel, document.getElementById("domainBlock"));
