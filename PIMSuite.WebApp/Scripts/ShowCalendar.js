@@ -125,6 +125,8 @@ var calendar = $('#calendar')
 $(function () {
     $('#add_start').datetimepicker({ format: 'DD-MM-YYYY HH:mm' });
     $('#add_end').datetimepicker({ format: 'DD-MM-YYYY HH:mm' });
+    $('#view_start').datetimepicker({ format: 'DD-MM-YYYY HH:mm' });
+    $('#view_end').datetimepicker({ format: 'DD-MM-YYYY HH:mm' });
 });
 
 $(function () {
