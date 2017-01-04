@@ -13,11 +13,12 @@ using PIMSuite.Persistence.Repositories;
 
 namespace PIMSuite.WebApp.Controllers.API
 {
+    
     [DataContract]
     public class CreateCalendarEventModel
     {
         [DataMember(IsRequired = true)]
-        [Required]
+        [Required(ErrorMessage = "Title ist erforderlich!")]
         public string Title { get; set; }
 
         [DataMember(IsRequired = true)]
@@ -27,8 +28,11 @@ namespace PIMSuite.WebApp.Controllers.API
         [DataMember(IsRequired = true)]
         [Required]
         public string End { get; set; }
-
+        [DataMember(IsRequired = true)]
+        [Required]
         public string Location { get; set; }
+        [DataMember(IsRequired = true)]
+        [Required]
         public string Description { get; set; }
         public int CalendarId { get; set; }
 
@@ -50,6 +54,7 @@ namespace PIMSuite.WebApp.Controllers.API
         [HttpPost]
         public HttpResponseMessage CreateNewEvent(CreateCalendarEventModel model)
         {
+           
             if (model != null && ModelState.IsValid)
             {
                 var userId = Guid.Parse(HttpContext.Current.GetOwinContext().Authentication.User.Identity.GetUserId());
@@ -67,6 +72,7 @@ namespace PIMSuite.WebApp.Controllers.API
 
                 _calendarEventRepository.InsertCalendar_Event(calendarEvent);
                 _calendarEventRepository.Save();
+
 
                 return Request.CreateResponse(HttpStatusCode.Accepted, calendarEvent.CalendarId);
             }
