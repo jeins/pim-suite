@@ -23,5 +23,7 @@ namespace PIMSuite.Persistence.Entities
         public Guid UserId { get; set; }
 
         public DateTime CreateDate { get; private set; }
+
+        public string Message { get; set; }
     }
 }

@@ -20,3 +20,9 @@ body {
     width: 20px;
     height: 20px;
 }
+
+@media (min-width: 768px) {
+    .dropdown-menu {
+        width: 350px !important;  /* change the number to whatever that you need */
+    }
+}

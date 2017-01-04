@@ -57,7 +57,6 @@ namespace PIMSuite.WebApp.Controllers.API
         [HttpPost]
         public HttpResponseMessage CreateNewEvent(CreateCalendarEventModel model)
         {
-           
             if (model != null && ModelState.IsValid)
             {
                 var userId = Guid.Parse(HttpContext.Current.GetOwinContext().Authentication.User.Identity.GetUserId());
@@ -76,8 +75,86 @@ namespace PIMSuite.WebApp.Controllers.API
                 _calendarEventRepository.InsertCalendar_Event(calendarEvent);
                 _calendarEventRepository.Save();
 
-
                 return Request.CreateResponse(HttpStatusCode.Accepted, calendarEvent.CalendarId);
+            }
+            return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "invalid data");
+        }
+
+        public class EditEventModel
+        {
+            [DataMember(IsRequired = true)]
+            [Required]
+            public int EventId { get; set; }
+
+            [DataMember(IsRequired = true)]
+            [Required(ErrorMessage = "Title ist erforderlich!")]
+            public string Title { get; set; }
+
+            [DataMember(IsRequired = true)]
+            [Required]
+            public string Start { get; set; }
+
+            [DataMember(IsRequired = true)]
+            [Required]
+            public string End { get; set; }
+            [DataMember(IsRequired = true)]
+            [Required]
+            public string Location { get; set; }
+
+            [DataMember(IsRequired = true)]
+            [Required]
+            public string Description { get; set; }
+
+            [DataMember(IsRequired = true)]
+            [Required]
+            public bool IsPrivate { get; set; }
+
+            [DataMember(IsRequired = true)]
+            [Required]
+            public bool IsConfirmed { get; set; }
+        }
+
+        [HttpPost]
+        public HttpResponseMessage EditEvent(EditEventModel model)
+        {
+            if (model != null && ModelState.IsValid)
+            {
+                var evt = _calendarEventRepository.GetEvent(model.EventId);
+
+                if (evt == null)
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "event not found");
+                }
+
+                var confirmationChanged = model.IsConfirmed && !evt.Confirmed;
+
+                evt.StartsAt = DateTime.Parse(model.Start);
+                evt.EndsAt = DateTime.Parse(model.End);
+                evt.Name = model.Title;
+                evt.Description = model.Description;
+                evt.Location = model.Location;
+                evt.IsPrivate = model.IsPrivate;
+                evt.Confirmed = model.IsConfirmed;
+
+                _calendarEventRepository.Save();
+
+                // notification
+
+                if (confirmationChanged)
+                {
+                    var msg = string.Format("Termin \"{0}\" findet wirklich statt.", evt.Name);
+                    var subscriptions = _calendarSubscriptionRepository.GetAllSubscriptionsByCalendarId(evt.CalendarId);
+                    foreach (var subscription in subscriptions)
+                    {
+                        var notification = new Notification
+                        {
+                            UserId = subscription.SubscriberId,
+                            Message = msg
+                        };
+                        _notificationRepository.InsertNotification(notification);
+                    }
+                    _notificationRepository.Save();
+                }
             }
             return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "invalid data");
         }
@@ -97,12 +174,14 @@ namespace PIMSuite.WebApp.Controllers.API
 
                 // create notification
 
+                var msg = string.Format("Termin \"{0}\" wurde gelöscht.", evt.Name);
                 var subscriptions = _calendarSubscriptionRepository.GetAllSubscriptionsByCalendarId(evt.CalendarId);
                 foreach (var subscription in subscriptions)
                 {
                     var notification = new Notification
                     {
-                        UserId = subscription.SubscriberId
+                        UserId = subscription.SubscriberId,
+                        Message = msg
                     };
                     _notificationRepository.InsertNotification(notification);
                 }

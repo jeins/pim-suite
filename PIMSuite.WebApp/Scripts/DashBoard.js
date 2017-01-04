@@ -1,4 +1,5 @@
 ﻿var dashboardViewModel = {
+    hasNotifications: ko.observable(hasNotifications),
     logout: function () {
         $.ajax(
         {
@@ -20,7 +21,7 @@
             },
             dataType: 'json'
         }).done(function () {
-            // todo
+            dashboardViewModel.hasNotifications(false);
         });
     }
 };

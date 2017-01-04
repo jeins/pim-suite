@@ -37,6 +37,7 @@ namespace PIMSuite.WebApp.Controllers
                 }
                 else
                 {
+                    ViewBag.Notifications = _notificationRepository.GetNotificationsForUser(user.UserId);
                     var unReadMessages = _messageRepository.GetNotificationOfUnReadMessage(user.UserId);
                     ViewBag.FullName = user.FirstName + " " + user.LastName;
                     ViewBag.User = user;

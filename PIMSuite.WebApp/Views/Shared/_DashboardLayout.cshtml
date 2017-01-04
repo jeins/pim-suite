@@ -104,30 +104,27 @@
                     }
                 </li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bell"></i> <b class="caret"></b></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-bind="click: clearNotifications">
+                        <i class="fa fa-bell"></i> <b class="caret" data-bind="visible: hasNotifications()"></b>
+                    </a>
                     <ul class="dropdown-menu alert-dropdown">
-                        <li>
-                            <a href="#">Alert Name <span class="label label-default">Alert Badge</span></a>
-                        </li>
-                        <li>
-                            <a href="#">Alert Name <span class="label label-primary">Alert Badge</span></a>
-                        </li>
-                        <li>
-                            <a href="#">Alert Name <span class="label label-success">Alert Badge</span></a>
-                        </li>
-                        <li>
-                            <a href="#">Alert Name <span class="label label-info">Alert Badge</span></a>
-                        </li>
-                        <li>
-                            <a href="#">Alert Name <span class="label label-warning">Alert Badge</span></a>
-                        </li>
-                        <li>
-                            <a href="#">Alert Name <span class="label label-danger">Alert Badge</span></a>
-                        </li>
-                        <li class="divider"></li>
+                        @foreach (var notification in ViewBag.Notifications)
+                        {
+                            <li>
+                                <a href="#">@notification.Message <span class="label label-default">Kalender</span></a>
+                            </li>
+                        }
+                        @if (ViewBag.Notifications.Count == 0)
+                        {
+                            <li>
+                                <a href="#">Keine Benachrichtigungen vorhanden</a>
+                            </li>
+                        }
+
+                        @*<li class="divider"></li>
                         <li>
                             <a href="#">View All</a>
-                        </li>
+                        </li>*@
                     </ul>
                 </li>
                 <li class="dropdown">
@@ -234,7 +231,11 @@
     <!-- Bootstrap Core JavaScript -->
     <script src="~/Scripts/bootstrap.min.js"></script>
 
-    <script src="~/Scripts/knockout-3.4.0.js"></script>
+<script type="text/javascript">
+    var hasNotifications = @(ViewBag.Notifications.Count > 0 ? "true" : "false");
+</script>
+
+<script src="~/Scripts/knockout-3.4.0.js"></script>
     <script src="~/Scripts/Dashboard.js"></script>
     <script src="~/Scripts/jquery.signalR-2.2.1.min.js"></script>
     <script src="~/signalr/hubs"></script>
