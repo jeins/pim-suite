@@ -7,16 +7,33 @@
     description: ko.observable(),
     isPrivate: ko.observable(false),
     editEvent: function() {
-        alert(showCalendarViewModel.title());
-    },
-    deleteEvent: function () {
-        var eventId = document.getElementById('view_event_id').value;
         $.ajax(
         {
-            url: '/API/CalendarEvent/DeleteEvent?eventId=' + eventId,
+            url: '/API/CalendarEvent/EditEvent',
             type: 'POST',
             data: {
-                eventId: eventId
+                eventId: showCalendarViewModel.eventId(),
+                start: showCalendarViewModel.startDate(),
+                end: showCalendarViewModel.endDate(),
+                title: showCalendarViewModel.title(),
+                location: showCalendarViewModel.location(),
+                description: showCalendarViewModel.description(),
+                isPrivate: showCalendarViewModel.isPrivate()
+                //todo: isconfirmed
+            },
+            dataType: 'json'
+        }).done(function () {
+            location.reload();
+        });
+    },
+    deleteEvent: function () {
+        //var eventId = document.getElementById('view_event_id').value;
+        $.ajax(
+        {
+            url: '/API/CalendarEvent/DeleteEvent?eventId=' + showCalendarViewModel.eventId(),
+            type: 'POST',
+            data: {
+                eventId: showCalendarViewModel.eventId()
             },
             dataType: 'json'
         }).done(function () {
