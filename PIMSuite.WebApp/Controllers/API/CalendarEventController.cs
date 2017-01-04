@@ -198,7 +198,7 @@ namespace PIMSuite.WebApp.Controllers.API
         {
             var displayAllEvent = DisplayAllEvent(new Guid(userId));
             var eventList = _calendarEventRepository.GetAllCalendar_EventByUserIdAndCalendarId(new Guid(userId), calendarId)
-                .Where(c => c.IsPrivate == displayAllEvent || c.IsPrivate == false)
+                .Where(c => !c.IsPrivate || displayAllEvent)
                 .Select(c => new
                 {
                     id = c.EventId,
@@ -213,6 +213,23 @@ namespace PIMSuite.WebApp.Controllers.API
                     isConfirmed = c.Confirmed
                 }
             );
+            var privateEventList = _calendarEventRepository.GetAllCalendar_EventByUserIdAndCalendarId(new Guid(userId), calendarId)
+                .Where(c => c.IsPrivate && !displayAllEvent)
+                .Select(c => new
+                {
+                    id = c.EventId,
+                    title = "Privat",
+                    description = "Privat",
+                    location = "Privat",
+                    start = c.StartsAt.ToString(("s")),
+                    end = c.EndsAt.ToString("s"),
+                    isPrivateEvent = c.IsPrivate,
+                    displayAllEvent = displayAllEvent,
+                    allday = false,
+                    isConfirmed = c.Confirmed
+                }
+            );
+            eventList = eventList.Concat(privateEventList);
 
             return Request.CreateResponse(HttpStatusCode.OK, eventList, Configuration.Formatters.JsonFormatter);
         }

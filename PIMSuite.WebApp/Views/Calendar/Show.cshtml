@@ -29,7 +29,6 @@
         </div>
     </div>
 </div>
-
 <div id="ViewEvent" class="modal fade view-event-dialog" tabindex="-1" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -43,10 +42,25 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Start - End</label>
                         <div class="col-xs-4">
-                            <input type="text" class="form-control" id="view_start" name="view_start" data-bind="textInput: startDate">
+                            @if (ViewBag.DisplayAll)
+                            {
+                                <input type="text" class="form-control" id="view_start" name="view_start" data-bind="textInput: startDate">
+                            }
+                            @if (!(ViewBag.DisplayAll))
+                            {
+                                <input type="text" class="form-control" id="view_start" name="view_start" data-bind="textInput: startDate" readonly>
+                            }                            
                         </div>
                         <div class="col-xs-4">
-                            <input type="text" class="form-control" id="view_end" name="view_end" data-bind="textInput: endDate">
+                            @if (ViewBag.DisplayAll)
+                            {
+                                <input type="text" class="form-control" id="view_end" name="view_end" data-bind="textInput: endDate">
+                            }
+                            @if (!(ViewBag.DisplayAll))
+                            {
+                                <input type="text" class="form-control" id="view_end" name="view_end" data-bind="textInput: endDate" readonly>
+                            }  
+                            
                         </div>
                     </div>
                     @if (ViewBag.DisplayAll)
@@ -61,19 +75,41 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Title</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" id="view_title" name="view_title" data-bind="textInput: title">
+                            @if (ViewBag.DisplayAll)
+                            { 
+                                 <input type="text" class="form-control" id="view_title" name="view_title" data-bind="textInput: title">
+                            }
+                            @if (!(ViewBag.DisplayAll))
+                            {
+                                <input type="text" class="form-control" id="view_title" name="view_title" data-bind="textInput: title" readonly>
+                            }
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Location</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" id="view_location" name="view_location" data-bind="textInput: location">
+                            @if (ViewBag.DisplayAll)
+                            {
+                                <input type="text" class="form-control" id="view_location" name="view_location" data-bind="textInput: location">
+                            }
+                            @if (!(ViewBag.DisplayAll))
+                            {
+                                <input type="text" class="form-control" id="view_location" name="view_location" data-bind="textInput: location" readonly>
+                            }                            
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Description</label>
                         <div class="col-sm-9">
-                            <textarea class="form-control" style="height: 55px;" id="view_description" name="view_description" data-bind="textInput: description"></textarea>
+                            @if (ViewBag.DisplayAll)
+                            {
+                                <textarea class="form-control" style="height: 55px;" id="view_description" name="view_description" data-bind="textInput: description"></textarea>
+                            }
+                            @if (!(ViewBag.DisplayAll))
+                            {
+                                <textarea class="form-control" style="height: 55px;" id="view_description" name="view_description" data-bind="textInput: description" readonly></textarea>
+                            }      
+                            
                         </div>
                     </div>
                     <div class="form-group">
