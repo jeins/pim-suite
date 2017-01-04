@@ -30,7 +30,7 @@
     </div>
 </div>
 
-<div id="ViewEvent" class="modal fade" tabindex="-1" role="dialog">
+<div id="ViewEvent" class="modal fade view-event-dialog" tabindex="-1" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
 
@@ -54,26 +54,26 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Private Calendar</label>
                             <div class="col-sm-9">
-                                <input type="checkbox" class="form-control" id="view_is_private" name="view_is_private">
+                                <input type="checkbox" class="form-control" id="view_is_private" name="view_is_private" data-bind="checked: isPrivate">
                             </div>
                         </div>
                     }
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Title</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" id="view_title" name="view_title">
+                            <input type="text" class="form-control" id="view_title" name="view_title" data-bind="textInput: title">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Location</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" id="view_location" name="view_location">
+                            <input type="text" class="form-control" id="view_location" name="view_location" data-bind="textInput: location">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Description</label>
                         <div class="col-sm-9">
-                            <textarea class="form-control" style="height: 55px;" id="view_description" name="view_description"></textarea>
+                            <textarea class="form-control" style="height: 55px;" id="view_description" name="view_description" data-bind="textInput: description"></textarea>
                         </div>
                     </div>
                 </form>
@@ -83,8 +83,9 @@
                     <input type="hidden" id="view_event_id" name="view_event_id" />
                     @if (ViewBag.DisplayAll)
                     {
-                        <button type="button" class="btn btn-danger deletebutton" data-bind="click: deleteevent">Delete</button>
+                        <button type="button" class="btn btn-danger deletebutton" data-bind="click: deleteEvent">Delete</button>
                     }
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" data-bind="click: editEvent">Speichern</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 </form>
             </div>
@@ -152,130 +153,16 @@
 <div id="add_event" data-toggle="modal" data-target="#AddEvent"></div>
 
 @section scripts {
-    <script src="~/Scripts/DeleteEvent.js"></script>
     <script src="~/Scripts/fullcalendar/moment.min.js"></script>
     <script src="~/Scripts/fullcalendar/fullcalendar.js"></script>
     <script src="~/Scripts/bootstrap-datetimepicker/bootstrap-datetimepicker.min.js"></script>
     <script src="~/Scripts/notify.js"></script>
     <script src="~/Scripts/validator.js"></script>
-    <script>
-        
-        $(function(){
-            $('#eventForm').validator();
-        });
 
-        var calendar = $('#calendar')
-            .fullCalendar({
-                header: {
-                    left: 'prev,next today',
-                    center: 'title',
-                    right: 'month,agendaWeek'
-                },
-                selectable: true,
-                selectHelper: true,
-                select: function (start) {
-                    $('#add_event').click();
+    <script type="text/javascript">
+        var userId = '@ViewBag.UserId';
+        var calendarId = @ViewBag.CalendarId;
+    </script>
 
-                    $('#add_start').val(moment(start).format('DD-MM-YYYY HH:mm'));
-                    $('#add_title').val("");
-                    $('#add_end').val("");
-                    $('#add_location').val("");
-                    $('#add_description').val("");
-                    $('#add_is_private').prop('checked', false);
-
-                    $(".add_submit").on('click', function() {
-                        
-                        var calendarId = @ViewBag.CalendarId;
-                        
-                        if ($('#add_title').val().length!=0 &&  $('#add_location').val().length!=0 && $('#add_description').val()!=0 && $('#add_start').val().length!=0 && $('#add_end').val().length!=0 && $('#add_start').val() < $('#add_end').val()){
-                            var newEvent = {
-                                title: $('#add_title').val(),
-                                start: moment($('#add_start').val(), 'DD-MM-YYYY HH:mm').format("LLLL"),
-                                end: moment($('#add_end').val(), 'DD-MM-YYYY HH:mm').format("LLLL"),
-                                location: $('#add_location').val(),
-                                description: $('#add_description').val(),
-                                allDay: false,
-                                calendarId: calendarId,
-                                isPrivate: $('#add_is_private').prop('checked')
-                            };
-
-                            calendar.fullCalendar('renderEvent', newEvent, true);
-                            calendar.fullCalendar('unselect');
-
-                            $.ajax({
-                                type: 'POST',
-                                url: '/API/CalendarEvent/CreateNewEvent',
-                                data: newEvent
-                            });
-
-                            $('.add_close').click();
-
-                            return false;
-                        }
-
-                        else{
-                            if ($('#add_start').val() > $('#add_end').val())
-                            {
-                                alert("Der Zeitraum für den Termin wurde nicht korrekt eingegeben! Versuchen Sie noch mal.");
-                            }
-                            return true;
-                        }
-                    });
-
-                },
-                eventClick: function(calEvent) {
-                    $('#view_event').click();
-                    $('#view_start').val(moment(calEvent.start).format('DD-MM-YYYY HH:mm'));
-                    $('#view_end').val(moment(calEvent.end).format('DD-MM-YYYY HH:mm'));
-                    $('#view_title').val(calEvent.title);
-                    $('#view_location').val(calEvent.location);
-                    $("#view_description").val(calEvent.description);
-                    $("#view_event_id").val(calEvent.id);
-                    $('#view_is_private').prop('checked', calEvent.isPrivateEvent);
-
-                    console.log(calEvent);
-
-                    calendar.fullCalendar('unselect');
-                },
-                events: '/API/CalendarEvent/GetEvents?userId=@ViewBag.UserId&calendarId=@ViewBag.CalendarId'
-            });
-
-        $(function () {
-            $('#add_start').datetimepicker({ format: 'DD-MM-YYYY HH:mm' });
-            $('#add_end').datetimepicker({ format: 'DD-MM-YYYY HH:mm' });
-        });
-
-        $(function () {
-                $("#subscribe").click(function () {
-                    var self = $(this);
-                    if (self.val() == "abonnieren") {
-                        $.ajax({
-                            type: "POST",
-                            url: "/Calendar/CreateSubscription",
-                            data: '{calendarId: "' + @ViewBag.CalendarId+ '" }',
-                            contentType: "application/json; charset=utf-8",
-                    
-                        });
-                        self.val("deabonnieren");
-                        $.notify("Jetzt abonnieren Sie den Kalender", "success");
-                    }
-                    else {
-                        if (self.val() == "deabonnieren") {
-                            $.ajax({
-                                type: "POST",
-                                url: "/Calendar/RemoveSubscription",
-                                data: '{calendarId: "' + @ViewBag.CalendarId+ '" }',
-                                contentType: "application/json; charset=utf-8",
-                        
-                            });
-                
-                            self.val("abonnieren");
-                            $.notify("Sie abonnieren den Kalender nicht mehr", "warn");
-                        }
-                    }
-                });
-            });
-        
-</script>
+    <script src="~/Scripts/ShowCalendar.js"></script>
 }
-
