@@ -226,7 +226,7 @@ namespace PIMSuite.WebApp.Controllers.API
                     isPrivateEvent = c.IsPrivate,
                     displayAllEvent = displayAllEvent,
                     allday = false,
-                    isConfirmed = c.Confirmed
+                    isConfirmed = false
                 }
             );
             eventList = eventList.Concat(privateEventList);
