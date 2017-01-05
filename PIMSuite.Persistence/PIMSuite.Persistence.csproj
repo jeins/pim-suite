@@ -66,7 +66,6 @@
     <Compile Include="Entities\Connection.cs" />
     <Compile Include="Entities\Department.cs" />
     <Compile Include="Entities\Domain.cs" />
-    <Compile Include="Entities\EventParticipation.cs" />
     <Compile Include="Entities\Event_Invite.cs" />
     <Compile Include="Entities\Leadership.cs" />
     <Compile Include="Entities\Location.cs" />
@@ -77,12 +76,14 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\CalendarRepository.cs" />
+    <Compile Include="Repositories\Event_InviteRepository.cs" />
     <Compile Include="Repositories\Calendar_EventRepository.cs" />
     <Compile Include="Repositories\Calendar_SubscriptionRepository.cs" />
     <Compile Include="Repositories\DomainRepository.cs" />
     <Compile Include="Repositories\ConnectionRepository.cs" />
     <Compile Include="Repositories\DepartmentRepository.cs" />
     <Compile Include="Repositories\ICalendarRepository.cs" />
+    <Compile Include="Repositories\IEvent_InviteRepository.cs" />
     <Compile Include="Repositories\ICalendar_EventRepository.cs" />
     <Compile Include="Repositories\ICalendar_SubscriptionRepository.cs" />
     <Compile Include="Repositories\IDomainRepository.cs" />

@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Kalender anzeigen";
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
 }
@@ -121,6 +120,7 @@
                     @if (ViewBag.DisplayAll)
                     {
                         <button type="button" class="btn btn-danger deletebutton" data-bind="click: deleteEvent">Löschen</button>
+                        <button type="button" class="btn btn-info" id="invite-users" onclick="inviteUsers()">Teilnehmer einladen</button>
                     }
                     <button type="button" class="btn btn-primary" data-dismiss="modal" data-bind="click: editEvent">Speichern</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -186,6 +186,31 @@
     </div>
 </div>
 
+<!-- invite user modal -->
+<div id="InviteUser" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">Invite User</h4>
+            </div>
+            <div class="modal-body add-user">
+                <form class="form-horizontal" role="form">
+                    <input type="text" id="au-search-name" onkeyup="filterUser()" placeholder="Search user..">
+
+                    <ul id="au-user-list"></ul>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default au-close" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary au-add">Invite</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="invite-user" data-toggle="modal" data-target="#InviteUser"></div>
+
 <div id="view_event" data-toggle="modal" data-target="#ViewEvent"></div>
 <div id="add_event" data-toggle="modal" data-target="#AddEvent"></div>
 
@@ -199,6 +224,93 @@
     <script type="text/javascript">
         var userId = '@ViewBag.UserId';
         var calendarId = @ViewBag.CalendarId;
+
+        $('#invite-users').on('click', function () {
+            $('#invite-user').click();
+
+            $('.cgn-submit').on('click', function () {
+                var groupName = $('#chat-group-name').val();
+                var requestBody = {
+                    groupName: groupName,
+                    ownerId: $('#currUserId').val(),
+                };
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/API/Chat/CreateNewGroup',
+                    data: requestBody,
+                    dataType: 'json',
+                    success: function (response) {
+                        var html = '<li class="left clearfix" id="chat-room" group-id="' + response + '" group-name="' + groupName + '"> ' +
+                                        '<div class="chat-body clearfix">' +
+                                            '<div class="header_sec">' +
+                                                '<strong class="primary-font">Group: ' + groupName + '</strong><span class="badge pull-right"></span>' +
+                                            '</div>' +
+                                        '</div>' +
+                                    '</li>';
+
+                        $('#chat-rooms').prepend(html);
+                        $('.cgn-close').click();
+                    }
+                });
+            });
+        });
+
+        function inviteUsers() {
+            //$('#invite-user').click();
+
+            $.ajax({
+                type: 'GET',
+                url: '/API/CalendarEvent/GetUsersForInvite',
+                data: { groupId: $('#userId').val() },
+                dataType: 'json',
+                success: function (response) {
+                    var html = '';
+                    console.log(response);
+
+                    Object.keys(response).forEach(function (i) {
+                        html += '<li><label><input type="checkbox" name="user" value="' + response[i].UserId + '"> ' + response[i].FirstName + ' ' + response[i].LastName + '</label></li>';
+                    });
+
+                    $('#au-user-list').prepend(html);
+                }
+            });
+
+            $('.au-add').on('click', function () {
+                var userIdWithSeparator = ''; //TODO:find the best way!
+                $('#au-user-list input[name="user"]:checked').each(function () {
+                    userIdWithSeparator += this.value + '_';
+                });
+                $('#chatWith').text('chat with: ' + userIdWithSeparator);
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/API/CalendarEvent/InviteUser',
+                    data: { eventId: showCalendarViewModel.eventId(), usersId: userIdWithSeparator.slice(0, -1) },
+                    dataType: 'json',
+                    success: function () {
+                        $('.au-close').click();
+                    }
+                });
+            });
+        }
+
+        function filterUser() {
+            var searchUser = document.getElementById("au-search-name");
+            var findUser = searchUser.value.toUpperCase();
+            var userList = document.getElementById("au-user-list");
+            var user = userList.getElementsByTagName("li");
+
+            for (var i = 0; i < user.length; i++) {
+                var userName = user[i].getElementsByTagName("label")[0];
+                if (userName.innerHTML.toUpperCase().indexOf(findUser) > -1) {
+                    user[i].style.display = "";
+                } else {
+                    user[i].style.display = "none";
+
+                }
+            }
+        }
     </script>
 
     <script src="~/Scripts/ShowCalendar.js"></script>

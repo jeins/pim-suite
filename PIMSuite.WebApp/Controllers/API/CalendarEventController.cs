@@ -40,15 +40,28 @@ namespace PIMSuite.WebApp.Controllers.API
         public bool IsPrivate { get; set; }
     }
 
+    [DataContract]
+    public class InviteUserModel
+    {
+        [DataMember(IsRequired = true)]
+        [Required]
+        public string UsersId { get; set; }
+
+        [DataMember(IsRequired = true)]
+        [Required]
+        public int EventId { get; set; }
+    }
+
     public class CalendarEventController : ApiController
     {
         private readonly ICalendar_EventRepository _calendarEventRepository;
         private readonly ICalendar_SubscriptionRepository _calendarSubscriptionRepository;
         private readonly INotificationRepository _notificationRepository;
+        private DataContext dataContext;
 
         public CalendarEventController()
         {
-            var dataContext = new DataContext();
+            dataContext = new DataContext();
             _calendarEventRepository = new Calendar_EventRepository(dataContext);
             _calendarSubscriptionRepository = new Calendar_SubscriptionRepository(dataContext);
             _notificationRepository = new NotificationRepository(dataContext);
@@ -191,6 +204,48 @@ namespace PIMSuite.WebApp.Controllers.API
 
                 return Request.CreateResponse(HttpStatusCode.Accepted, eventId);
             }
+            return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "invalid data");
+        }
+
+        public HttpResponseMessage GetUsersForInvite()
+        {
+            var self = HttpContext.Current.GetOwinContext().Authentication.User.Identity.Name;
+            var userList = dataContext.Users.Select(u => new { u.UserId, u.FirstName, u.LastName, u.Username }).ToList();
+            var ownUser = dataContext.Users.Where(u => u.Username.Equals(self)).Select(u => u.Username).ToList();
+
+            userList.RemoveAll(u => ownUser.Contains(u.Username));
+
+            return Request.CreateResponse(HttpStatusCode.OK, userList, Configuration.Formatters.JsonFormatter);
+        }
+
+        [HttpPost]
+        public HttpResponseMessage InviteUser(InviteUserModel model)
+        {
+            if (model != null && ModelState.IsValid)
+            {
+                var self = HttpContext.Current.GetOwinContext().Authentication.User.Identity.Name;
+                var selfUser = dataContext.Users.SingleOrDefault(u => u.Username == self);
+                var targetevent = dataContext.CalendarEvents.SingleOrDefault(e => e.EventId == model.EventId);
+                var users = model.UsersId.Split('_');
+                foreach (var userId in users)
+                {
+                    var recvrGuid = Guid.Parse(userId);
+                    var recvr = dataContext.Users.SingleOrDefault(u => u.UserId == recvrGuid);
+                    var ei = new Event_Invite
+                    {
+                        InviteSender = selfUser,
+                        InviteReceiver = recvr,
+                        InviteEvent = targetevent,
+                        Status = 0
+                    };
+
+                    dataContext.EventInvites.Add(ei);
+                }
+
+                dataContext.SaveChanges();
+                return Request.CreateResponse(HttpStatusCode.Accepted, "");
+            }
+
             return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "invalid data");
         }
 
