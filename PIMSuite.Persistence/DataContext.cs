@@ -61,6 +61,12 @@ namespace PIMSuite.Persistence
                         .HasForeignKey(m => m.InviteSenderId)
                         .WillCascadeOnDelete(false);
 
+            modelBuilder.Entity<Event_Invite>()
+                        .HasRequired(m => m.InviteEvent)
+                        .WithMany(m => m.Invites)
+                        .HasForeignKey(m => m.InviteEventId)
+                        .WillCascadeOnDelete(false);
+
             base.OnModelCreating(modelBuilder);
         }
     }

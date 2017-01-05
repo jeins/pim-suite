@@ -265,7 +265,8 @@ namespace PIMSuite.WebApp.Controllers.API
                     isPrivateEvent = c.IsPrivate,
                     displayAllEvent = displayAllEvent,
                     allday = false,
-                    isConfirmed = c.Confirmed
+                    isConfirmed = c.Confirmed,
+                    invites = c.Invites.ToList()
                 }
             );
             var privateEventList = _calendarEventRepository.GetAllCalendar_EventByUserIdAndCalendarId(new Guid(userId), calendarId)
@@ -281,7 +282,8 @@ namespace PIMSuite.WebApp.Controllers.API
                     isPrivateEvent = c.IsPrivate,
                     displayAllEvent = displayAllEvent,
                     allday = false,
-                    isConfirmed = false
+                    isConfirmed = false,
+                    invites = c.Invites.ToList()
                 }
             );
             eventList = eventList.Concat(privateEventList);

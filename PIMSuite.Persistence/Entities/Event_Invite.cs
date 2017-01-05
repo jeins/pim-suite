@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -21,18 +22,32 @@ namespace PIMSuite.Persistence.Entities
         [Required(ErrorMessage = "Einladender ist erforderlich!")]
         public Guid InviteSenderId { get; set; }
 
+        [JsonIgnore]
         [ForeignKey("InviteSenderId")]
         public User InviteSender { get; set; }
 
         [Required(ErrorMessage = "Eingeladener ist erforderlich!")]
         public Guid InviteReceiverId { get; set; }
 
+        [JsonIgnore]
         [ForeignKey("InviteReceiverId")]
         public User InviteReceiver { get; set; }
+
+        [JsonProperty]
+        public virtual User InviteReceiverUser
+        {
+            get
+            {
+                var dataContext = new DataContext();
+                var user = dataContext.Users.Find(InviteReceiverId);
+                return user;
+            }
+        }
 
         [Required(ErrorMessage = "Event ist erforderlich!")]
         public int InviteEventId { get; set; }
 
+        [JsonIgnore]
         [ForeignKey("InviteEventId")]
         public Calendar_Event InviteEvent { get; set; }
 

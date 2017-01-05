@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -55,5 +56,7 @@ namespace PIMSuite.Persistence.Entities
         public bool Confirmed { get; set; }
 
         public DateTime CreatedAt { get; private set; }
+
+        public virtual ICollection<Event_Invite> Invites { get; set; }
     }
 }
