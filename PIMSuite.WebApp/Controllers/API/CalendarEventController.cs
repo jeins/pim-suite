@@ -207,13 +207,15 @@ namespace PIMSuite.WebApp.Controllers.API
             return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "invalid data");
         }
 
-        public HttpResponseMessage GetUsersForInvite()
+        public HttpResponseMessage GetUsersForInvite(int eventId)
         {
             var self = HttpContext.Current.GetOwinContext().Authentication.User.Identity.Name;
             var userList = dataContext.Users.Select(u => new { u.UserId, u.FirstName, u.LastName, u.Username }).ToList();
+            var userAlreadyInvited = dataContext.EventInvites.Where(e => e.InviteEventId.Equals(eventId)).Select(e => e.InviteReceiverId).ToList();
             var ownUser = dataContext.Users.Where(u => u.Username.Equals(self)).Select(u => u.Username).ToList();
 
             userList.RemoveAll(u => ownUser.Contains(u.Username));
+            userList.RemoveAll(u => userAlreadyInvited.Contains(u.UserId));
 
             return Request.CreateResponse(HttpStatusCode.OK, userList, Configuration.Formatters.JsonFormatter);
         }

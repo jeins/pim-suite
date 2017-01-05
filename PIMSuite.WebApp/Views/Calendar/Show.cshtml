@@ -261,7 +261,7 @@
 
             $.ajax({
                 type: 'GET',
-                url: '/API/CalendarEvent/GetUsersForInvite',
+                url: '/API/CalendarEvent/GetUsersForInvite/?eventId=' + showCalendarViewModel.eventId(),
                 data: { groupId: $('#userId').val() },
                 dataType: 'json',
                 success: function (response) {
