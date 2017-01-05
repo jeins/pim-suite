@@ -13,7 +13,7 @@
                 <div class="row">
                     <div id="custom-search-input">
                         <div class="input-group col-md-10">
-                            <input type="text" class="search-query form-control" placeholder="Search"/>
+                            <input type="text" class="search-query form-control" placeholder="Suche"/>
                             <button class="btn btn-danger" type="button">
                                 <i class="fa fa-search" aria-hidden="true"></i>
                             </button>
@@ -81,11 +81,11 @@
                         </ul>
                     </div>
                     <div class="message_write">
-                        <textarea class="form-control" id="messageBody" placeholder="type a message"></textarea>
+                        <textarea class="form-control" id="messageBody" placeholder="Nachricht.."></textarea>
                         <div class="clearfix"></div>
                         <div class="chat_bottom">
                             <a href="#" id="sendMessage" is-group="false" class="pull-right btn btn-success">
-                                Send
+                                Absenden
                             </a>
                             <input type="hidden" id="userId" value="@ViewBag.ChatToUserId"/>
                         </div>
@@ -103,12 +103,12 @@
 
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h4 class="modal-title">Create New Group Chat</h4>
+                <h4 class="modal-title">Neuen Gruppenchat erstellen</h4>
             </div>
             <div class="modal-body">
                 <form class="form-horizontal" role="form">
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">Group Name</label>
+                        <label class="col-sm-3 control-label">Gruppenname</label>
                         <div class="col-sm-9">
                             <input type="text" class="form-control" id="chat-group-name" name="chat-group-name">
                         </div>
@@ -116,8 +116,8 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default cgn-close" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary cgn-submit">Save</button>
+                <button type="button" class="btn btn-default cgn-close" data-dismiss="modal">Abbrechen</button>
+                <button type="button" class="btn btn-primary cgn-submit">Erstellen</button>
             </div>
         </div>
     </div>
@@ -149,10 +149,11 @@
 </div>
 <div id="add-user-to-group" data-toggle="modal" data-target="#AddUserToGroup"></div>
 
+@section scripts {
 <script src="~/Scripts/jquery.signalR-2.2.1.min.js"></script>
 <script src="~/signalr/hubs"></script>
 <script src="~/Scripts/chat-controller.js"></script>
-@section scripts {
+
     <script>
 
         @if (ViewBag.ChatToUserId == null)

@@ -97,7 +97,7 @@
                             @if (ViewBag.TotalUnReadMessage > 5)
                             {
                                 <li class="message-footer">
-                                    <a href="@Url.Action("Index", "Chat")">Read All New Messages</a>
+                                    <a href="@Url.Action("Index", "Chat")">Alle Nachrichten lesen</a>
                                 </li>
                             }
                         </ul>
@@ -132,17 +132,17 @@
                     <input type="hidden" id="currUserId" value="@ViewBag.User.UserId"/>
                     <ul class="dropdown-menu">
                         <li>
-                            <a href="@Url.Action("Show", "Profile", new { userId = ViewBag.User.UserId })"><i class="fa fa-fw fa-user"></i> Profile</a>
+                            <a href="@Url.Action("Show", "Profile", new { userId = ViewBag.User.UserId })"><i class="fa fa-fw fa-user"></i> Profil</a>
                         </li>
-                        <li>
+                        @*<li>
                             <a href="#"><i class="fa fa-fw fa-envelope"></i> Inbox</a>
-                        </li>
-                        <li>
+                        </li>*@
+                        @*<li>
                             <a href="#"><i class="fa fa-fw fa-gear"></i> Settings</a>
-                        </li>
+                        </li>*@
                         <li class="divider"></li>
                         <li>
-                            <a href="#" data-bind="click: logout"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
+                            <a href="#" data-bind="click: logout"><i class="fa fa-fw fa-power-off"></i> Ausloggen</a>
                         </li>
                     </ul>
                 </li>
@@ -154,7 +154,7 @@
                         <a href="@Url.Action("Index", "Dashboard")"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
                     </li>
                     <li class="@ControllerIsActive("Index", "Profile")">
-                        <a href="@Url.Action("Index", "Profile")"><i class="fa fa-fw fa-address-book"></i> Profile</a>
+                        <a href="@Url.Action("Index", "Profile")"><i class="fa fa-fw fa-address-book"></i> Profilverzeichnis</a>
                     </li>
                     <li class="@ControllerIsActive("Index", "Department")">
                         <a href="@Url.Action("Index", "Department")"><i class="fa fa-fw fa-university"></i> Abteilungen</a>
@@ -172,7 +172,7 @@
                         <a href="@Url.Action("Index", "Calendar")"><i class="fa fa-fw fa-calendar-o"></i> Kalender</a>
                     </li>
                     <li class="@ControllerIsActive("Index", "Subscription")">
-                        <a href="@Url.Action("Index", "Subscription")"><i  class="fa fa-fw fa-address-book"></i>  Abonnements</a>
+                        <a href="@Url.Action("Index", "Subscription")"><i  class="fa fa-fw fa-calendar-o"></i> Kalender-Abonnements</a>
                     </li>
                     @{
                         if (ViewBag.User.IsAdmin)

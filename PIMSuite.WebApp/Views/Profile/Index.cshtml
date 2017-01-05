@@ -2,10 +2,10 @@
 @using PagedList.Mvc;
 
 @{
-    ViewBag.Title = "Profiles";
+    ViewBag.Title = "Profilverzeichnis";
     ViewBag.LabelDivision = "Abteilung";
-    ViewBag.LabelEMail = "Email";
-    ViewBag.ViewProfile = "Profile Anzeigen";
+    ViewBag.LabelEMail = "E-Mail";
+    ViewBag.ViewProfile = "Profil anzeigen";
     ViewBag.Search = "Suche...";
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
 }
@@ -37,8 +37,8 @@
                 <div class="x_content">
                     <div class="row pull-right">
                         <a href="@Url.Action("Index", "Profile", new {sort = ViewBag.AvailableSortType, searchString = ViewBag.SearchString})"
-                           class="btn btn-default" data-toggle="tooltip" data-placement="top" role="button" title="sort @ViewBag.AvailableSortType">
-                            Sort <i class="fa fa-sort-alpha-@ViewBag.AvailableSortType"></i>
+                           class="btn btn-default" data-toggle="tooltip" data-placement="top" role="button" title="Sortieren: @ViewBag.AvailableSortType">
+                            Sortieren <i class="fa fa-sort-alpha-@ViewBag.AvailableSortType"></i>
                         </a>
                     </div>
                     <div class="row">

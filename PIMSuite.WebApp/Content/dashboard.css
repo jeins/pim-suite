@@ -16,7 +16,7 @@ body {
     float: left;
 }
 
-#view_is_private, #add_is_private{
+#view_is_private, #add_is_private, #view_is_confirmed{
     width: 20px;
     height: 20px;
 }
@@ -34,4 +34,12 @@ body {
 .navbar-nav > li > a:hover .fa-fw, .navbar-nav li.active .fa-fw {
     /*color: #6699CC;*/
     color: #99CCFF;
+}
+
+.navbar-nav > li {
+    border-bottom: solid 1px #555555;
+}
+
+.navbar-nav > li:first-of-type {
+    border-top: solid 1px #555555;
 }

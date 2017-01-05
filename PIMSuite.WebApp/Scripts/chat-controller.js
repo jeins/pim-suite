@@ -42,7 +42,7 @@ $('#chat-rooms').on('click', 'li#chat-room', function () {
     $('#chat-rooms li').removeClass('selectedUser');
     $('#messageColumn li').remove();
     $('#userId').val(receiverId);
-    $('#chatWith').text('chat with: ' + receiverName);
+    $('#chatWith').text('Chat mit: ' + receiverName);
     $(this).toggleClass('selectedUser');
     $('#sendMessage').attr('is-group', isGroup);
 

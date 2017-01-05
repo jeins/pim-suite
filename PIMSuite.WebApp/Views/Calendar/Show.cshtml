@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "Kalender Anzeigen";
+    ViewBag.Title = "Kalender anzeigen";
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
 }
 
@@ -15,13 +15,8 @@
         <div class="x_panel">
             <div class="x_title">
                 <h2>@ViewBag.CalendarName</h2>
-                
-                
                     <input type="button" class="btn btn-primary" id="subscribe" value=@ViewBag.Flag style="display:@ViewBag.UserCheck">
-                
-               
-
-                                <div class="clearfix"></div>
+                    <div class="clearfix"></div>
             </div>
             <div class="x_content">
                 <div id='calendar'></div>
@@ -35,12 +30,12 @@
 
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h4 class="modal-title">View Event</h4>
+                <h4 class="modal-title">Ereignis-Details</h4>
             </div>
             <div class="modal-body">
                 <form class="form-horizontal calender" role="form">
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">Start - End</label>
+                        <label class="col-sm-3 control-label">Start - Ende</label>
                         <div class="col-xs-4">
                             @if (ViewBag.DisplayAll)
                             {
@@ -66,14 +61,14 @@
                     @if (ViewBag.DisplayAll)
                     {
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">Private Calendar</label>
+                            <label class="col-sm-3 control-label">Privat?</label>
                             <div class="col-sm-9">
                                 <input type="checkbox" class="form-control" id="view_is_private" name="view_is_private" data-bind="checked: isPrivate">
                             </div>
                         </div>
                     }
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">Title</label>
+                        <label class="col-sm-3 control-label">Betreff</label>
                         <div class="col-sm-9">
                             @if (ViewBag.DisplayAll)
                             { 
@@ -86,7 +81,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">Location</label>
+                        <label class="col-sm-3 control-label">Ort</label>
                         <div class="col-sm-9">
                             @if (ViewBag.DisplayAll)
                             {
@@ -99,7 +94,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">Description</label>
+                        <label class="col-sm-3 control-label">Beschreibung</label>
                         <div class="col-sm-9">
                             @if (ViewBag.DisplayAll)
                             {
@@ -113,7 +108,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">Termin Bestätigt?</label>
+                        <label class="col-sm-3 control-label">Bestätigt?</label>
                         <div class="col-sm-9">
                             <input type="checkbox" class="form-control" id="view_is_confirmed" name="view_is_confirmed" data-bind="checked: isConfirmed">
                         </div>
@@ -125,7 +120,7 @@
                     <input type="hidden" id="view_event_id" name="view_event_id" />
                     @if (ViewBag.DisplayAll)
                     {
-                        <button type="button" class="btn btn-danger deletebutton" data-bind="click: deleteEvent">Delete</button>
+                        <button type="button" class="btn btn-danger deletebutton" data-bind="click: deleteEvent">Löschen</button>
                     }
                     <button type="button" class="btn btn-primary" data-dismiss="modal" data-bind="click: editEvent">Speichern</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -141,12 +136,12 @@
 
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h4 class="modal-title">Add New Event</h4>
+                <h4 class="modal-title">Neues Ereignis anlegen</h4>
             </div>
             <div class="modal-body">
                 <form class="form-horizontal calender" role="form" id="eventForm" method="post">
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">Start - End</label>
+                        <label class="col-sm-3 control-label">Start - Ende</label>
                         <div class="col-xs-4">
                             <input type="datetime" class="form-control" id="add_start" name="add_start" required>
                         </div>
@@ -155,7 +150,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">Private Calendar</label>
+                        <label class="col-sm-3 control-label">Privat?</label>
                         <div class="col-sm-9">
                             <input type="checkbox" class="form-control" id="add_is_private" name="add_is_private">
                         </div>
@@ -184,8 +179,8 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default add_close" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary add_submit">Save</button>
+                <button type="button" class="btn btn-default add_close" data-dismiss="modal">Abbrechen</button>
+                <button type="submit" class="btn btn-primary add_submit">Anlegen</button>
             </div>
         </div>
     </div>

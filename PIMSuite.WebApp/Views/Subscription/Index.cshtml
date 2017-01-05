@@ -7,14 +7,14 @@
 
 @if (ViewBag.Result.Count == 0)
 {
-    <h4> Sie haben noch keine Kalender abonniert</h4>
+    <h4> Sie haben noch keine Kalender abonniert.</h4>
 }
 
                 <div >
                     @foreach (var uc in ViewBag.Result)
                     {
 
-                        <h3 class="list-group-item-info">Von @uc.FullName abonnieren Sie: </h3>
+                        <h3 class="list-group-item-info">Von @uc.FullName haben sie abonniert: </h3>
 
                         foreach (var c in @uc.Subscriptions)
                         {
