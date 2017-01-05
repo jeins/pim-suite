@@ -10,15 +10,11 @@ namespace PIMSuite.WebApp.Controllers
 {
     public class DashboardController : BaseController
     {
-
-
         // GET: Dashboard
         [AuthorizationFilter]
         public ActionResult Index()
         {
             return View();
         }
-
-        
     }
 }

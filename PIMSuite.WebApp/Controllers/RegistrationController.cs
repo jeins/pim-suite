@@ -31,9 +31,7 @@ namespace PIMSuite.WebApp.Controllers
             ViewBag.Departments = new SelectList(new DataContext().Departments, "Name", "Name");
             ViewBag.Locations = new SelectList(new DataContext().Locations, "Name", "Name");
         }
-
-
-
+        
         // GET: Registration
         [AuthorizationFilter]
         public ActionResult Index()
@@ -101,12 +99,8 @@ namespace PIMSuite.WebApp.Controllers
                     ViewBag.Message = user.FirstName + " " + user.LastName + " " + "wurde erfolgreich validiert!";
                     Response.Redirect("/?successMessage=" + user.Email + " has been successfully validated! You can now login, congratulations!");
                 }
-
             }
             return View();
         }
-
-
-
     }
 }

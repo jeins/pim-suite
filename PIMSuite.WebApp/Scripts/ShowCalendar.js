@@ -137,8 +137,7 @@ $(function () {
                 type: "POST",
                 url: "/Calendar/CreateSubscription",
                 data: '{calendarId: "' + calendarId + '" }',
-                contentType: "application/json; charset=utf-8",
-                    
+                contentType: "application/json; charset=utf-8"
             });
             self.val("deabonnieren");
             $.notify("Jetzt abonnieren Sie den Kalender", "success");
@@ -149,8 +148,7 @@ $(function () {
                     type: "POST",
                     url: "/Calendar/RemoveSubscription",
                     data: '{calendarId: "' + calendarId+ '" }',
-                    contentType: "application/json; charset=utf-8",
-                        
+                    contentType: "application/json; charset=utf-8"
                 });
                 
                 self.val("abonnieren");

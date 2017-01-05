@@ -59,9 +59,7 @@ namespace PIMSuite.WebApp.Controllers
                 userRepository.InsertUser(user);
                 userRepository.Save();
             }
-
-           
-
+            
             if (HttpContext.GetOwinContext().Authentication.User.Identity.IsAuthenticated)
             {
                 Response.Redirect("/Dashboard/");

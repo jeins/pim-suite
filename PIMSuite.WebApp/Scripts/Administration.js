@@ -6,7 +6,7 @@
             url: '/API/Domain/Add',
             type: 'POST',
             data: {
-                NewDomain: this.newDomain(),
+                NewDomain: this.newDomain()
             },
             dataType: 'json',
             statusCode: {

@@ -17,9 +17,9 @@ namespace PIMSuite.WebApp.Controllers
 
         public AdministrationController()
         {
-            this.departmentRepository = new DepartmentRepository(new DataContext());
-            this.locationRepository = new LocationRepository(new DataContext());
-            this.domainRepository = new DomainRepository(new DataContext());
+            departmentRepository = new DepartmentRepository(new DataContext());
+            locationRepository = new LocationRepository(new DataContext());
+            domainRepository = new DomainRepository(new DataContext());
         }
 
         // GET: Administration

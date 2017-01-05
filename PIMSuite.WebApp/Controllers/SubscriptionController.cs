@@ -2,11 +2,8 @@
 using PIMSuite.Persistence;
 using PIMSuite.Persistence.Entities;
 using PIMSuite.Persistence.Repositories;
-using PIMSuite.Utilities.Auth;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
@@ -17,7 +14,7 @@ namespace PIMSuite.WebApp.Controllers
         public string FullName { get; set; }
         public List<Calendar> Subscriptions { get; set; }
 
-        IEnumerable <SubscriptionModel> subs {get; set;}
+        public IEnumerable<SubscriptionModel> subs {get; set;}
     }
 
     [Authorize]
@@ -45,46 +42,42 @@ namespace PIMSuite.WebApp.Controllers
 
         public ActionResult Index()
         {
-            var _subs = _subscriptionRepository.GetAllSubscriptionsByUserId(Guid.Parse(HttpContext.GetOwinContext().Authentication.User.Identity.GetUserId()));
-            var _subUsers = new List<User>();
-            var _subCalendars = new List<Calendar>();
+            var userId = Guid.Parse(HttpContext.GetOwinContext().Authentication.User.Identity.GetUserId());
+            var subs = _subscriptionRepository.GetAllSubscriptionsByUserId(userId);
+            var subUsers = new List<User>();
+            var subCalendars = new List<Calendar>();
 
-            foreach(Calendar_Subscription cs in _subs)
+            foreach(Calendar_Subscription cs in subs)
             {
-                if (_subUsers.Contains(_userRepository.GetUserByID
-                    (_calendarRepository.GetUserByCalendarId
-                    (cs.CalendarId))) == false)
+                if (subUsers.Contains(_userRepository.GetUserByID(_calendarRepository.GetUserByCalendarId(cs.CalendarId))) == false)
                 {
-                    _subUsers.Add(_userRepository.GetUserByID(_calendarRepository.GetUserByCalendarId(cs.CalendarId)));
+                    subUsers.Add(_userRepository.GetUserByID(_calendarRepository.GetUserByCalendarId(cs.CalendarId)));
                 }
-                _subCalendars.Add(_calendarRepository.GetCalendarByCalendarId(cs.CalendarId));
+                subCalendars.Add(_calendarRepository.GetCalendarByCalendarId(cs.CalendarId));
             }
-            ViewBag.SubsUsers = _subUsers;
-            var _subsByUser = new List<SubscriptionModel>();
-            foreach(User u in _subUsers)
+            ViewBag.SubsUsers = subUsers;
+            var subsByUser = new List<SubscriptionModel>();
+            foreach(User u in subUsers)
             {
-                var _userFullName = u.FirstName + " " + u.LastName;
-                var _calendars = new List<Calendar>();
-                foreach (Calendar c in _subCalendars)
+                var userFullName = u.FirstName + " " + u.LastName;
+                var calendars = new List<Calendar>();
+                foreach (Calendar c in subCalendars)
                 {
                     if (u.UserId == c.OwnerId)
                     {
-                        _calendars.Add(c);
+                        calendars.Add(c);
                     }
-                    
                 }
-                _subsByUser.Add(new SubscriptionModel { FullName=_userFullName, Subscriptions=_calendars});
+                subsByUser.Add(new SubscriptionModel
+                {
+                    FullName = userFullName,
+                    Subscriptions = calendars
+                });
             }
             
-            ViewBag.Result = _subsByUser;
-
-           
-
+            ViewBag.Result = subsByUser;
+            
             return View();
         }
-
-        
-
-
     }
 }

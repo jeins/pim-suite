@@ -1,20 +1,10 @@
 ﻿using PIMSuite.Persistence;
 using PIMSuite.Persistence.Entities;
 using PIMSuite.Persistence.Repositories;
-using PIMSuite.Persistence.Validators;
-using PIMSuite.Utilities;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using Microsoft.AspNet.Identity;
-using Microsoft.Owin.Security;
-using System.Security.Claims;
 using PIMSuite.Utilities.Auth;
-using System.Net;
 using System.Web.Mvc;
-using System.Text;
-using System.Security.Cryptography;
 using PIMSuite.Utilities.Mail;
 
 namespace PIMSuite.WebApp.Controllers
@@ -25,7 +15,7 @@ namespace PIMSuite.WebApp.Controllers
 
         public ResetPWController()
         {
-            this.userRepository = new UserRepository(new DataContext());
+            userRepository = new UserRepository(new DataContext());
         }
 
         public ActionResult ResetPW()
