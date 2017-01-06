@@ -28,12 +28,12 @@ body {
 }
 
 .navbar .fa-fw {
-    color: #336699;
+    color: #7ebd0a;
 }
 
 .navbar-nav > li > a:hover .fa-fw, .navbar-nav li.active .fa-fw {
     /*color: #6699CC;*/
-    color: #99CCFF;
+    color: #c7f17b;
 }
 
 .navbar-nav > li {
@@ -42,4 +42,12 @@ body {
 
 .navbar-nav > li:first-of-type {
     border-top: solid 1px #555555;
+}
+
+.topLogo{
+    position: fixed;
+    left: 13px;
+    top: 2px;
+    height: 45px;
+
 }
