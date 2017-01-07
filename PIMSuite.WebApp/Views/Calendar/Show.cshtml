@@ -4,314 +4,320 @@
 }
 
 <link href="~/Content/fullcalendar.min.css" rel="stylesheet" />
-<link href="~/Content/fullcalendar.print.css" rel="stylesheet" media="print"/>
+<link href="~/Content/fullcalendar.print.css" rel="stylesheet" media="print" />
 <link href="~/Content/bootstrap-datetimepicker/bootstrap-datetimepicker.min.css" rel="stylesheet" />
 <link href="~/Content/custom.css" rel="stylesheet" />
 
-<h2>@ViewBag.OwnerName</h2>
 <div class="row">
     <div class="col-md-12">
         <div class="x_panel">
-            <div class="x_title">
-                <h2>@ViewBag.CalendarName</h2>
-                    <input type="button" class="btn btn-primary" id="subscribe" value=@ViewBag.Flag style="display:@ViewBag.UserCheck">
-                    <div class="clearfix"></div>
-            </div>
-            <div class="x_content">
-                <div id='calendar'></div>
+            <h2>@ViewBag.OwnerName</h2>
             </div>
         </div>
     </div>
-</div>
-<div id="ViewEvent" class="modal fade view-event-dialog" tabindex="-1" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h4 class="modal-title">Ereignis-Details</h4>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2>@ViewBag.CalendarName</h2>
+                            <input type="button" class="btn btn-primary" id="subscribe" value=@ViewBag.Flag style="display:@ViewBag.UserCheck">
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content">
+                            <div id='calendar'></div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="modal-body">
-                <form class="form-horizontal calender" role="form">
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">Start - Ende</label>
-                        <div class="col-xs-4">
-                            @if (ViewBag.DisplayAll)
-                            {
-                                <input type="text" class="form-control" id="view_start" name="view_start" data-bind="textInput: startDate">
-                            }
-                            @if (!(ViewBag.DisplayAll))
-                            {
-                                <input type="text" class="form-control" id="view_start" name="view_start" data-bind="textInput: startDate" readonly>
-                            }                            
+            <div id="ViewEvent" class="modal fade view-event-dialog" tabindex="-1" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h4 class="modal-title">Ereignis-Details</h4>
                         </div>
-                        <div class="col-xs-4">
-                            @if (ViewBag.DisplayAll)
-                            {
-                                <input type="text" class="form-control" id="view_end" name="view_end" data-bind="textInput: endDate">
-                            }
-                            @if (!(ViewBag.DisplayAll))
-                            {
-                                <input type="text" class="form-control" id="view_end" name="view_end" data-bind="textInput: endDate" readonly>
-                            }  
-                            
+                        <div class="modal-body">
+                            <form class="form-horizontal calender" role="form">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">Start - Ende</label>
+                                    <div class="col-xs-4">
+                                        @if (ViewBag.DisplayAll)
+                                        {
+                                            <input type="text" class="form-control" id="view_start" name="view_start" data-bind="textInput: startDate">
+                                        }
+                                        @if (!(ViewBag.DisplayAll))
+                                        {
+                                            <input type="text" class="form-control" id="view_start" name="view_start" data-bind="textInput: startDate" readonly>
+                                        }
+                                    </div>
+                                    <div class="col-xs-4">
+                                        @if (ViewBag.DisplayAll)
+                                        {
+                                            <input type="text" class="form-control" id="view_end" name="view_end" data-bind="textInput: endDate">
+                                        }
+                                        @if (!(ViewBag.DisplayAll))
+                                        {
+                                            <input type="text" class="form-control" id="view_end" name="view_end" data-bind="textInput: endDate" readonly>
+                                        }
+
+                                    </div>
+                                </div>
+                                @if (ViewBag.DisplayAll)
+                                {
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Privat?</label>
+                                        <div class="col-sm-9">
+                                            <input type="checkbox" class="form-control" id="view_is_private" name="view_is_private" data-bind="checked: isPrivate">
+                                        </div>
+                                    </div>
+                                }
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">Betreff</label>
+                                    <div class="col-sm-9">
+                                        @if (ViewBag.DisplayAll)
+                                        {
+                                            <input type="text" class="form-control" id="view_title" name="view_title" data-bind="textInput: title">
+                                        }
+                                        @if (!(ViewBag.DisplayAll))
+                                        {
+                                            <input type="text" class="form-control" id="view_title" name="view_title" data-bind="textInput: title" readonly>
+                                        }
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">Ort</label>
+                                    <div class="col-sm-9">
+                                        @if (ViewBag.DisplayAll)
+                                        {
+                                            <input type="text" class="form-control" id="view_location" name="view_location" data-bind="textInput: location">
+                                        }
+                                        @if (!(ViewBag.DisplayAll))
+                                        {
+                                            <input type="text" class="form-control" id="view_location" name="view_location" data-bind="textInput: location" readonly>
+                                        }
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">Beschreibung</label>
+                                    <div class="col-sm-9">
+                                        @if (ViewBag.DisplayAll)
+                                        {
+                                            <textarea class="form-control" style="height: 55px;" id="view_description" name="view_description" data-bind="textInput: description"></textarea>
+                                        }
+                                        @if (!(ViewBag.DisplayAll))
+                                        {
+                                            <textarea class="form-control" style="height: 55px;" id="view_description" name="view_description" data-bind="textInput: description" readonly></textarea>
+                                        }
+
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">Bestätigt?</label>
+                                    <div class="col-sm-9">
+                                        <input type="checkbox" class="form-control" id="view_is_confirmed" name="view_is_confirmed" data-bind="checked: isConfirmed">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <form>
+                                <input type="hidden" id="view_event_id" name="view_event_id" />
+                                @if (ViewBag.DisplayAll)
+                                {
+                                    <button type="button" class="btn btn-danger deletebutton" data-bind="click: deleteEvent">Löschen</button>
+                                    <button type="button" class="btn btn-info" id="invite-users" onclick="inviteUsers()">Teilnehmer einladen</button>
+                                }
+                                <button type="button" class="btn btn-primary" data-dismiss="modal" data-bind="click: editEvent">Speichern</button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </form>
                         </div>
                     </div>
-                    @if (ViewBag.DisplayAll)
-                    {
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">Privat?</label>
-                            <div class="col-sm-9">
-                                <input type="checkbox" class="form-control" id="view_is_private" name="view_is_private" data-bind="checked: isPrivate">
-                            </div>
-                        </div>
-                    }
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">Betreff</label>
-                        <div class="col-sm-9">
-                            @if (ViewBag.DisplayAll)
-                            { 
-                                 <input type="text" class="form-control" id="view_title" name="view_title" data-bind="textInput: title">
-                            }
-                            @if (!(ViewBag.DisplayAll))
-                            {
-                                <input type="text" class="form-control" id="view_title" name="view_title" data-bind="textInput: title" readonly>
-                            }
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">Ort</label>
-                        <div class="col-sm-9">
-                            @if (ViewBag.DisplayAll)
-                            {
-                                <input type="text" class="form-control" id="view_location" name="view_location" data-bind="textInput: location">
-                            }
-                            @if (!(ViewBag.DisplayAll))
-                            {
-                                <input type="text" class="form-control" id="view_location" name="view_location" data-bind="textInput: location" readonly>
-                            }                            
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">Beschreibung</label>
-                        <div class="col-sm-9">
-                            @if (ViewBag.DisplayAll)
-                            {
-                                <textarea class="form-control" style="height: 55px;" id="view_description" name="view_description" data-bind="textInput: description"></textarea>
-                            }
-                            @if (!(ViewBag.DisplayAll))
-                            {
-                                <textarea class="form-control" style="height: 55px;" id="view_description" name="view_description" data-bind="textInput: description" readonly></textarea>
-                            }      
-                            
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">Bestätigt?</label>
-                        <div class="col-sm-9">
-                            <input type="checkbox" class="form-control" id="view_is_confirmed" name="view_is_confirmed" data-bind="checked: isConfirmed">
-                        </div>
-                    </div>
-                </form>
+                </div>
             </div>
-            <div class="modal-footer">
-                <form>
-                    <input type="hidden" id="view_event_id" name="view_event_id" />
-                    @if (ViewBag.DisplayAll)
-                    {
-                        <button type="button" class="btn btn-danger deletebutton" data-bind="click: deleteEvent">Löschen</button>
-                        <button type="button" class="btn btn-info" id="invite-users" onclick="inviteUsers()">Teilnehmer einladen</button>
-                    }
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" data-bind="click: editEvent">Speichern</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
 
-<div id="AddEvent" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
+            <div id="AddEvent" class="modal fade" tabindex="-1" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
 
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h4 class="modal-title">Neues Ereignis anlegen</h4>
-            </div>
-            <div class="modal-body">
-                <form class="form-horizontal calender" role="form" id="eventForm" method="post">
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">Start - Ende</label>
-                        <div class="col-xs-4">
-                            <input type="datetime" class="form-control" id="add_start" name="add_start" required>
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h4 class="modal-title">Neues Ereignis anlegen</h4>
                         </div>
-                        <div class="col-xs-4">
-                            <input type="datetime" class="form-control" id="add_end" name="add_end" required>
+                        <div class="modal-body">
+                            <form class="form-horizontal calender" role="form" id="eventForm" method="post">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">Start - Ende</label>
+                                    <div class="col-xs-4">
+                                        <input type="datetime" class="form-control" id="add_start" name="add_start" required>
+                                    </div>
+                                    <div class="col-xs-4">
+                                        <input type="datetime" class="form-control" id="add_end" name="add_end" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">Privat?</label>
+                                    <div class="col-sm-9">
+                                        <input type="checkbox" class="form-control" id="add_is_private" name="add_is_private">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+
+
+                                    <label class="col-sm-3 control-label">Title<span class="red">*</span></label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="add_title" name="add_title" required placeholder="Title">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">Ort</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="add_location" name="add_location" placeholder="Ort">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">Beschreibung</label>
+                                    <div class="col-sm-9">
+                                        <textarea class="form-control" style="height: 55px;" id="add_description" name="add_description" placeholder="Beschreibung der Veranstaltung"></textarea>
+                                    </div>
+                                </div>
+
+                            </form>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">Privat?</label>
-                        <div class="col-sm-9">
-                            <input type="checkbox" class="form-control" id="add_is_private" name="add_is_private">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        
-                            
-                            <label class="col-sm-3 control-label">Title<span class="red">*</span></label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control" id="add_title" name="add_title" required placeholder="Title">
-                            </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">Ort</label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" id="add_location" name="add_location"  placeholder="Ort">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">Beschreibung</label>
-                        <div class="col-sm-9">
-                            <textarea class="form-control" style="height: 55px;" id="add_description" name="add_description"  placeholder="Beschreibung der Veranstaltung"></textarea>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default add_close" data-dismiss="modal">Abbrechen</button>
+                            <button type="submit" class="btn btn-primary add_submit">Anlegen</button>
                         </div>
                     </div>
-
-                </form>
+                </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default add_close" data-dismiss="modal">Abbrechen</button>
-                <button type="submit" class="btn btn-primary add_submit">Anlegen</button>
+
+            <!-- invite user modal -->
+            <div id="InviteUser" class="modal fade" tabindex="-1" role="dialog">
+                <div class="modal-dialog modal-sm">
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h4 class="modal-title">Invite User</h4>
+                        </div>
+                        <div class="modal-body add-user">
+                            <form class="form-horizontal" role="form">
+                                <input type="text" id="au-search-name" onkeyup="filterUser()" placeholder="Search user..">
+
+                                <ul id="au-user-list"></ul>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default au-close" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary au-add">Invite</button>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
-</div>
+            <div id="invite-user" data-toggle="modal" data-target="#InviteUser"></div>
 
-<!-- invite user modal -->
-<div id="InviteUser" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-sm">
-        <div class="modal-content">
+            <div id="view_event" data-toggle="modal" data-target="#ViewEvent"></div>
+            <div id="add_event" data-toggle="modal" data-target="#AddEvent"></div>
 
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h4 class="modal-title">Invite User</h4>
-            </div>
-            <div class="modal-body add-user">
-                <form class="form-horizontal" role="form">
-                    <input type="text" id="au-search-name" onkeyup="filterUser()" placeholder="Search user..">
+            @section scripts {
+                <script src="~/Scripts/fullcalendar/moment.min.js"></script>
+                <script src="~/Scripts/fullcalendar/fullcalendar.js"></script>
+                <script src="~/Scripts/bootstrap-datetimepicker/bootstrap-datetimepicker.min.js"></script>
+                <script src="~/Scripts/notify.js"></script>
+                <script src="~/Scripts/validator.js"></script>
 
-                    <ul id="au-user-list"></ul>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default au-close" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary au-add">Invite</button>
-            </div>
-        </div>
-    </div>
-</div>
-<div id="invite-user" data-toggle="modal" data-target="#InviteUser"></div>
+                <script type="text/javascript">
+                    var userId = '@ViewBag.UserId';
+                    var calendarId = @ViewBag.CalendarId;
 
-<div id="view_event" data-toggle="modal" data-target="#ViewEvent"></div>
-<div id="add_event" data-toggle="modal" data-target="#AddEvent"></div>
+                    $('#invite-users').on('click', function () {
+                        $('#invite-user').click();
 
-@section scripts {
-    <script src="~/Scripts/fullcalendar/moment.min.js"></script>
-    <script src="~/Scripts/fullcalendar/fullcalendar.js"></script>
-    <script src="~/Scripts/bootstrap-datetimepicker/bootstrap-datetimepicker.min.js"></script>
-    <script src="~/Scripts/notify.js"></script>
-    <script src="~/Scripts/validator.js"></script>
+                        $('.cgn-submit').on('click', function () {
+                            var groupName = $('#chat-group-name').val();
+                            var requestBody = {
+                                groupName: groupName,
+                                ownerId: $('#currUserId').val(),
+                            };
 
-    <script type="text/javascript">
-        var userId = '@ViewBag.UserId';
-        var calendarId = @ViewBag.CalendarId;
+                            $.ajax({
+                                type: 'POST',
+                                url: '/API/Chat/CreateNewGroup',
+                                data: requestBody,
+                                dataType: 'json',
+                                success: function (response) {
+                                    var html = '<li class="left clearfix" id="chat-room" group-id="' + response + '" group-name="' + groupName + '"> ' +
+                                                    '<div class="chat-body clearfix">' +
+                                                        '<div class="header_sec">' +
+                                                            '<strong class="primary-font">Group: ' + groupName + '</strong><span class="badge pull-right"></span>' +
+                                                        '</div>' +
+                                                    '</div>' +
+                                                '</li>';
 
-        $('#invite-users').on('click', function () {
-            $('#invite-user').click();
-
-            $('.cgn-submit').on('click', function () {
-                var groupName = $('#chat-group-name').val();
-                var requestBody = {
-                    groupName: groupName,
-                    ownerId: $('#currUserId').val(),
-                };
-
-                $.ajax({
-                    type: 'POST',
-                    url: '/API/Chat/CreateNewGroup',
-                    data: requestBody,
-                    dataType: 'json',
-                    success: function (response) {
-                        var html = '<li class="left clearfix" id="chat-room" group-id="' + response + '" group-name="' + groupName + '"> ' +
-                                        '<div class="chat-body clearfix">' +
-                                            '<div class="header_sec">' +
-                                                '<strong class="primary-font">Group: ' + groupName + '</strong><span class="badge pull-right"></span>' +
-                                            '</div>' +
-                                        '</div>' +
-                                    '</li>';
-
-                        $('#chat-rooms').prepend(html);
-                        $('.cgn-close').click();
-                    }
-                });
-            });
-        });
-
-        function inviteUsers() {
-            //$('#invite-user').click();
-
-            $.ajax({
-                type: 'GET',
-                url: '/API/CalendarEvent/GetUsersForInvite/?eventId=' + showCalendarViewModel.eventId(),
-                data: { groupId: $('#userId').val() },
-                dataType: 'json',
-                success: function (response) {
-                    var html = '';
-                    console.log(response);
-
-                    Object.keys(response).forEach(function (i) {
-                        html += '<li><label><input type="checkbox" name="user" value="' + response[i].UserId + '"> ' + response[i].FirstName + ' ' + response[i].LastName + '</label></li>';
+                                    $('#chat-rooms').prepend(html);
+                                    $('.cgn-close').click();
+                                }
+                            });
+                        });
                     });
 
-                    $('#au-user-list').prepend(html);
-                }
-            });
+                    function inviteUsers() {
+                        //$('#invite-user').click();
 
-            $('.au-add').on('click', function () {
-                var userIdWithSeparator = ''; //TODO:find the best way!
-                $('#au-user-list input[name="user"]:checked').each(function () {
-                    userIdWithSeparator += this.value + '_';
-                });
-                $('#chatWith').text('chat with: ' + userIdWithSeparator);
+                        $.ajax({
+                            type: 'GET',
+                            url: '/API/CalendarEvent/GetUsersForInvite/?eventId=' + showCalendarViewModel.eventId(),
+                            data: { groupId: $('#userId').val() },
+                            dataType: 'json',
+                            success: function (response) {
+                                var html = '';
+                                console.log(response);
 
-                $.ajax({
-                    type: 'POST',
-                    url: '/API/CalendarEvent/InviteUser',
-                    data: { eventId: showCalendarViewModel.eventId(), usersId: userIdWithSeparator.slice(0, -1) },
-                    dataType: 'json',
-                    success: function () {
-                        $('.au-close').click();
+                                Object.keys(response).forEach(function (i) {
+                                    html += '<li><label><input type="checkbox" name="user" value="' + response[i].UserId + '"> ' + response[i].FirstName + ' ' + response[i].LastName + '</label></li>';
+                                });
+
+                                $('#au-user-list').prepend(html);
+                            }
+                        });
+
+                        $('.au-add').on('click', function () {
+                            var userIdWithSeparator = ''; //TODO:find the best way!
+                            $('#au-user-list input[name="user"]:checked').each(function () {
+                                userIdWithSeparator += this.value + '_';
+                            });
+                            $('#chatWith').text('chat with: ' + userIdWithSeparator);
+
+                            $.ajax({
+                                type: 'POST',
+                                url: '/API/CalendarEvent/InviteUser',
+                                data: { eventId: showCalendarViewModel.eventId(), usersId: userIdWithSeparator.slice(0, -1) },
+                                dataType: 'json',
+                                success: function () {
+                                    $('.au-close').click();
+                                }
+                            });
+                        });
                     }
-                });
-            });
-        }
 
-        function filterUser() {
-            var searchUser = document.getElementById("au-search-name");
-            var findUser = searchUser.value.toUpperCase();
-            var userList = document.getElementById("au-user-list");
-            var user = userList.getElementsByTagName("li");
+                    function filterUser() {
+                        var searchUser = document.getElementById("au-search-name");
+                        var findUser = searchUser.value.toUpperCase();
+                        var userList = document.getElementById("au-user-list");
+                        var user = userList.getElementsByTagName("li");
 
-            for (var i = 0; i < user.length; i++) {
-                var userName = user[i].getElementsByTagName("label")[0];
-                if (userName.innerHTML.toUpperCase().indexOf(findUser) > -1) {
-                    user[i].style.display = "";
-                } else {
-                    user[i].style.display = "none";
+                        for (var i = 0; i < user.length; i++) {
+                            var userName = user[i].getElementsByTagName("label")[0];
+                            if (userName.innerHTML.toUpperCase().indexOf(findUser) > -1) {
+                                user[i].style.display = "";
+                            } else {
+                                user[i].style.display = "none";
 
-                }
+                            }
+                        }
+                    }
+                </script>
+
+                <script src="~/Scripts/ShowCalendar.js"></script>
             }
-        }
-    </script>
-
-    <script src="~/Scripts/ShowCalendar.js"></script>
-}

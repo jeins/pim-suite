@@ -101,8 +101,9 @@
   margin-bottom: 10px;
   padding: 10px 17px;
   display: inline-block;
-  background: #fff;
+  background: rgba(255, 255, 255, 0.75);
   border: 1px solid #E6E9ED;
+  border-radius:5px;
   -webkit-column-break-inside: avoid;
   -moz-column-break-inside: avoid;
   column-break-inside: avoid;
