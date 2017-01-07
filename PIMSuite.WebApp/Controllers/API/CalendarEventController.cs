@@ -27,11 +27,9 @@ namespace PIMSuite.WebApp.Controllers.API
         [DataMember(IsRequired = true)]
         [Required]
         public string End { get; set; }
-        [DataMember(IsRequired = true)]
-        [Required]
+        
         public string Location { get; set; }
-        [DataMember(IsRequired = true)]
-        [Required]
+       
         public string Description { get; set; }
         public int CalendarId { get; set; }
 

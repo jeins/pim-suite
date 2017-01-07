@@ -34,11 +34,12 @@ namespace PIMSuite.Persistence.Entities
         [Required(ErrorMessage = "Name ist erforderlich!")]
         public string Name { get; set; }
 
-        [Required(ErrorMessage = "Beschreibung der Veranstaltung ist erforderlich!")]
+        
         public string Description { get; set; } 
 
         //Achtung, ist als Freitext-String gedacht, daher keine Verknüpfung zu Location Entität
         public string Location { get; set; }
+
         [DataType(DataType.DateTime)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime StartsAt { get; set; }

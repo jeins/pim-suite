@@ -68,10 +68,35 @@ var calendar = $('#calendar')
             $('#add_location').val("");
             $('#add_description').val("");
             $('#add_is_private').prop('checked', false);
+            var fit_start_time
+            var fit_end_time
 
-            $(".add_submit").on('click', function() {  
-                if ($('#add_title').val().length!=0 &&  $('#add_location').val().length!=0 && $('#add_description').val()!=0 && $('#add_start').val().length!=0 && $('#add_end').val().length!=0 && $('#add_start').val() < $('#add_end').val()){
+
+            $(".add_submit").on('click', function () {
+                var d1 = $('#add_start').val().split('-');
+                var d2 = $('#add_end').val().split('-');
+               
+                var start_month = parseInt(d1[1],10);
+                var end_month = parseInt(d2[1],10);
+                var dt12 = d1[2].split(" ");
+                var dt22 = d2[2].split(" ");
+                var start_year = parseInt(dt12[0],10);
+                var end_year = parseInt(dt12[0], 10);
+                var check = false;
+                if (start_month < end_month && start_year <= end_year)
+                {
+                     check = true;
+                }
+                if (start_month > end_month && start_year < end_year)
+                {
+                    check = true;
+                }
+                
+                
+                if ($('#add_title').val().length != 0 && $('#add_start').val().length != 0 && $('#add_end').val().length != 0 && ($('#add_start').val() < $('#add_end').val() || check))
+                {
                     var newEvent = {
+                        
                         title: $('#add_title').val(),
                         start: moment($('#add_start').val(), 'DD-MM-YYYY HH:mm').format("LLLL"),
                         end: moment($('#add_end').val(), 'DD-MM-YYYY HH:mm').format("LLLL"),
@@ -96,12 +121,29 @@ var calendar = $('#calendar')
                     return false;
                 }
 
-                else{
-                    if ($('#add_start').val() > $('#add_end').val())
+                else {
+                    
+                    if ($('#add_start').val() > $('#add_end').val()&& check==false)
                     {
-                        alert("Der Zeitraum für den Termin wurde nicht korrekt eingegeben! Versuchen Sie noch mal.");
+                        
+                        alert("Der Zeitraum für das Ereignis wurde nicht korrekt eingegeben! Falls Sie ein Ereignis mit einem Monatübertrag anlegen wollen, sorgen Sie dafür, dass es 2 Ereignisse angelegt werden sollen. Versuchen Sie die Eingabe noch mal.");
                     }
+                    if ($('#add_start').val() == $('#add_end').val()) {
+                        alert("Sie haben identische Werte für Start und Ende eigegeben. Versuchen Sie die Eingabe noch mal.");
+                    }
+                    if ($('#add_start').val().length == 0) {
+                        alert("Sie haben nichts für Start eingegeben");
+                    }
+                    if ($('#add_end').val().length == 0) {
+                        alert("Sie haben nichts für Ende eingegeben");
+                    }
+                    if ($('#add_title').val().length == 0) {
+                        alert("Sie haben nichts für Title eingegeben");
+                    }
+                    
                     return true;
+                  
+                    
                 }
             });
 
