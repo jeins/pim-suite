@@ -68,9 +68,7 @@ var calendar = $('#calendar')
             $('#add_location').val("");
             $('#add_description').val("");
             $('#add_is_private').prop('checked', false);
-            var fit_start_time
-            var fit_end_time
-
+            
 
             $(".add_submit").on('click', function () {
                 var d1 = $('#add_start').val().split('-');
@@ -87,7 +85,7 @@ var calendar = $('#calendar')
                 {
                      check = true;
                 }
-                if (start_month > end_month && start_year < end_year)
+                if (start_month > end_month && start_year <= end_year)
                 {
                     check = true;
                 }
