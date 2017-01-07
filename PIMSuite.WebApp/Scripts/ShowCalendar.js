@@ -126,7 +126,7 @@ var calendar = $('#calendar')
                     if ($('#add_start').val() > $('#add_end').val()&& check==false)
                     {
                         
-                        alert("Der Zeitraum für das Ereignis wurde nicht korrekt eingegeben! Falls Sie ein Ereignis mit einem Monatübertrag anlegen wollen, sorgen Sie dafür, dass es 2 Ereignisse angelegt werden sollen. Versuchen Sie die Eingabe noch mal.");
+                        alert("Der Zeitraum für das Ereignis wurde nicht korrekt eingegeben! Versuchen Sie die Eingabe noch mal.");
                     }
                     if ($('#add_start').val() == $('#add_end').val()) {
                         alert("Sie haben identische Werte für Start und Ende eigegeben. Versuchen Sie die Eingabe noch mal.");
