@@ -51,3 +51,9 @@ body {
     height: 45px;
 
 }
+
+#page-wrapper {
+    background-image: url(/Content/images/pim_render.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
