@@ -45,7 +45,8 @@ namespace PIMSuite.Persistence.Repositories
                     senderOrReceiverLabel,
                     message.MessageBody,
                     message.CreatedAt.ToString("g"),
-                    userLastName
+                    userLastName,
+                    "private"
                 };
 
                 chatHistory.Add(tmpArr);
@@ -69,7 +70,8 @@ namespace PIMSuite.Persistence.Repositories
                     senderOrReceiverLabel,
                     message.MessageBody,
                     message.CreatedAt.ToString("g"),
-                    userLastName
+                    userLastName,
+                    "group"
                 };
 
                 chatHistory.Add(tmpArr);

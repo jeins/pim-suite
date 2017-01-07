@@ -68,7 +68,7 @@ chat.client.loadConnectedUser = function(users) {
 }
 
 chat.client.onSendMessageToSender = function (lastName, messageBody, dateTime, senderOrReceiver) {
-    var html = getChatTemplate(senderOrReceiver, messageBody, dateTime, "");
+    var html = getChatTemplate(senderOrReceiver, messageBody, dateTime, "", false);
     $('#messageColumn').append(html);
 }
 
@@ -78,7 +78,7 @@ chat.client.onSendMessageToReceiver = function (messageId, messageBody, senderUs
         if (currentChatWithUser !== senderUserId) {
             chat.server.sendNotification(receiverUserId, senderUserId, messageId);
         } else {
-            var html = getChatTemplate(senderOrReceiver, messageBody, dateTime, "");
+            var html = getChatTemplate(senderOrReceiver, messageBody, dateTime, "", false);
             $('#messageColumn').append(html);
         }
     }
@@ -86,9 +86,13 @@ chat.client.onSendMessageToReceiver = function (messageId, messageBody, senderUs
     chat.server.readMessage(senderUserId, receiverUserId);
 }
 
-chat.client.onSendMessageToGroup = function (messageBody, senderUserId, dateTime, senderLastName) {
-    var html = getChatTemplate("receiver", messageBody, dateTime, senderLastName);
-    $('#messageColumn').append(html);
+chat.client.onSendMessageToGroup = function (messageBody, senderUserId, dateTime, senderLastName, groupId) {
+    var tagetChatId = $('#userId').val();
+
+    if (groupId === tagetChatId) {
+        var html = getChatTemplate("receiver", messageBody, dateTime, senderLastName, true);
+        $('#messageColumn').append(html);
+    }
 }
 
 chat.client.sendNotification = function (totalUnReadMessages, senderUserId) {
@@ -114,13 +118,14 @@ chat.client.loadChatHistories = function (chatHistories) {
 
     $.each(chatHistories, function (key, chatHistory) {
         var userLastName = chatHistory[3].includes("receiver") ? chatHistory[3].split('_')[1] : '';
-        html += getChatTemplate(chatHistory[0], chatHistory[1], chatHistory[2], userLastName);
+        var isGroupChat = chatHistory[4] === 'group' ? true : false;
+        html += getChatTemplate(chatHistory[0], chatHistory[1], chatHistory[2], userLastName, isGroupChat);
     });
 
     $('#messageColumn').append(html);
 }
 
-function getChatTemplate(senderOrReceiver, messageBody, dateTime, userLastName) {
+function getChatTemplate(senderOrReceiver, messageBody, dateTime, userLastName, isGroupChat) {
     var html = '<li class="left clearfix';
     if (senderOrReceiver === 'sender') {
         html += ' admin_chat"><span class="chat-img1 pull-right"><img src="/Content/images/no_propic.png" alt="User Avatar" class="img-circle"> </span>';
@@ -131,7 +136,7 @@ function getChatTemplate(senderOrReceiver, messageBody, dateTime, userLastName) 
     }
 
     html += '<p>' + messageBody + '</p>';
-    if (userLastName) html += '<div class="chat_time pull-left">From: <span style="font-style: oblique; font-size: 12px; text-decoration: underline;">' + userLastName + '</span></div>';
+    if (userLastName && isGroupChat) html += '<div class="chat_time pull-left">From: <span style="font-style: oblique; font-size: 12px; text-decoration: underline;">' + userLastName + '</span></div>';
 //    html += '<div class="chat_time pull-left">' + dateTime + '</div>';
     html += '</div></li>';
     return html;

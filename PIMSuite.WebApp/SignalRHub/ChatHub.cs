@@ -54,8 +54,8 @@ namespace PIMSuite.WebApp.SignalRHub
                 var messageId = _messageRepository.InsertMessage(sender.UserId, new Guid(groupId), message);
                 var dateTime = new DateTime().ToString("g");
                 
-                Clients.Client(Context.ConnectionId).onSendMessageToSender(sender.User.LastName, message, dateTime, "sender");
-                Clients.OthersInGroup(group.GroupName).onSendMessageToGroup(message, sender.UserId, dateTime, sender.User.LastName);
+                Clients.Caller.onSendMessageToSender(sender.User.LastName, message, dateTime, "sender");
+                Clients.OthersInGroup(group.GroupName).onSendMessageToGroup(message, sender.UserId, dateTime, sender.User.LastName, groupId);
             }
         }
 

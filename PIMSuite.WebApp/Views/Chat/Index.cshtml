@@ -210,7 +210,7 @@
                         html += '<li><label><input type="checkbox" name="user" value="' + response[i].UserId + '"> ' + response[i].FirstName + ' ' + response[i].LastName + '</label></li>';
                     });
 
-                    $('#au-user-list').prepend(html);
+                    $('#au-user-list').html(html);
                 }
             });
 
@@ -219,7 +219,6 @@
                 $('#au-user-list input[name="user"]:checked').each(function () {
                     userIdWithSeparator += this.value + '_';
                 });
-                $('#chatWith').text('chat with: ' + userIdWithSeparator);
 
                 $.ajax({
                     type: 'POST',

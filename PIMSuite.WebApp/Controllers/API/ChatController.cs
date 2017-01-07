@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net;
@@ -74,10 +75,13 @@ namespace PIMSuite.WebApp.Controllers.API
 
         public HttpResponseMessage GetUserNotInChatGroup(string groupId)
         {
-            var userList = _dataContext.Users.Select(u => new {u.UserId, u.FirstName, u.LastName}).ToList();
-            var userFromGroup = _dataContext.ChatGroups.Where(g => g.GroupId.Equals(new Guid(groupId))).Select(g => g.OwnerId).ToList();
-
-            userList.RemoveAll(u => userFromGroup.Contains(u.UserId));
+            var userList = _dataContext.Users.ToList();
+            var userListFromGroup = _dataContext.UserChatGroups.Where(g => g.GroupId.Equals(new Guid(groupId))).ToList();
+            
+            foreach (var userFromGroup in userListFromGroup)
+            {
+                userList.RemoveAll(u => u.UserId.Equals(userFromGroup.UserId));
+            }
 
             return Request.CreateResponse(HttpStatusCode.OK, userList, Configuration.Formatters.JsonFormatter);
         }
