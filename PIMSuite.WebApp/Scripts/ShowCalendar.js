@@ -156,7 +156,13 @@ var calendar = $('#calendar')
             showCalendarViewModel.description(calEvent.description);
             showCalendarViewModel.isPrivate(calEvent.isPrivateEvent);
             showCalendarViewModel.isConfirmed(calEvent.isConfirmed);
-
+            var html = '';
+            calEvent.invites.forEach(function (i) {
+                console.log(calEvent.invites);
+                console.log(i);
+                html += "<p>" + i.InviteReceiverUser.FirstName + " " + i.InviteReceiverUser.LastName + "</p>"
+            });
+            $("#invitedUsers").html(html);
             calendar.fullCalendar('unselect');
         },
         events: ('/API/CalendarEvent/GetEvents?userId=' + userId + '&calendarId=' + calendarId)

@@ -119,6 +119,11 @@
                                     </div>
                                 </div>
                             </form>
+                <hr />
+                <h4>Eingeladene User:</h4>
+                <div id="invitedUsers">
+                
+                </div>
                         </div>
                         <div class="modal-footer">
                             <form>
@@ -278,7 +283,7 @@
                                     html += '<li><label><input type="checkbox" name="user" value="' + response[i].UserId + '"> ' + response[i].FirstName + ' ' + response[i].LastName + '</label></li>';
                                 });
 
-                                $('#au-user-list').prepend(html);
+                    $('#au-user-list').html(html);
                             }
                         });
 
