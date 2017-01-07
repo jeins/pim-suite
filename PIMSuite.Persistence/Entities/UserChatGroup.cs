@@ -23,6 +23,8 @@ namespace PIMSuite.Persistence.Entities
 
         public DateTime AddedAt { get; private set; }
 
+        public int NumUnReadMessage { get; set; }
+
         public virtual User User { get; set; }
         public virtual ChatGroup ChatGroup { get; set; }
     }

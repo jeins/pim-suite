@@ -103,17 +103,49 @@ namespace PIMSuite.WebApp.SignalRHub
 
             if (receiverConnection != null)
             {
-                var unReadMessages = _messageRepository.GetTotalUnReadMessages(new Guid(receiverUserId), new Guid(senderUserId));
+                if (messageId != 0)
+                {
+                    var unReadMessages = _messageRepository.GetTotalUnReadMessages(new Guid(receiverUserId),
+                        new Guid(senderUserId));
 
-                Clients.Client(receiverConnection.ConnectionId).sendNotification(unReadMessages, senderUserId);
+                    Clients.Client(receiverConnection.ConnectionId).sendNotification(unReadMessages, senderUserId);
+                }
+                else
+                {
+                    var userChatGroup = _dataContext.UserChatGroups.FirstOrDefault(u => u.UserId.Equals(new Guid(receiverUserId)) && u.GroupId.Equals(new Guid(senderUserId)));
+
+                    if (userChatGroup != null)
+                    {
+                        userChatGroup.NumUnReadMessage++;
+                        _dataContext.SaveChanges();
+
+                        Clients.Client(receiverConnection.ConnectionId).sendNotification(userChatGroup.NumUnReadMessage, senderUserId);
+                    }
+                }
             }
         }
 
-        public void ReadMessage(string receiverUserId, string senderUserId)
+        public void ReadMessage(string receiverId, string senderId)
         {
-            _messageRepository.SetMessageStatusToRead(new Guid(receiverUserId), new Guid(senderUserId));
+            var chatGroup = _dataContext.ChatGroups.FirstOrDefault(c => c.GroupId.Equals(new Guid(senderId)));
 
-            Clients.Client(Context.ConnectionId).readMessage(senderUserId);
+            if (chatGroup != null)
+            {
+                var userChatGroup =
+                    _dataContext.UserChatGroups.FirstOrDefault(
+                        u => u.UserId.Equals(new Guid(receiverId)) && u.GroupId.Equals(new Guid(senderId)));
+                if (userChatGroup != null)
+                {
+                    userChatGroup.NumUnReadMessage = 0;
+                    _dataContext.SaveChanges();
+                }
+            }
+            else
+            {
+                _messageRepository.SetMessageStatusToRead(new Guid(receiverId), new Guid(senderId));
+            }
+
+            Clients.Client(Context.ConnectionId).readMessage(senderId);
         }
 
         public void AddUserToGroup(string groupName, string userId)

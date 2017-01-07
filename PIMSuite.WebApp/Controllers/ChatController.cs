@@ -63,16 +63,19 @@ namespace PIMSuite.WebApp.Controllers
 
         private IEnumerable<string[]> GetChatGroup()
         {
+            User currentUser = ViewBag.User;
             var chatGroupList = new List<string[]>();
-            var chatGroups = _dataContext.ChatGroups;
+            var chatGroups = _dataContext.UserChatGroups.Where(cg => cg.UserId.Equals(currentUser.UserId)).ToList();
 
             foreach (var chatGroup in chatGroups)
             {
+                var userChatGroup = _dataContext.UserChatGroups.FirstOrDefault(u => u.GroupId.Equals(chatGroup.GroupId) && u.UserId.Equals(currentUser.UserId));
+
                 chatGroupList.Add(new []
                 {
                     chatGroup.GroupId.ToString(),
-                    "Group: " + chatGroup.GroupName,
-                    "0",
+                    "Group: " + chatGroup.ChatGroup.GroupName,
+                    userChatGroup.NumUnReadMessage.ToString(),
                     "group"
                 });
             }

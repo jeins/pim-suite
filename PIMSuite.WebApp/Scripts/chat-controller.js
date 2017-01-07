@@ -47,10 +47,7 @@ $('#chat-rooms').on('click', 'li#chat-room', function () {
     $('#sendMessage').attr('is-group', isGroup);
 
     chat.server.loadChatHistories(sender, receiverId, isGroup);
-
-    if (!isGroup) {
-        chat.server.readMessage(sender, receiverId);
-    } 
+    chat.server.readMessage(sender, receiverId);
 });
 
 chat.client.onNewUserConnected = function (userId) {
@@ -92,22 +89,27 @@ chat.client.onSendMessageToGroup = function (messageBody, senderUserId, dateTime
     if (groupId === tagetChatId) {
         var html = getChatTemplate("receiver", messageBody, dateTime, senderLastName, true);
         $('#messageColumn').append(html);
+    } else {
+        var currentUserId = $('#currUserId').val();
+        chat.server.sendNotification(currentUserId, groupId, 0);
     }
 }
 
-chat.client.sendNotification = function (totalUnReadMessages, senderUserId) {
+chat.client.sendNotification = function (totalUnReadMessages, senderId) {
     $('#chat-rooms li').each(function (i, value) {
         var userId = $(value).attr('user-id');
-        if (userId === senderUserId) {
+        var groupId = $(value).attr('group-id');
+        if (userId === senderId || groupId === senderId) {
             $(value).find('.badge').text(totalUnReadMessages);
         }
     });
 }
 
-chat.client.readMessage = function (senderUserId) {
+chat.client.readMessage = function (senderId) {
     $('#chat-rooms li').each(function (i, value) {
         var userId = $(value).attr('user-id');
-        if (userId === senderUserId) {
+        var groupId = $(value).attr('group-id');
+        if (userId === senderId || groupId === senderId) {
             $(value).find('.badge').text('');
         }
     });
