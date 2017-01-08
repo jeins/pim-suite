@@ -158,9 +158,11 @@ var calendar = $('#calendar')
             showCalendarViewModel.isConfirmed(calEvent.isConfirmed);
             var html = '';
             calEvent.invites.forEach(function (i) {
-                console.log(calEvent.invites);
-                console.log(i);
-                html += "<p>" + i.InviteReceiverUser.FirstName + " " + i.InviteReceiverUser.LastName + "</p>"
+                var status = "";
+                if (i.Status == 0) status = "Eingeladen";
+                else if (i.Status == 1) status = "Angenommen";
+                else if (i.Status == 2) status = "Abgelehnt";
+                html += "<tr><td>" + i.InviteReceiverUser.Username + "</td><td>" + i.InviteReceiverUser.FirstName + "</td><td>" + i.InviteReceiverUser.LastName + "</td><td>" + status + "</td></tr>"
             });
             $("#invitedUsers").html(html);
             calendar.fullCalendar('unselect');
