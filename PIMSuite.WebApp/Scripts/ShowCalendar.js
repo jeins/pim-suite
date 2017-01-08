@@ -8,6 +8,7 @@
     isPrivate: ko.observable(false),
     isConfirmed: ko.observable(false),
     isInvite: ko.observable(false),
+    isInviteProcessed: ko.observable(false),
     editEvent: function() {
         $.ajax(
         {
@@ -22,7 +23,8 @@
                 description: showCalendarViewModel.description(),
                 isPrivate: showCalendarViewModel.isPrivate(),
                 isConfirmed: showCalendarViewModel.isConfirmed(),
-                isInvite: showCalendarViewModel.isInvite()
+                isInvite: showCalendarViewModel.isInvite(),
+                isInviteProcessed: showCalendarViewModel.isInviteProcessed()
             },
             dataType: 'json'
         }).done(function () {
@@ -33,6 +35,32 @@
         $.ajax(
         {
             url: '/API/CalendarEvent/DeleteEvent?eventId=' + showCalendarViewModel.eventId(),
+            type: 'POST',
+            data: {
+                eventId: showCalendarViewModel.eventId()
+            },
+            dataType: 'json'
+        }).done(function () {
+            location.reload();
+        });
+    },
+    acceptInvite: function () {
+        $.ajax(
+        {
+            url: '/API/CalendarEvent/ProcessInvite?eventId=' + showCalendarViewModel.eventId()+'&status=1',
+            type: 'POST',
+            data: {
+                eventId: showCalendarViewModel.eventId()
+            },
+            dataType: 'json'
+        }).done(function () {
+            location.reload();
+        });
+    },
+    declineInvite: function () {
+        $.ajax(
+        {
+            url: '/API/CalendarEvent/ProcessInvite?eventId=' + showCalendarViewModel.eventId() + '&status=2',
             type: 'POST',
             data: {
                 eventId: showCalendarViewModel.eventId()
@@ -106,6 +134,7 @@ var calendar = $('#calendar')
                         calendarId: calendarId,
                         isPrivate: $('#add_is_private').prop('checked'),
                         isInvite: false,
+                        isInviteProcessed: false,
                         invites: []
                     };
 
@@ -161,6 +190,7 @@ var calendar = $('#calendar')
             showCalendarViewModel.isPrivate(calEvent.isPrivateEvent);
             showCalendarViewModel.isConfirmed(calEvent.isConfirmed);
             showCalendarViewModel.isInvite(calEvent.isInvite);
+            showCalendarViewModel.isInviteProcessed(calEvent.isInviteProcessed);
             var html = '';
             calEvent.invites.forEach(function (i) {
                 var status = "";

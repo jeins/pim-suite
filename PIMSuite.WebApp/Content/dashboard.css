@@ -57,3 +57,11 @@ body {
     background-repeat: no-repeat;
     background-size: cover;
 }
+
+#reactInvite .btn {
+    width: 45%;
+}
+
+#reactInvite .btn-danger {
+    float: right;
+}

@@ -11,6 +11,7 @@ namespace PIMSuite.Persistence.Repositories
         Calendar_Event GetEvent(int eventId);
         IEnumerable<Calendar_Event> GetAllCalendar_EventByUserIdAndCalendarId(Guid userId, int calendarId);
         IEnumerable<Calendar_Event> GetInvites(Guid userId);
+        IEnumerable<Calendar_Event> GetProcessedInvites(Guid userId);
         void Save(); 
     }
 }

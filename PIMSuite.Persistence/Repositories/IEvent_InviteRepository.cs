@@ -9,6 +9,7 @@ namespace PIMSuite.Persistence.Repositories
         void InsertEvent_Invite(Event_Invite ei);
         void DeleteEvent_Invite(int inviteId);
         Event_Invite GetInvite(int inviteId);
+        Event_Invite GetInviteByEventAndReceiver(int eventId, Guid receiverId);
         void Save(); 
     }
 }

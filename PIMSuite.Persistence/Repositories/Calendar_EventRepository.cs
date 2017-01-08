@@ -32,7 +32,12 @@ namespace PIMSuite.Persistence.Repositories
 
         public IEnumerable<Calendar_Event> GetInvites(Guid userId)
         {
-            return _context.CalendarEvents.Join(_context.EventInvites, e => e.EventId, ei => ei.InviteEventId, (e, ei) => new { e, ei }).Where(ce => ce.ei.InviteReceiverId == userId).Select(c => c.e);
+            return _context.CalendarEvents.Join(_context.EventInvites, e => e.EventId, ei => ei.InviteEventId, (e, ei) => new { e, ei }).Where(ce => ce.ei.InviteReceiverId == userId && ce.ei.Status == 0).Select(c => c.e);
+        }
+
+        public IEnumerable<Calendar_Event> GetProcessedInvites(Guid userId)
+        {
+            return _context.CalendarEvents.Join(_context.EventInvites, e => e.EventId, ei => ei.InviteEventId, (e, ei) => new { e, ei }).Where(ce => ce.ei.InviteReceiverId == userId && ce.ei.Status == 1).Select(c => c.e);
         }
 
         public Calendar_Event GetEvent(int eventId)

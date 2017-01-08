@@ -54,6 +54,7 @@ namespace PIMSuite.WebApp.Controllers.API
     {
         private readonly ICalendar_EventRepository _calendarEventRepository;
         private readonly ICalendar_SubscriptionRepository _calendarSubscriptionRepository;
+        private readonly IEvent_InviteRepository _eventInviteRepository;
         private readonly INotificationRepository _notificationRepository;
         private DataContext dataContext;
 
@@ -62,6 +63,7 @@ namespace PIMSuite.WebApp.Controllers.API
             dataContext = new DataContext();
             _calendarEventRepository = new Calendar_EventRepository(dataContext);
             _calendarSubscriptionRepository = new Calendar_SubscriptionRepository(dataContext);
+            _eventInviteRepository = new Event_InviteRepository(dataContext);
             _notificationRepository = new NotificationRepository(dataContext);
         }
 
@@ -205,6 +207,21 @@ namespace PIMSuite.WebApp.Controllers.API
             return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "invalid data");
         }
 
+        public HttpResponseMessage ProcessInvite(int eventId, int status)
+        {
+            var userId = Guid.Parse(HttpContext.Current.GetOwinContext().Authentication.User.Identity.GetUserId());
+            var evt = _calendarEventRepository.GetEvent(eventId);
+            var invt = _eventInviteRepository.GetInviteByEventAndReceiver(eventId, userId);
+
+            if (invt.InviteReceiverId == userId)
+            {
+                invt.Status = status;
+                _eventInviteRepository.Save();
+                return Request.CreateResponse(HttpStatusCode.Accepted, invt.InviteId);
+            }
+            return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "invalid data");
+        }
+
         public HttpResponseMessage GetUsersForInvite(int eventId)
         {
             var self = HttpContext.Current.GetOwinContext().Authentication.User.Identity.Name;
@@ -268,6 +285,7 @@ namespace PIMSuite.WebApp.Controllers.API
                     isConfirmed = c.Confirmed,
                     invites = c.Invites.ToList(),
                     isInvite = false,
+                    isInviteProcessed = false,
                     backgroundColor = "#3a87ad",
                     borderColor = "#3a87ad",
                     textColor = "#ffffff"
@@ -289,10 +307,31 @@ namespace PIMSuite.WebApp.Controllers.API
                     isConfirmed = false,
                     invites = c.Invites.ToList(),
                     isInvite = false,
+                    isInviteProcessed = false,
                     backgroundColor = "#3a87ad",
                     borderColor = "#3a87ad",
                     textColor = "#ffffff"
                 }
+            );
+            var acceptedInvites = _calendarEventRepository.GetProcessedInvites(new Guid(userId)).Select(c => new
+            {
+                id = c.EventId,
+                title = c.Name,
+                description = c.Description,
+                location = c.Location,
+                start = c.StartsAt.ToString(("s")),
+                end = c.EndsAt.ToString("s"),
+                isPrivateEvent = c.IsPrivate,
+                displayAllEvent = false,
+                allday = false,
+                isConfirmed = c.Confirmed,
+                invites = c.Invites.ToList(),
+                isInvite = true,
+                isInviteProcessed = true,
+                backgroundColor = "#3a87ad",
+                borderColor = "#3a87ad",
+                textColor = "#ffffff"
+            }
             );
             var invitedEvents = _calendarEventRepository.GetInvites(new Guid(userId)).Select(c => new
             {
@@ -308,12 +347,14 @@ namespace PIMSuite.WebApp.Controllers.API
                 isConfirmed = c.Confirmed,
                 invites = c.Invites.ToList(),
                 isInvite = true,
+                isInviteProcessed = false,
                 backgroundColor = "#666666",
                 borderColor = "#000000",
                 textColor = "#999999"
             }
             );
             eventList = eventList.Concat(privateEventList);
+            eventList = eventList.Concat(acceptedInvites);
             eventList = eventList.Concat(invitedEvents);
 
             return Request.CreateResponse(HttpStatusCode.OK, eventList, Configuration.Formatters.JsonFormatter);

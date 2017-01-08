@@ -30,6 +30,11 @@ namespace PIMSuite.Persistence.Repositories
             return _context.EventInvites.SingleOrDefault(c => c.InviteId == inviteId);
         }
 
+        public Event_Invite GetInviteByEventAndReceiver(int eventId, Guid receiverId)
+        {
+            return _context.EventInvites.SingleOrDefault(c => c.InviteEventId == eventId && c.InviteReceiverId == receiverId);
+        }
+
         public void InsertEvent_Invite(Event_Invite ei)
         {
             _context.EventInvites.Add(ei);
