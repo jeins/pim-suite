@@ -158,7 +158,9 @@
                     </div>
                 </div>
             </div>
-
+            
+            @if (ViewBag.DisplayAll)
+            {
             <div id="AddEvent" class="modal fade" tabindex="-1" role="dialog">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -214,6 +216,7 @@
                     </div>
                 </div>
             </div>
+            }
 
             <!-- invite user modal -->
             <div id="InviteUser" class="modal fade" tabindex="-1" role="dialog">
@@ -241,7 +244,10 @@
             <div id="invite-user" data-toggle="modal" data-target="#InviteUser"></div>
 
             <div id="view_event" data-toggle="modal" data-target="#ViewEvent"></div>
+            @if (ViewBag.DisplayAll)
+            {
             <div id="add_event" data-toggle="modal" data-target="#AddEvent"></div>
+            }
 
             @section scripts {
                 <script src="~/Scripts/fullcalendar/moment.min.js"></script>
