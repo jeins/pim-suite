@@ -266,7 +266,11 @@ namespace PIMSuite.WebApp.Controllers.API
                     displayAllEvent = displayAllEvent,
                     allday = false,
                     isConfirmed = c.Confirmed,
-                    invites = c.Invites.ToList()
+                    invites = c.Invites.ToList(),
+                    isInvite = false,
+                    backgroundColor = "#3a87ad",
+                    borderColor = "#3a87ad",
+                    textColor = "#ffffff"
                 }
             );
             var privateEventList = _calendarEventRepository.GetAllCalendar_EventByUserIdAndCalendarId(new Guid(userId), calendarId)
@@ -283,10 +287,34 @@ namespace PIMSuite.WebApp.Controllers.API
                     displayAllEvent = displayAllEvent,
                     allday = false,
                     isConfirmed = false,
-                    invites = c.Invites.ToList()
+                    invites = c.Invites.ToList(),
+                    isInvite = false,
+                    backgroundColor = "#3a87ad",
+                    borderColor = "#3a87ad",
+                    textColor = "#ffffff"
                 }
             );
+            var invitedEvents = _calendarEventRepository.GetInvites(new Guid(userId)).Select(c => new
+            {
+                id = c.EventId,
+                title = c.Name,
+                description = c.Description,
+                location = c.Location,
+                start = c.StartsAt.ToString(("s")),
+                end = c.EndsAt.ToString("s"),
+                isPrivateEvent = c.IsPrivate,
+                displayAllEvent = false,
+                allday = false,
+                isConfirmed = c.Confirmed,
+                invites = c.Invites.ToList(),
+                isInvite = true,
+                backgroundColor = "#666666",
+                borderColor = "#000000",
+                textColor = "#999999"
+            }
+            );
             eventList = eventList.Concat(privateEventList);
+            eventList = eventList.Concat(invitedEvents);
 
             return Request.CreateResponse(HttpStatusCode.OK, eventList, Configuration.Formatters.JsonFormatter);
         }

@@ -44,7 +44,7 @@
                                     <div class="col-xs-4">
                                         @if (ViewBag.DisplayAll)
                                         {
-                                            <input type="text" class="form-control" id="view_start" name="view_start" data-bind="textInput: startDate">
+                                            <input type="text" class="form-control" id="view_start" name="view_start" data-bind="textInput: startDate, disable: isInvite">
                                         }
                                         @if (!(ViewBag.DisplayAll))
                                         {
@@ -54,7 +54,7 @@
                                     <div class="col-xs-4">
                                         @if (ViewBag.DisplayAll)
                                         {
-                                            <input type="text" class="form-control" id="view_end" name="view_end" data-bind="textInput: endDate">
+                                            <input type="text" class="form-control" id="view_end" name="view_end" data-bind="textInput: endDate, disable: isInvite">
                                         }
                                         @if (!(ViewBag.DisplayAll))
                                         {
@@ -68,7 +68,7 @@
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Privat?</label>
                                         <div class="col-sm-9">
-                                            <input type="checkbox" class="form-control" id="view_is_private" name="view_is_private" data-bind="checked: isPrivate">
+                                            <input type="checkbox" class="form-control" id="view_is_private" name="view_is_private" data-bind="checked: isPrivate, disable: isInvite">
                                         </div>
                                     </div>
                                 }
@@ -77,7 +77,7 @@
                                     <div class="col-sm-9">
                                         @if (ViewBag.DisplayAll)
                                         {
-                                            <input type="text" class="form-control" id="view_title" name="view_title" data-bind="textInput: title">
+                                            <input type="text" class="form-control" id="view_title" name="view_title" data-bind="textInput: title, disable: isInvite">
                                         }
                                         @if (!(ViewBag.DisplayAll))
                                         {
@@ -90,7 +90,7 @@
                                     <div class="col-sm-9">
                                         @if (ViewBag.DisplayAll)
                                         {
-                                            <input type="text" class="form-control" id="view_location" name="view_location" data-bind="textInput: location">
+                                            <input type="text" class="form-control" id="view_location" name="view_location" data-bind="textInput: location, disable: isInvite">
                                         }
                                         @if (!(ViewBag.DisplayAll))
                                         {
@@ -103,7 +103,7 @@
                                     <div class="col-sm-9">
                                         @if (ViewBag.DisplayAll)
                                         {
-                                            <textarea class="form-control" style="height: 55px;" id="view_description" name="view_description" data-bind="textInput: description"></textarea>
+                                            <textarea class="form-control" style="height: 55px;" id="view_description" name="view_description" data-bind="textInput: description, disable: isInvite"></textarea>
                                         }
                                         @if (!(ViewBag.DisplayAll))
                                         {
@@ -115,7 +115,7 @@
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label">Bestätigt?</label>
                                     <div class="col-sm-9">
-                                        <input type="checkbox" class="form-control" id="view_is_confirmed" name="view_is_confirmed" data-bind="checked: isConfirmed">
+                                        <input type="checkbox" class="form-control" id="view_is_confirmed" name="view_is_confirmed" data-bind="checked: isConfirmed, disable: isInvite">
                                     </div>
                                 </div>
                             </form>

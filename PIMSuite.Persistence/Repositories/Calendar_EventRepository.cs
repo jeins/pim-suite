@@ -30,6 +30,11 @@ namespace PIMSuite.Persistence.Repositories
             return _context.CalendarEvents.Where(c => c.CalendarId == calendarId && c.OwnerId == userId).ToList();
         }
 
+        public IEnumerable<Calendar_Event> GetInvites(Guid userId)
+        {
+            return _context.CalendarEvents.Join(_context.EventInvites, e => e.EventId, ei => ei.InviteEventId, (e, ei) => new { e, ei }).Where(ce => ce.ei.InviteReceiverId == userId).Select(c => c.e);
+        }
+
         public Calendar_Event GetEvent(int eventId)
         {
             return _context.CalendarEvents.SingleOrDefault(c => c.EventId == eventId);

@@ -10,6 +10,7 @@ namespace PIMSuite.Persistence.Repositories
         void DeleteCalendar_Event(int eventId);
         Calendar_Event GetEvent(int eventId);
         IEnumerable<Calendar_Event> GetAllCalendar_EventByUserIdAndCalendarId(Guid userId, int calendarId);
+        IEnumerable<Calendar_Event> GetInvites(Guid userId);
         void Save(); 
     }
 }

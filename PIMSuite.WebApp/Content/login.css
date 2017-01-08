@@ -175,3 +175,8 @@ body:before {
 .login-fail {
     display: none;
 }
+
+.container {
+    background: transparent;
+    border: none;
+}

@@ -7,6 +7,7 @@
     description: ko.observable(),
     isPrivate: ko.observable(false),
     isConfirmed: ko.observable(false),
+    isInvite: ko.observable(false),
     editEvent: function() {
         $.ajax(
         {
@@ -20,7 +21,8 @@
                 location: showCalendarViewModel.location(),
                 description: showCalendarViewModel.description(),
                 isPrivate: showCalendarViewModel.isPrivate(),
-                isConfirmed: showCalendarViewModel.isConfirmed()
+                isConfirmed: showCalendarViewModel.isConfirmed(),
+                isInvite: showCalendarViewModel.isInvite()
             },
             dataType: 'json'
         }).done(function () {
@@ -102,7 +104,9 @@ var calendar = $('#calendar')
                         description: $('#add_description').val(),
                         allDay: false,
                         calendarId: calendarId,
-                        isPrivate: $('#add_is_private').prop('checked')
+                        isPrivate: $('#add_is_private').prop('checked'),
+                        isInvite: false,
+                        invites: []
                     };
 
                     calendar.fullCalendar('renderEvent', newEvent, true);
@@ -156,6 +160,7 @@ var calendar = $('#calendar')
             showCalendarViewModel.description(calEvent.description);
             showCalendarViewModel.isPrivate(calEvent.isPrivateEvent);
             showCalendarViewModel.isConfirmed(calEvent.isConfirmed);
+            showCalendarViewModel.isInvite(calEvent.isInvite);
             var html = '';
             calEvent.invites.forEach(function (i) {
                 var status = "";
