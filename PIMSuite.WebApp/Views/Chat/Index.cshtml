@@ -166,33 +166,35 @@
 
         $('#create-group').on('click', function () {
             $('#modal-create-group').click();
+        });
 
-            $('.cgn-submit').on('click', function () {
-                var groupName = $('#chat-group-name').val();
-                var requestBody = {
-                    groupName: groupName,
-                    ownerId: $('#currUserId').val(),
-                };
+        $('.cgn-submit').on('click', function () {
+            var groupName = $('#chat-group-name').val();
+            var requestBody = {
+                groupName: groupName,
+                ownerId: $('#currUserId').val(),
+            };
 
-                $.ajax({
-                    type: 'POST',
-                    url: '/API/Chat/CreateNewGroup',
-                    data: requestBody,
-                    dataType: 'json',
-                    success: function (response) {
-                        var html = '<li class="left clearfix" id="chat-room" group-id="' + response + '" group-name="' + groupName + '"> ' +
-                                        '<div class="chat-body clearfix">' +
-                                            '<div class="header_sec">' +
-                                                '<strong class="primary-font">Group: ' + groupName + '</strong><span class="badge pull-right"></span>' +
-                                            '</div>' +
+            $.ajax({
+                type: 'POST',
+                url: '/API/Chat/CreateNewGroup',
+                data: requestBody,
+                dataType: 'json',
+                success: function (response) {
+                    var html = '<li class="left clearfix" id="chat-room" group-id="' + response + '" group-name="' + groupName + '"> ' +
+                                    '<div class="chat-body clearfix">' +
+                                        '<div class="header_sec">' +
+                                            '<strong class="primary-font">Group: ' + groupName + '</strong><span class="badge pull-right"></span>' +
                                         '</div>' +
-                                    '</li>';
+                                    '</div>' +
+                                '</li>';
 
-                        $('#chat-rooms').prepend(html);
-                        $('.cgn-close').click();
-                    }
-                });
+                    $('#chat-rooms').prepend(html);
+                    $('.cgn-close').click();
+                }
             });
+
+            $('#chat-group-name').val('');
         });
 
         function addUserToGroupChat() {
