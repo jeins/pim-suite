@@ -14,7 +14,7 @@
                 <div class="row">
                     <div id="custom-search-input">
                         <div class="input-group col-md-10">
-                            <input type="text" class="search-query form-control" placeholder="Suche"/>
+                            <input type="text" id="search-query" class="form-control" onkeyup="filterChatPartner()" placeholder="Suche"/>
                             <button class="btn btn-danger" type="button">
                                 <i class="fa fa-search" aria-hidden="true"></i>
                             </button>
@@ -233,6 +233,24 @@
                     }
                 });
             });
+        }
+
+        function filterChatPartner() {
+            var searchUser = document.getElementById("search-query");
+            var findUser = searchUser.value.toUpperCase();
+            var userList = document.getElementById("chat-rooms");
+            var user = userList.getElementsByTagName("li");
+
+
+            for (var i = 0; i < user.length; i++) {
+                var userName = user[i].getElementsByTagName("div")[0];
+                if (userName.innerHTML.toUpperCase().indexOf(findUser) > -1) {
+                    user[i].style.display = "";
+                } else {
+                    user[i].style.display = "none";
+
+                }
+            }
         }
 
         function filterUser() {
