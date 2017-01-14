@@ -23,13 +23,13 @@ $('#chat-rooms').on('click', 'li#chat-room', function () {
     var groupNameAttr = $(this).attr('group-name');
     var isGroup = false;
 
+    $('#adduserbtn').remove();
     if (typeof groupIdAttr !== typeof undefined && groupIdAttr !== false) {
         var html = '<div id="adduserbtn" class="pull-right">'+
                         '<button class="btn btn-success" id="add-user" type="button" onclick="addUserToGroupChat()" style="background-color: #5cb85c">' +
                             '<i class="fa fa-plus" aria-hidden="true"></i>'+
                         '</button>'+
                     '</div>';
-        $('#adduserbtn').remove();
         $('.new_message_head').append(html);
 
         isGroup = true;
