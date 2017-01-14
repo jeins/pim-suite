@@ -109,5 +109,12 @@ namespace PIMSuite.WebApp.Controllers.API
 
             return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "invalid data");
         }
+
+        public HttpResponseMessage GetUserInChatGroup(string groupId)
+        {
+            var userListFromGroup = _dataContext.UserChatGroups.Where(g => g.GroupId.Equals(new Guid(groupId))).ToList();
+
+            return Request.CreateResponse(HttpStatusCode.OK, userListFromGroup, Configuration.Formatters.JsonFormatter);
+        }
     }
 }

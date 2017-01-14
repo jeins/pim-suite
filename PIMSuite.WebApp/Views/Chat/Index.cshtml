@@ -150,6 +150,26 @@
 </div>
 <div id="add-user-to-group" data-toggle="modal" data-target="#AddUserToGroup"></div>
 
+<!-- view users in group chat modal -->
+<div id="ViewUsersInGroup" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="view-group-name"></h4>
+            </div>
+            <div class="modal-body add-user">
+                <ul id="au-view-user-list"></ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default au-close" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="view-users-in-group" data-toggle="modal" data-target="#ViewUsersInGroup"></div>
+
 @section scripts {
 <script src="~/Scripts/jquery.signalR-2.2.1.min.js"></script>
 <script src="~/signalr/hubs"></script>
@@ -232,6 +252,28 @@
                         $('.au-close').click();
                     }
                 });
+            });
+        }
+
+        function viewUserInGroupChat() {
+            $('#view-users-in-group').click();
+
+            $.ajax({
+                type: 'GET',
+                url: '/API/Chat/GetUserInChatGroup',
+                data: { groupId: $('#userId').val() },
+                dataType: 'json',
+                success: function (response) {
+                    var html = '';
+                    var groupName = response[0].ChatGroup.GroupName;
+
+                    Object.keys(response).forEach(function (i) {
+                        html += '<li><label>' + response[i].User.FirstName + ' ' + response[i].User.LastName + '</label></li>';
+                    });
+
+                    $('#view-group-name').text("Userliste in der Gruppe: " + groupName);
+                    $('#au-view-user-list').html(html);
+                }
             });
         }
 
