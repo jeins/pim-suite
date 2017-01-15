@@ -9,16 +9,12 @@
 <link href="~/Content/custom.css" rel="stylesheet" />
 
 <div class="row">
-    <div class="col-md-12">
-        <div class="x_panel">
+
             <h2>@ViewBag.OwnerName</h2>
             </div>
-        </div>
-    </div>
+
             <div class="row">
-                <div class="col-md-12">
-                    <div class="x_panel">
-                        <div class="x_title">
+               
                             <h2>@ViewBag.CalendarName</h2>
                             <input type="button" class="btn btn-primary" id="subscribe" value=@ViewBag.Flag style="display:@ViewBag.UserCheck">
                             <div class="clearfix"></div>
@@ -26,9 +22,7 @@
                         <div class="x_content">
                             <div id='calendar'></div>
                         </div>
-                    </div>
-                </div>
-            </div>
+                 
             <div id="ViewEvent" class="modal fade view-event-dialog" tabindex="-1" role="dialog">
                 <div class="modal-dialog">
                     <div class="modal-content">

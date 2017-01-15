@@ -124,7 +124,7 @@ namespace PIMSuite.WebApp.Controllers
                 hub.Clients.All.onUserDisconnected(guid);
 
                 HttpContext.GetOwinContext().Authentication.SignOut();
-                return RedirectToAction("Index", "Home", new { successMessage = "Your Username has been successfully updated, please login again!" });
+                return RedirectToAction("Index", "Home", new { successMessage = "Ihre Daten wurden erfolgreich geändert! Bitte loggen Sie sich erneut ein." });
             }
             else
             {

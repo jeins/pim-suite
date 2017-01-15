@@ -47,7 +47,7 @@ namespace PIMSuite.WebApp.Controllers.API
                     var hh = new HashHelper();
                     if (user != null && !user.IsValidated)
                     {
-                        return Request.CreateResponse(HttpStatusCode.Forbidden, "User is not validated!");
+                        return Request.CreateResponse(HttpStatusCode.Forbidden, "Account wurde noch nicht bestätigt!");
                     }
                     if (user != null && hh.Verify(model.Password, user.Password))
                     {
@@ -72,12 +72,12 @@ namespace PIMSuite.WebApp.Controllers.API
                     }
                     else
                     {
-                        return Request.CreateResponse(HttpStatusCode.Forbidden, "False Password!");
+                        return Request.CreateResponse(HttpStatusCode.Forbidden, "Falsches Passwort!");
                     }
                 }
 
             }
-            return Request.CreateResponse(HttpStatusCode.Forbidden, "Missing or wrong user credentials!");
+            return Request.CreateResponse(HttpStatusCode.Forbidden, "Fehlende oder falsche Logindaten");
         }
 
     }

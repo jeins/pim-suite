@@ -66,7 +66,7 @@ namespace PIMSuite.WebApp.Controllers
                 userRepository.Save();
                 ModelState.Clear();
                 ViewBag.Message = user.FirstName + " " + user.LastName + " " + "wurde erfolgreich registriert!";                
-                EmailHelper.SendMail("smtp.gmail.com", "PIMSuiteASP@gmail.com", "noreplyASP", user.Email, "Your Validation Code for the PIM Suite", "Validation Link: " + Request.Url.GetLeftPart(UriPartial.Authority) + "/Registration/Validation?token=" + user.ValidationToken);
+                EmailHelper.SendMail("smtp.gmail.com", "PIMSuiteASP@gmail.com", "noreplyASP", user.Email, "Willkommen bei Pim-Suite!", "Herzlich Willkiomen in der PIM-Suite!\nBitte klicken Sie auf den Link um Ihre Registrierung abzuschließen: " + Request.Url.GetLeftPart(UriPartial.Authority) + "/Registration/Validation?token=" + user.ValidationToken + " \nSollte der Link nicht funktionieren, kopieren Sie Ihn in die Adresszeile Ihres Browsers.\n\nWir wünschen viel Spaß mit Ihrer PIM-Suite");
                 Response.Redirect("/?infoMessage=A validation link has been sent to your mail-address, please check your mails and click the link to validate!");
             }
             else

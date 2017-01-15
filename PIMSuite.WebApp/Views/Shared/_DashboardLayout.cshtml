@@ -211,50 +211,43 @@
                         <h1 class="page-header">
                             @ViewBag.Title
                         </h1>
-                        <ol class="breadcrumb">
-                            <li class="active">
-                                <i class="fa fa-dashboard"></i> <a href="@Url.Action("", "Dashboard")">Dashboard</a>
-                            </li>
-                            @{
-                                if (!ViewBag.Title.Equals("Dashboard"))
-                                {
-                                    <li class="active">
-                                         @ViewBag.Title
-                                    </li>
-                                }
-                            }
-                        </ol>
+
                     </div>
                 </div>
                 <!-- /.row -->
+                <div class="col-md-12">
+                    <div class="x_panel">
+                        <div class="x_content">
 
+                            @RenderBody()
 
-                @RenderBody()    
+                            </div>
+                        </div>
+                    </div>
+                        </div>
+                        <!-- /.container-fluid -->
 
-            </div>
-            <!-- /.container-fluid -->
+                    </div>
+                    <!-- /#page-wrapper -->
 
-        </div>
-        <!-- /#page-wrapper -->
+                </div>
+                <!-- /#wrapper -->
+                <!-- jQuery -->
+                <script src="~/Scripts/jquery-3.1.1.min.js"></script>
 
-    </div>
-    <!-- /#wrapper -->
-    <!-- jQuery -->
-    <script src="~/Scripts/jquery-3.1.1.min.js"></script>
+                <!-- Bootstrap Core JavaScript -->
+                <script src="~/Scripts/bootstrap.min.js"></script>
 
-    <!-- Bootstrap Core JavaScript -->
-    <script src="~/Scripts/bootstrap.min.js"></script>
+                <script type="text/javascript">
+                    var hasNotifications = @(ViewBag.Notifications.Count > 0 ? "true" : "false");
+                </script>
 
-<script type="text/javascript">
-    var hasNotifications = @(ViewBag.Notifications.Count > 0 ? "true" : "false");
-</script>
+                <script src="~/Scripts/knockout-3.4.0.js"></script>
+                <script src="~/Scripts/Dashboard.js"></script>
 
-<script src="~/Scripts/knockout-3.4.0.js"></script>
-    <script src="~/Scripts/Dashboard.js"></script>
-
-    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
-<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
-@RenderSection("scripts", required: false)
+                <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+                <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+                @RenderSection("scripts", required: false)
 
 </body>
 </html>

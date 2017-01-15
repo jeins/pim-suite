@@ -17,6 +17,7 @@
   padding: 7px 0;
   display: flex;
   margin-bottom: 30px;
+  border-radius:10px
 }
 .flex {
     display: flex;

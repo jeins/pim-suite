@@ -122,7 +122,7 @@ namespace PIMSuite.WebApp.Controllers
             }
             if (result.Count ==0 && profileCalendars.ToList().Count!=0)
             {
-                check = "Sie abonnieren alle Kalendar des Benutzers";
+                check = "Sie abonnieren alle Kalender des Benutzers";
             }
             if (result.Count == 0 && profileCalendars.ToList().Count == 0)
             {
