@@ -120,10 +120,7 @@ namespace PIMSuite.WebApp.Controllers
                     }
                 }
             }
-            if (result.Count ==0 && profileCalendars.ToList().Count!=0)
-            {
-                check = "Sie abonnieren alle Kalender des Benutzers";
-            }
+            
             if (result.Count == 0 && profileCalendars.ToList().Count == 0)
             {
                 check = "Noch keine Kalender erstellt";
@@ -131,6 +128,10 @@ namespace PIMSuite.WebApp.Controllers
             else
             {
                 check = "Sie können noch folgende Kalender des Benutzers abonnieren:";
+                if (result.Count == 0)
+                {
+                    check = "Sie abonnieren alle Kalender des Benutzers";
+                }
             }
             if (userId == Guid.Parse(HttpContext.GetOwinContext().Authentication.User.Identity.GetUserId()))
             {
