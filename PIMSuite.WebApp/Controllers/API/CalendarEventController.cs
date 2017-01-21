@@ -110,12 +110,10 @@ namespace PIMSuite.WebApp.Controllers.API
             [DataMember(IsRequired = true)]
             [Required]
             public string End { get; set; }
-            [DataMember(IsRequired = true)]
-            [Required]
+            [DataMember(IsRequired = false)]
             public string Location { get; set; }
 
-            [DataMember(IsRequired = true)]
-            [Required]
+            [DataMember(IsRequired = false)]
             public string Description { get; set; }
 
             [DataMember(IsRequired = true)]
@@ -125,6 +123,12 @@ namespace PIMSuite.WebApp.Controllers.API
             [DataMember(IsRequired = true)]
             [Required]
             public bool IsConfirmed { get; set; }
+
+            [DataMember(IsRequired = false)]
+            public bool IsInvite { get; set; }
+
+            [DataMember(IsRequired = false)]
+            public bool IsInviteProcessed { get; set; }
         }
 
         [HttpPost]
@@ -168,6 +172,7 @@ namespace PIMSuite.WebApp.Controllers.API
                     }
                     _notificationRepository.Save();
                 }
+                return Request.CreateResponse(HttpStatusCode.Accepted, evt.EventId);
             }
             return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "invalid data");
         }

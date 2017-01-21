@@ -58,8 +58,7 @@ namespace PIMSuite.WebApp.Controllers
             if (ModelState.IsValid && userval.Validate(user).IsValid)
             {
                 var hashhelper = new HashHelper();                
-                //TODO: Bis auf Weiteres zum besseren Testen immer aktiv
-                user.IsAdmin = true;
+                user.IsAdmin = false;
                 user.Password = hashhelper.Hash(user.Password);
                 user.ValidationToken = TokenGenerator.GenerateValidationToken(validationTokenSize);
                 userRepository.InsertUser(user);
