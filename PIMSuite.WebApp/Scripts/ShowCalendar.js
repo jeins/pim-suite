@@ -210,6 +210,8 @@ $(function () {
 
             $('.add_close').click();
 
+            location.reload();
+
             return false;
         }
 
