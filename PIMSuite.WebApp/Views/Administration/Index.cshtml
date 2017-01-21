@@ -59,7 +59,7 @@
                                     <tr>
                                         <td>@Html.DisplayFor(modelItem => item.DomainId)</td>
                                         <td>@Html.DisplayFor(modelItem => item.DomainName)</td>
-                                        <td><i class="fa fa-trash-o fa-fw"></i></td>
+                                        <td><i class="fa fa-trash-o fa-fw" data-bind="click: deleteDomain.bind($data,'@item.DomainId')"></i></td>
                                     </tr>
                                 }
                                 <tr>

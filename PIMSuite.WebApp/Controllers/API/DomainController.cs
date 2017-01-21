@@ -57,5 +57,21 @@ namespace PIMSuite.WebApp.Controllers.API
             return Request.CreateResponse(HttpStatusCode.Forbidden, "Wrong Data!");
         }
 
+        [HttpPost]
+        public HttpResponseMessage Remove(int domainId)
+        {
+            try
+            {
+                _domainRepository.RemoveDomain(domainId);
+                _domainRepository.Save();
+                return Request.CreateResponse(HttpStatusCode.Accepted, true);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.StackTrace);
+                return Request.CreateResponse(HttpStatusCode.Forbidden, "Wrong Data!");
+            }
+        }
+
     }
 }

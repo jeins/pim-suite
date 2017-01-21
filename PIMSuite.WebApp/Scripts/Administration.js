@@ -21,6 +21,28 @@
                 }
             }
         });
+    },
+    deleteDomain: function (domainId) {
+        $.ajax(
+        {
+            url: '/API/Domain/Remove?DomainId='+domainId,
+            type: 'POST',
+            data: {
+                DomainId: domainId
+            },
+            dataType: 'json',
+            statusCode: {
+                200: function () {
+                    location.reload();
+                },
+                202: function () {
+                    location.reload();
+                },
+                403: function () {
+                    alert("Domain ungültig!")
+                }
+            }
+        });
     }
 }
 
