@@ -1,8 +1,11 @@
-﻿using System;
+﻿using FluentValidation.Attributes;
+using PIMSuite.Persistence.Validators;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace PIMSuite.Persistence.Entities
 {
+    [Validator(typeof(DomainValidator))]
     public class Domain
     {
         // Constructors

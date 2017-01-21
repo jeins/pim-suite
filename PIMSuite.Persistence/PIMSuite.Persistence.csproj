@@ -99,6 +99,7 @@
     <Compile Include="Repositories\MessageRepository.cs" />
     <Compile Include="Repositories\NotificationRepository.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
+    <Compile Include="Validators\DomainValidator.cs" />
     <Compile Include="Validators\UserValidator.cs" />
   </ItemGroup>
   <ItemGroup>

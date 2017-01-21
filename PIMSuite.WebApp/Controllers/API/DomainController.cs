@@ -14,6 +14,7 @@ using System.Security.Claims;
 using System.Web;
 using PIMSuite.Utilities.Auth;
 using PIMSuite.Persistence.Repositories;
+using PIMSuite.Persistence.Validators;
 
 namespace PIMSuite.WebApp.Controllers.API
 {
@@ -39,7 +40,12 @@ namespace PIMSuite.WebApp.Controllers.API
         [HttpPost]
         public HttpResponseMessage Add(DomainModel model)
         {
-            if (model != null && ModelState.IsValid)
+            var dom = new Domain
+            {
+                DomainName = model.NewDomain
+            };
+            var domainval = new DomainValidator();
+            if (model != null && ModelState.IsValid && domainval.Validate(dom).IsValid)
             {
                 using (DataContext context = new DataContext())
                 {

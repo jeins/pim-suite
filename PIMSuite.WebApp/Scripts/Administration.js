@@ -11,7 +11,13 @@
             dataType: 'json',
             statusCode: {
                 200: function () {
-                    window.location.href = '/Dashboard/';
+                    location.reload();
+                },
+                202: function () {
+                    location.reload();
+                },
+                403: function () {
+                    alert("Domain ungültig oder bereits vorhanden!")
                 }
             }
         });
