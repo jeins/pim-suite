@@ -259,6 +259,7 @@
     <Content Include="Content\MaterialIcons-Regular.woff" />
     <Content Include="Content\MaterialIcons-Regular.woff2" />
     <Content Include="Scripts\chat-controller.js" />
+    <Content Include="Scripts\fullcalendar\locale\de.js" />
     <Content Include="Scripts\ShowCalendar.js" />
     <Content Include="Scripts\CreateCalendar.js" />
     <Content Include="Scripts\Dashboard.js" />

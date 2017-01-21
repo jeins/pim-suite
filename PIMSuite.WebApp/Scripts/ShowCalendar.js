@@ -219,10 +219,10 @@ $(function () {
 
             if ($('#add_start').val() > $('#add_end').val() && check == false) {
 
-                alert("Der Zeitraum für das Ereignis wurde nicht korrekt eingegeben! Versuchen Sie die Eingabe noch mal.");
+                alert("Der Zeitraum für das Ereignis wurde nicht korrekt eingegeben! Versuchen Sie die Eingabe nochmal.");
             }
             if ($('#add_start').val() == $('#add_end').val()) {
-                alert("Sie haben identische Werte für Start und Ende eigegeben. Versuchen Sie die Eingabe noch mal.");
+                alert("Sie haben identische Werte für Start und Ende eingegeben. Versuchen Sie die Eingabe nochmal.");
             }
             if ($('#add_start').val().length == 0) {
                 alert("Sie haben nichts für Start eingegeben");
@@ -231,7 +231,7 @@ $(function () {
                 alert("Sie haben nichts für Ende eingegeben");
             }
             if ($('#add_title').val().length == 0) {
-                alert("Sie haben nichts für Title eingegeben");
+                alert("Sie haben nichts für Titel eingegeben");
             }
 
             return true;
