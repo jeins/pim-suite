@@ -176,9 +176,14 @@
                     <li class="@ControllerIsActive("Index", "Location")">
                         <a href="@Url.Action("Index", "Location")"><i class="fa fa-fw fa-building"></i> Standorte</a>
                     </li>
-                    <li class="@ControllerIsActive("Index", "Registration")">
-                        <a href="@Url.Action("Index", "Registration")"><i class="fa fa-fw fa-users"></i> Benutzer</a>
-                    </li>
+                    @{
+                        if (ViewBag.User.IsAdmin)
+                        {
+                            <li class="@ControllerIsActive("Index", "Registration")">
+                                <a href="@Url.Action("Index", "Registration")"><i class="fa fa-fw fa-users"></i> Benutzer</a>
+                            </li>
+                        }
+                    }
                     <li class="@ControllerIsActive("Index", "Chat")">
                         <a href="@Url.Action("Index", "Chat")"><i class="fa fa-fw fa-comments-o"></i> Chat</a>
                     </li>
