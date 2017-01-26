@@ -99,7 +99,7 @@
 
 <!-- create group name modal -->
 <div id="CreateGroup" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-m">
         <div class="modal-content">
 
             <div class="modal-header">
@@ -132,18 +132,18 @@
 
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h4 class="modal-title">Add User</h4>
+                <h4 class="modal-title">Nutzer hinzufügen</h4>
             </div>
             <div class="modal-body add-user">
                 <form class="form-horizontal" role="form">
-                    <input type="text" id="au-search-name" onkeyup="filterUser()" placeholder="Search user..">
+                    <input type="text" id="au-search-name" onkeyup="filterUser()" placeholder="Nutzer suchen...">
 
                     <ul id="au-user-list"></ul>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default au-close" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary au-add">Add</button>
+                <button type="button" class="btn btn-default au-close" data-dismiss="modal">Abbrechen</button>
+                <button type="button" class="btn btn-primary au-add">Hinzufügen</button>
             </div>
         </div>
     </div>
@@ -163,7 +163,7 @@
                 <ul id="au-view-user-list"></ul>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default au-close" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-default au-close" data-dismiss="modal">Abbrechen</button>
             </div>
         </div>
     </div>
@@ -171,9 +171,6 @@
 <div id="view-users-in-group" data-toggle="modal" data-target="#ViewUsersInGroup"></div>
 
 @section scripts {
-<script src="~/Scripts/jquery.signalR-2.2.1.min.js"></script>
-<script src="~/signalr/hubs"></script>
-<script src="~/Scripts/chat-controller.js"></script>
 
     <script>
 
@@ -207,16 +204,17 @@
                 data: requestBody,
                 dataType: 'json',
                 success: function (response) {
-                    var html = '<li class="left clearfix" id="chat-room" group-id="' + response + '" group-name="' + groupName + '"> ' +
-                                    '<div class="chat-body clearfix">' +
-                                        '<div class="header_sec">' +
-                                            '<strong class="primary-font">Group: ' + groupName + '</strong><span class="badge pull-right"></span>' +
-                                        '</div>' +
-                                    '</div>' +
-                                '</li>';
-
-                    $('#chat-rooms').prepend(html);
+//                    var html = '<li class="left clearfix" id="chat-room" group-id="' + response + '" group-name="' + groupName + '"> ' +
+//                                    '<div class="chat-body clearfix">' +
+//                                        '<div class="header_sec">' +
+//                                            '<strong class="primary-font">Group: ' + groupName + '</strong><span class="badge pull-right"></span>' +
+//                                        '</div>' +
+//                                    '</div>' +
+//                                '</li>';
+//
+//                    $('#chat-rooms').prepend(html);
                     $('.cgn-close').click();
+                    location.reload();
                 }
             });
 

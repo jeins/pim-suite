@@ -4,6 +4,13 @@ $.connection.hub.start().done(function () {
     chat.server.userConnect($('#currUserId').val());
 });
 
+$('#messageBody').keypress(function (e) {
+    if ($('#messageBody').val() !== "" && e.which === 13) {
+        e.preventDefault();
+        $('#sendMessage').click();
+    }
+});
+
 $('#sendMessage').click(function () {
     if ($(this).attr('is-group') === "true") {
         chat.server.sendGroupMessage($('#userId').val(), $('#messageBody').val());
@@ -11,7 +18,8 @@ $('#sendMessage').click(function () {
         chat.server.sendMessage($('#userId').val(), $('#messageBody').val());
     }
 
-    $('#messageBody').val('').focus();
+    $('#messageBody').val('');
+    $('#messageBody')[0].focus();
 });
 
 $('#chat-rooms').on('click', 'li#chat-room', function () {
